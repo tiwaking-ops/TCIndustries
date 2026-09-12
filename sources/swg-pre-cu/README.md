@@ -22,9 +22,9 @@ This directory preserves the predecessor project that informed TCIndustries:
 - Group C provenance: files received at repo root from the project owner; prior history unrecorded.
 - `java_swg_files.zip` / `java-swg-skillcalc/` (Group C) — small Java Swing skill-calculator prototype implementing pre-CU rules (250-point pool, prerequisite chains, surrender guards, 3 professions × 18 boxes). Author: Author LLM Unknown.
 
-## Open provenance question (unconfirmed)
+## PROT-002 identity — CONFIRMED 2026-09-12
 
-The TCIndustries GDD (PROT-002) references a "Seed-2.1 TypeScript/Vite/React prototype" never inspected in-repo. The `craft-seed2-1-pro-preview/` tree is a TypeScript/Vite/React prototype by an authoring model named seed-2.1-pro-preview — a strong nominal match and therefore a **candidate** for the referenced prototype. Candidacy is **unconfirmed**: "Seed-2.1" in the GDD may be a version label rather than this model. No reconciliation claim is made here; confirmation awaits the project owner.
+The TCIndustries GDD (PROT-002) references a "Seed-2.1 TypeScript/Vite/React prototype." The project owner confirms the referenced prototype is `craft-seed2-1-pro-preview/` (zip + extracted tree in this folder): Vite 7 + React 19 + TypeScript 5.9 interactive tech demo of the SWG Pre-CU crafting core, authored by seed-2.1-pro-preview LLM, deployed at https://01a01b4e-9788-7ef4-9725-a0ae602a545f.arena.site/. Corroboration: Generation Prompt §7 "Seed-2.1-generated … prototype"; exact stack match; evaluation-session linkage; no other TS/Vite/React prototype in existence. Content note: the tree is SWG Pre-CU crafting content (zero TCIndustries-specific strings) — reconciliation must account for that scope. This confirmation changes no GDD statuses; AS-001/PROT-002 text stands pending a future Evidence Reconciliation Pass (GDD §34 step 0), now unblocked but not yet executed.
 
 ## Governance notes
 
