@@ -1,0 +1,1 @@
+class GuildSystem: pass

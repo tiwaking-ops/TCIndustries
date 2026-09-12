@@ -1,4 +1,14 @@
-# TCIndustries — EIC Human Validation Gate  
+<!-- RECONSTRUCTION NOTICE: This document was NOT present in the uploaded merged file
+     (TCIndustries-project-files-v1-merged.txt). It is reconstructed verbatim from the
+     text supplied directly in this conversation's original context (the first message's
+     19-document set, document index 4). See the accompanying chat message for full
+     explanation of why this document is missing from the merged upload, and the
+     corresponding discovery of a document (EIC_Comparative_Simulation_Results_v0.1.1,
+     Qualitative pass) that is present in the merged upload but was NOT in the original
+     context. This notice should be removed only after the project owner confirms this
+     reconstruction is accurate against their own source. -->
+
+# TCIndustries — EIC Human Validation Gate
 ## Architecture C Falsification
 
 **Document Type:** Human Decision Gate (Non-Canonical)  
@@ -46,9 +56,7 @@ Present the completed adversarial evidence on Architecture C and request the min
 Architecture C, as currently expressible through the tested Functional Shapes (including the Targeted γ Closure v0.2 refinements), has failed to demonstrate the required independent economic-participant comparative advantage under the adversarial conditions authorised by HD-EIC-01–04.
 
 **What has *not* been falsified:**  
-The locked project pillar PIL-003 (Interdependence creates opportunity rather than coercive inconvenience).  
-The broader design commitment that important professions should depend upon one another.  
-The possibility that some *other*, as-yet-unshaped structural source of comparative advantage could satisfy the participant-layer requirement.
+The locked project pillar PIL-003 (Interdependence creates opportunity rather than coercive inconvenience). The broader design commitment that important professions should depend upon one another. The possibility that some *other*, as-yet-unshaped structural source of comparative advantage could satisfy the participant-layer requirement.
 
 The distinction is essential. The implementation hypothesis failed. The pillar remains intact.
 
@@ -70,7 +78,7 @@ Do you accept that Architecture C, as currently expressible through the tested F
 | Option | Meaning |
 |--------|---------|
 | **ACCEPT FALSIFICATION** | Architecture C is retired as the leading EIC architecture. The evidence is accepted. |
-| **REJECT EVIDENCE** | A specific methodological flaw is identified that requires correction before the falsification stands. “Try another residual until something survives” does **not** count as a valid rejection of the evidence. |
+| **REJECT EVIDENCE** | A specific methodological flaw is identified that requires correction before the falsification stands. "Try another residual until something survives" does **not** count as a valid rejection of the evidence. |
 
 **Recommendation:** ACCEPT FALSIFICATION.  
 The experimental programme did what it was designed to do. Repeated soft residuals and refinements of information/facility/discovery pressure did not solve the participant-layer closure problem under the authorised adversarial conditions.
@@ -109,15 +117,12 @@ What further EIC architectural work, if any, is authorised?
 
 | Option | Meaning | Constraints |
 |--------|---------|-------------|
-| **A. Retire Architecture C and begin bounded new shaping** | A new architecture may be explored, but only after this explicit human authorisation and only within bounds the human sets. | Must not be an automatic “Architecture D”. Human must state the structural commitments the new search is allowed to treat as durable. |
+| **A. Retire Architecture C and begin bounded new shaping** | A new architecture may be explored, but only after this explicit human authorisation and only within bounds the human sets. | Must not be an automatic "Architecture D". Human must state the structural commitments the new search is allowed to treat as durable. |
 | **B. Strengthen existing commitments** | Human-lock specific structural assumptions (e.g., persistent discovery scarcity that organisations cannot cheaply cover, non-codifiable process knowledge, residual demand for novelty that does not collapse with rising capability) before any further test. | The locked assumptions become HUMAN-LOCKED principles for subsequent shaping. |
 | **C. Pause / defer EIC** | Accept that current evidence does not provide a viable mechanism and defer further EIC architecture work. | Other systems (or no further EIC work) may proceed under the existing locked principles. |
 
 **What is explicitly not authorised by default:**  
-Automatic generation of Architecture D merely because C failed.  
-Continued residual-channel invention by the LLM.  
-Numeric tuning.  
-Provenance & Reputation design.
+Automatic generation of Architecture D merely because C failed. Continued residual-channel invention by the LLM. Numeric tuning. Provenance & Reputation design.
 
 **Recommendation:** The human should choose deliberately among A, B, or C.  
 If A is chosen, the human must first state the structural source(s) of comparative advantage the project is willing to make a durable design commitment to. That is now a human design question, not an optimisation problem.
@@ -198,7 +203,7 @@ The gate exists so that the next design commitment is made by a human, with full
 
 The experimental programme demonstrated that repeatedly adding or refining soft residual channels (attention load, customisation, process knowledge, discovery, locality, facility concentration, information maintenance) does not, under the tested formulations, prevent a rational multi-account or organisational participant from driving independent-specialist ETA to ≤ 0 once quality parity, NPC baselines, and demand neutralisation are applied.
 
-This suggests that any future viable architecture will likely require one or more structural commitments that are stronger than “soft residual advantage that organisations can also acquire.” Possible categories of stronger commitment (listed only as observation, not as proposals) include:
+This suggests that any future viable architecture will likely require one or more structural commitments that are stronger than "soft residual advantage that organisations can also acquire." Possible categories of stronger commitment (listed only as observation, not as proposals) include:
 
 - Genuine non-internalisable scarcity of some production factor.  
 - Persistent information or discovery asymmetry that scale does not cheaply erase.  

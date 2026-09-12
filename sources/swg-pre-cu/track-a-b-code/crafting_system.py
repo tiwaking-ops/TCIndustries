@@ -1,0 +1,1 @@
+class CraftingSystem: pass

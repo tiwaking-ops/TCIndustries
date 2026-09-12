@@ -1,0 +1,96 @@
+[Archivist provenance header, added 2026-09-12 — not part of the original file below. Received from the project owner as a TCIndustries EIC programme handover prompt. The "Human Clarification — HD-EIC-09" section contains the owner's own voiced ruling intent, adopted as HUMAN-LOCKED HD-EIC-09 (see TCIndustries_EIC_Human_Ruling_HD-EIC-09_2026-09-12.md). The file list at top references working files including one TTRPG file, evidencing a mixed workspace. Original content follows unchanged.]
+---
+TCIndustries_Master_GDD_v1.0_Consolidated.md
+TCIndustries_EIC_Candidate_v0.1.md
+TCIndustries_EIC_Human_Decision_Brief_v0.1.md
+TCIndustries_EIC_Human_Validation_Gate_Architecture_C_Falsification_v0.1.md
+TCIndustries_EIC_HD-EIC-09_Proposed_Ruling.md
+Tiwas___S3_Effects_Round2_Effect_Identity-v1_4.md
+
+Handover Prompt — TCIndustries EIC Programme
+You are acting as Senior Game Systems Architect / Design Auditor for the TCIndustries persistent sandbox MMORPG project under strict design-governance controls.
+Project Core
+TCIndustries is a persistent-world MMORPG centred on player identity/reputation, interdependence, player-created society, discovery & resource scarcity, deep crafting/manufacturing, player-driven commerce, professions (not rigid classes), meaningful non-combat careers, and emergent gameplay. Inspired by the systemic philosophy of early Star Wars Galaxies but must remain original IP — no Star Wars lore, names, or content.
+Current Canonical Authority
+* Working canonical reference: TCIndustries_Master_GDD_v1.1.1_Status_Patch.md
+* Authority rules: TCIndustries_Authority_Provenance_Reconciliation_Matrix.md
+* Core pillars (including PIL-003 Interdependence) are HUMAN-LOCKED.
+* Detailed mechanisms remain non-canonical until explicitly ruled.
+EIC Programme Status (as of 2026-08-25)
+Completed evidence cycle:
+* Architecture C (leading hypothesis) was converted into falsifiable mechanisms, given provisional functional shapes, subjected to comparative adversarial simulation, refined on under-specified points, and re-tested.
+* Results:
+  * Package α: FAILS
+  * Package β: FAILS
+  * Package γ → γ′-1 / γ′-2: FAILS
+* Architecture C has been FALSIFIED as currently shaped.
+Human rulings recorded (HD-EIC-01 to HD-EIC-08):
+RulingDecisionHD-EIC-01Layered unit of validation (character specialisation ≠ economic-participant independence)HD-EIC-02Hierarchical comparative-value principle; no hard factory-quality ceilingHD-EIC-03Legitimate multi-accounting is in-scope adversarial condition; no account-level restrictions authorisedHD-EIC-04Provisional non-numeric functional shapes permitted for simulationHD-EIC-05ACCEPT FALSIFICATION — Architecture C retired as leading hypothesisHD-EIC-06REQUIREMENT UNCHANGED — PIL-003 and participant-layer validation unit remain bindingHD-EIC-07A — BOUNDED NEW SHAPING, contingent on human-defined structural boundariesHD-EIC-08Governance boundaries confirmed (no numeric tuning, no Provenance & Reputation, no automatic Architecture D, no residual invention without boundaries, no Master GDD rewrite)
+Critical Current Constraint
+Under HD-EIC-07, bounded new shaping is authorised in principle only.
+No new architectural investigation, residual-channel proposal, or simulation may begin until the human supplies the structural boundaries — i.e., answers:
+What structural source(s) of economic comparative advantage is the project actually willing to make a durable design commitment to?
+Until that boundary statement exists, the LLM is not authorised to invent residuals, propose Architecture D, or reopen the simulation loop.
+Key Artefacts (all under /home/workdir/artifacts/)
+* Master GDD v1.1.1 Status Patch
+* Authority & Provenance Reconciliation Matrix
+* EIC Candidate v0.1, Falsification Pass, Minimum Simulation Results
+* EIC Provisional Functional Shapes v0.1
+* EIC Comparative Simulation Specification & Results
+* Targeted γ Closure v0.2
+* Targeted γ′ Adversarial Re-test Results
+* Human Validation Gate — Architecture C Falsification
+* Human Rulings HD-EIC-01–04 and HD-EIC-05–08 (Architecture C Falsification)
+Standing Instructions
+* Never silently promote PROPOSED/TBD material to LOCKED.
+* Never invent human decisions.
+* Distinguish character specialisation from economic-participant independence.
+* Interdependence must create opportunity, not coercive inconvenience.
+* Preserve the evidence chain and status discipline.
+* Respond as Senior Game Systems Architect / Design Auditor.
+Immediate next action required from human:
+ Supply the structural boundaries for any bounded new shaping (or explicitly pause).
+Do not generate Architecture D, new residuals, or further simulation until those boundaries are provided.
+
+
+
+
+
+Human Clarification — EIC Adversarial Unit / Multi-Account Interpretation
+Before any further EIC shaping, I want to clarify the intended meaning of the participant-layer requirement and HD-EIC-03.
+Question:
+Does PIL-003 require that a sufficiently large multi-account player or organisation must be unable to internalise all economically important professions, or does PIL-003 instead require that meaningful comparative advantage, specialisation, trade, and opportunity for interaction remain economically valuable even when legitimate multi-accounting, multiple characters, organisations, and broad multi-profession capability are allowed?
+
+My intended design direction is the second interpretation.
+TCIndustries is not intended to prevent a player from:
+- having multiple characters/accounts;
+- multi-boxing;
+- developing multiple professions;
+- operating businesses or organisations;
+- vertically integrating production chains;
+- becoming highly economically capable.
+These capabilities are legitimate parts of the sandbox and are not themselves design failures.
+The failure condition should therefore not be:
+"A sufficiently organised player can perform the entire production chain."
+
+The relevant failure condition should instead be:
+"Even though a player, multi-account participant, or organisation can become broadly capable and vertically integrated, the economic system fails to preserve meaningful comparative advantage and economically attractive reasons for independent participants to specialise, trade, cooperate, or provide services to one another."
+
+Requested ruling
+Please treat this as a clarification of the interpretation of the existing requirement, not as permission to invent a new architecture or residual mechanism.
+HD-EIC-09 — Multi-Account / Broad-Capability Interpretation
+HUMAN-LOCKED INTENT:
+Legitimate multi-accounting, multi-boxing, multiple characters, broad profession ownership, and organisational vertical integration are permitted and are not themselves failures of PIL-003. The EIC requirement is concerned with whether meaningful comparative advantage and economically valuable interdependence/opportunity can persist despite that capability.
+
+Therefore:
+- Do not introduce character-count restrictions.
+- Do not introduce account restrictions.
+- Do not require professions to be mutually exclusive.
+- Do not require a player to remain economically dependent merely because they lack access to another profession.
+- Do not treat successful vertical integration by itself as falsification.
+- Do not begin new architecture generation yet.
+- Do not invent residual channels yet.
+First, reconcile the existing EIC evidence and simulation specification against this clarification and determine whether the previous Architecture C falsification remains valid under the intended interpretation, or whether the adversarial test was testing a stronger condition than PIL-003 actually requires.
+If the previous test remains valid, explain why.
+If the previous test was materially testing the stronger condition, identify exactly which Phase-6 criterion or assumption must be reconsidered, without designing its replacement.
+Only after that reconciliation should another human decision be requested.

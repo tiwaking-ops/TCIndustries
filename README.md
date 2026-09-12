@@ -18,8 +18,7 @@ The project is inspired by the systemic philosophy of early *Star Wars Galaxies*
 
 This repository is the **controlled documentation environment** for the project. It is a documentation-governance and design-systems repository, not a general game-development monorepo. The goal is to preserve design authority, provenance, status discipline, and an auditable decision history as the project evolves.
 
-**Current working canonical design reference:** `TCIndustries_Master_GDD_v1.1.1_Status_Patch.md`
-(not yet present in this repository; see `canonical/` after import).
+**Current working canonical design reference:** `canonical/gdd/TCIndustries_Master_GDD_v1.1.1_Status_Patch.md`
 
 ## Repository structure
 
