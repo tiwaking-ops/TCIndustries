@@ -6,7 +6,7 @@ date: 2026-08-25
 status: active
 authority_class: A
 human_approved: true
-archived_author_note: "Author LLM Unknown (filed 2026-09-12 as unadjudicated proposal; HD-GDD-01 and human_approved claim pending chat evidence; see proposals/README.md)"
+archived_author_note: "Author LLM Unknown. Section B (HD-GDD-01) CONFIRMED genuine human ruling 2026-09-12: source exchange located in Grok-DONE Master GDD Synthesis thread (owner message 25/08/2026 18:55:30, rationale included; pasted ChatGPT analysis alongside; v1.1.1 records identical outcomes). Filed in governance/; conflict closed. Remainder is consolidated representation — originals control."
 supersedes: []
 merges:
   - doc_id: EIC-RULE-01-04
