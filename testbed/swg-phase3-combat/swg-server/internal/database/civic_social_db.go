@@ -6,7 +6,6 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"time"
 )
 
 // EnsureCivicSocialSchema creates Phase 7 social tables if absent. Idempotent.
@@ -594,7 +593,6 @@ func (db *DB) CanManageStructure(structureID, charID string) bool {
 	return db.IsPermListed(structureID, "admin", charID)
 }
 
-// MailTimestamp is a helper for deterministic-enough mail IDs.
-func MailTimestamp() string {
-	return fmt.Sprintf("%d", time.Now().UnixNano())
-}
+// MailTimestamp was a UnixNano mail-ID helper; removed in the Phase 10 B6
+// portability sweep (UnixNano is not unique on Windows' 15.6 ms clock).
+// Mail IDs now mint via newRowID at their call sites. No callers existed.

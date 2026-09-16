@@ -9,9 +9,11 @@ import (
 	"encoding/json"
 	"log"
 	"math/rand"
+	"os"
 	"time"
 
 	"swg-server/internal/combat"
+	"swg-server/internal/crafting"
 	"swg-server/internal/creatures"
 	"swg-server/internal/database"
 	"swg-server/internal/protocol"
@@ -105,8 +107,8 @@ func (h *WorldHandler) SeedCombatWorld() error {
 }
 
 // StartTickLoop runs the world simulation tick: creature AI, incap timeouts,
-// HAM regen (every 5th tick), and Phase 6 service ticks (drain every tick,
-// BF healing + buff expiry every 5th).
+// HAM regen (every 5th tick), Phase 6 service ticks (drain every tick, BF
+// healing + buff expiry every 5th), Phase 9 pet ticks + meditation (every tick).
 func (h *WorldHandler) StartTickLoop() {
 	ticker := time.NewTicker(TickInterval)
 	var tickCount int64
@@ -116,6 +118,8 @@ func (h *WorldHandler) StartTickLoop() {
 			h.tickCreatureAI()
 			h.tickIncapacitationTimeouts()
 			h.tickServices(tickCount)
+			h.tickPets()
+			h.tickMeditation()
 			if tickCount%combat.RegenTickModulo == 0 {
 				h.tickHAMRegen(tickCount)
 			}
@@ -124,6 +128,11 @@ func (h *WorldHandler) StartTickLoop() {
 }
 
 // --- Client message handlers ---
+
+// combatDebugEnabled gates the COMBAT-DEBUG forensic logging (Phase 10 B6
+// polish: off by default so production logs stay clean; set
+// TESTBED_COMBAT_DEBUG=1 to restore the forensic noise while debugging).
+func combatDebugEnabled() bool { return os.Getenv("TESTBED_COMBAT_DEBUG") == "1" }
 
 func (h *WorldHandler) handleCombatAction(client *Client, raw []byte) {
 	if client.CharacterID == "" {
@@ -143,6 +152,26 @@ func (h *WorldHandler) handleCombatAction(client *Client, raw []byte) {
 	if !h.hasCombatSkill(client.CharacterID) {
 		h.sendError(client, "requires Novice Marksman or Novice Brawler")
 		return
+	}
+	// Phase 9: elite equipment gates (deed-gate precedent) + heavy ammo.
+	// Style weapons, BH uniques and heavies require their elite novice box to
+	// fire (equipping display is harmless; firing is gated). Commando-style
+	// heavies additionally consume one ammo charge per shot.
+	if wItem, _, err := h.db.EquippedItems(client.CharacterID); err == nil && wItem != nil {
+		if sc := crafting.SchematicByID(wItem.Schematic); sc != nil {
+			if sc.EquipGate != "" {
+				if ok, err := h.db.HasSkillBox(client.CharacterID, sc.EquipGate); err != nil || !ok {
+					h.sendError(client, "requires "+sc.EquipGate+" to fire")
+					return
+				}
+			}
+			if sc.WeaponStyle == "commando" {
+				if err := h.db.ConsumeAmmo(client.CharacterID); err != nil {
+					h.sendError(client, "heavy ammo required")
+					return
+				}
+			}
+		}
 	}
 
 	var msg protocol.WSMessage
@@ -176,8 +205,15 @@ func (h *WorldHandler) handleCombatAction(client *Client, raw []byte) {
 			h.handleBaseAttack(client, base)
 			return
 		}
-		log.Printf("COMBAT-DEBUG char=%s target %s not in live map (%d live)",
-			client.CharacterID, action.TargetID, len(h.liveCreatures))
+		// Phase 9: lair damage (Destroy Lair missions + §9.5.3).
+		if _, lerr := h.db.GetLair(action.TargetID); lerr == nil {
+			h.handleLairAttack(client, action.TargetID)
+			return
+		}
+		if combatDebugEnabled() {
+			log.Printf("COMBAT-DEBUG char=%s target %s not in live map (%d live)",
+				client.CharacterID, action.TargetID, len(h.liveCreatures))
+		}
 		h.sendError(client, "target not found")
 		return
 	}
@@ -187,8 +223,10 @@ func (h *WorldHandler) handleCombatAction(client *Client, raw []byte) {
 		return
 	}
 	if creatures.DistanceSq(client.Pos.X, client.Pos.Z, target.PosX, target.PosZ) > AttackRangeM*AttackRangeM {
-		log.Printf("COMBAT-DEBUG char=%s at (%.1f,%.1f) target %s at (%.1f,%.1f): out of range",
-			client.CharacterID, client.Pos.X, client.Pos.Z, target.ID, target.PosX, target.PosZ)
+		if combatDebugEnabled() {
+			log.Printf("COMBAT-DEBUG char=%s at (%.1f,%.1f) target %s at (%.1f,%.1f): out of range",
+				client.CharacterID, client.Pos.X, client.Pos.Z, target.ID, target.PosX, target.PosZ)
+		}
 		h.sendError(client, "target out of range")
 		return
 	}
@@ -268,6 +306,17 @@ func (h *WorldHandler) handleCombatAction(client *Client, raw []byte) {
 			// full 7.2.1 formula needs an effective-level concept not yet built).
 			xpReward := 50 * tmpl.CLMax
 			_ = h.db.AddCharacterXP(client.CharacterID, "combat", xpReward)
+			// Phase 9: style-pool kill awards (GDD 7.2 elite pools). The equipped
+			// schematic's style tag selects the pool (generic combat always
+			// awarded too — flagged generous parallel, gate-visible); unarmed
+			// kills credit teras_kasi for TKA novices (flagged).
+			if wItem, _, err := h.db.EquippedItems(client.CharacterID); err == nil && wItem != nil {
+				if sc := crafting.SchematicByID(wItem.Schematic); sc != nil && sc.WeaponStyle != "" {
+					_ = h.db.AddCharacterXP(client.CharacterID, stylePool(sc.WeaponStyle), xpReward)
+				}
+			} else if ok, _ := h.db.HasSkillBox(client.CharacterID, "teraskasi_novice"); ok {
+				_ = h.db.AddCharacterXP(client.CharacterID, "teras_kasi", xpReward)
+			}
 			// Phase 5 creature-drop faucet (GDD 12.2.2 band 10–200, CL-scaled):
 			// 10 × CLMax, ledger-tagged faucet. [PROVISIONAL mapping.]
 			drop := 10 * tmpl.CLMax

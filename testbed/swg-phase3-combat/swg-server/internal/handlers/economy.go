@@ -80,12 +80,16 @@ func (h *WorldHandler) tickStructures() {
 }
 
 // tickVendor applies vendor upkeep (base + per active listing); lapse closes.
+// Phase 9: Merchant Vendor Management tiers cut upkeep to −50% at tier IV
+// (GDD 8.3.5 "up to 50% reduction" — per-tier curve provisional).
 func (h *WorldHandler) tickVendor(st *database.StructureRow) {
 	listings, err := h.db.ActiveListings(st.ID)
 	if err != nil {
 		return
 	}
 	weekly := economy.VendorUpkeepBase + economy.VendorUpkeepPerListing*len(listings)
+	weekly = merchantDiscountedUpkeep(weekly,
+		h.skillTier(st.OwnerCharacterID, "merchant_vendor_management_"))
 	fee := (weekly + 167) / 168
 	if st.MaintenancePool >= fee && fee > 0 {
 		st.MaintenancePool -= fee
@@ -141,13 +145,16 @@ func (h *WorldHandler) handlePlaceHouse(client *Client, raw []byte) {
 	}
 	// Phase 7: unique IDs (one character may own many structures — the fixed
 	// per-character ID was a simplification; corrected, recorded in hygiene).
-	id := fmt.Sprintf("st-%d", time.Now().UnixNano())
+	id := h.db.NewRowID("st")
 	if err := h.db.PlaceStructure(id, client.CharacterID, client.Pos.Planet,
 		pm.X, pm.Z, "house", pm.Tier, upkeep); err != nil {
 		h.sendError(client, "house placement failed")
 		return
 	}
 	_ = h.db.DeleteItem(client.CharacterID, pm.DeedItemID)
+	// Phase 9: structure_crafting XP for Architect progression (gate-add,
+	// flagged — deed schematics stay artisan-gated with generic crafting XP).
+	_ = h.db.AddCharacterXP(client.CharacterID, "structure_crafting", 100)
 	h.send(client, protocol.MsgStructurePlaced, protocol.StructurePlacedMsg{
 		StructureID: id, Kind: "house",
 	})
@@ -179,16 +186,30 @@ func (h *WorldHandler) handlePlaceVendor(client *Client, raw []byte) {
 		h.sendError(client, err.Error())
 		return
 	}
-	id := fmt.Sprintf("st-%d", time.Now().UnixNano())
+	id := h.db.NewRowID("st")
 	if err := h.db.PlaceStructure(id, client.CharacterID, client.Pos.Planet,
 		pm.X, pm.Z, "vendor", "", 0); err != nil {
 		h.sendError(client, "vendor placement failed")
 		return
 	}
 	_ = h.db.DeleteItem(client.CharacterID, pm.DeedItemID)
+	_ = h.db.AddCharacterXP(client.CharacterID, "structure_crafting", 100)
 	h.send(client, protocol.MsgStructurePlaced, protocol.StructurePlacedMsg{
 		StructureID: id, Kind: "vendor",
 	})
+}
+
+// merchantDiscountedUpkeep applies the Vendor Management fee curve: −12.5%
+// per tier to a −50% floor at tier IV (GDD 8.3.5 "up to 50%"; curve
+// provisional). Tiers clamp to [0,4].
+func merchantDiscountedUpkeep(weekly, tier int) int {
+	if tier < 0 {
+		tier = 0
+	}
+	if tier > 4 {
+		tier = 4
+	}
+	return weekly * (8 - tier) / 8
 }
 
 // checkZoning enforces the mayor's placement gate: inside an active city with
@@ -269,6 +290,17 @@ func (h *WorldHandler) handlePurchase(client *Client, raw []byte) {
 		return
 	}
 	_ = res
+	// Phase 9 Merchant XP (GDD 7.2.5: 1 XP per 100 credits; unique buyers
+	// full, repeats diminished to 25% — provisional): post-tx best-effort
+	// (tip-XP precedent).
+	xp := listing.Price / 100
+	if xp < 1 {
+		xp = 1
+	}
+	if fresh, _ := h.db.RecordCustomer(listing.VendorID, client.CharacterID); !fresh {
+		xp /= 4
+	}
+	_ = h.db.AddCharacterXP(vendor.OwnerCharacterID, "merchant", xp)
 	h.send(client, protocol.MsgPurchaseReceipt, protocol.PurchaseReceiptMsg{
 		ListingID: pm.ListingID, ItemID: listing.ItemID,
 	})

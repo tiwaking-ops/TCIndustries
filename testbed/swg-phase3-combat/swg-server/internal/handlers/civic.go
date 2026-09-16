@@ -68,7 +68,7 @@ func (h *WorldHandler) handlePlaceCityHall(client *Client, raw []byte) {
 		h.sendError(client, err.Error())
 		return
 	}
-	hallID := fmt.Sprintf("st-%d", time.Now().UnixNano())
+	hallID := h.db.NewRowID("st")
 	if err := h.db.PlaceStructure(hallID, client.CharacterID, client.Pos.Planet,
 		pm.X, pm.Z, "city_hall", "", 0); err != nil {
 		h.sendError(client, "city hall placement failed")
@@ -76,7 +76,7 @@ func (h *WorldHandler) handlePlaceCityHall(client *Client, raw []byte) {
 	}
 	_ = h.db.DeleteItem(client.CharacterID, pm.DeedItemID)
 	now := time.Now().Unix()
-	cityID := fmt.Sprintf("city-%d", time.Now().UnixNano())
+	cityID := h.db.NewRowID("city")
 	base := civic.CityUpkeepWeekly[civic.RankOutpost]
 	if err := h.db.CreateCity(cityID, pm.Name, client.Pos.Planet, pm.X, pm.Z,
 		civic.CityRadiusM, base, client.CharacterID,
@@ -93,6 +93,7 @@ func (h *WorldHandler) handlePlaceCityHall(client *Client, raw []byte) {
 		h.activateCity(cityID)
 		status = civic.CityActive
 	}
+	_ = h.db.AddCharacterXP(client.CharacterID, "structure_crafting", 100)
 	h.send(client, protocol.MsgCityFounded, protocol.CityFoundedMsg{
 		CityID: cityID, Status: status, Structures: n, Threshold: civic.FoundThreshold,
 	})
@@ -305,7 +306,7 @@ func (h *WorldHandler) ensureElection(c *database.CityRow, now int64) {
 	if now-h.db.LastElectionEnd(c.ID) < civic.Secs(civic.ElectionCooldown) {
 		return
 	}
-	_ = h.db.OpenElection(fmt.Sprintf("elec-%d", time.Now().UnixNano()),
+	_ = h.db.OpenElection(h.db.NewRowID("elec"),
 		c.ID, now+civic.Secs(civic.ElectionPeriod))
 }
 

@@ -251,7 +251,7 @@ type ListingRow struct {
 
 // CreateListing inserts a vendor listing; returns its ID.
 func (db *DB) CreateListing(vendorID, itemID string, price int, desc string) (string, error) {
-	id := fmt.Sprintf("listing-%d", time.Now().UnixNano())
+	id := newRowID("listing")
 	_, err := db.conn.Exec(
 		`INSERT INTO vendor_listings (id, vendor_id, item_id, price, description, active)
 		VALUES (?, ?, ?, ?, ?, 1)`, id, vendorID, itemID, price, desc)
@@ -585,6 +585,18 @@ func (db *DB) AtomicPurchase(buyerID, listingID, zone string) (*PurchaseResult, 
 			price, zone) VALUES (?, ?, ?, ?, ?, ?, ?)`,
 		listingID, vendorID, itemID, vOwner, buyerID, price, zone); err != nil {
 		return nil, err
+	}
+	// Phase 10 B1: interdependence telemetry — crafted-item purchase receipt
+	// (provenance check on crafted_items is the §34 KPI's observation point).
+	// Appended AFTER the market_records insert inside the same tx; best-effort
+	// (a telemetry failure must never fail a gameplay purchase).
+	var crafted int
+	_ = tx.QueryRow(`SELECT COUNT(*) FROM crafted_items WHERE id = ?`,
+		itemID).Scan(&crafted)
+	if crafted > 0 {
+		_, _ = tx.Exec(
+			`INSERT INTO interdependence_events (kind, character_id, counterparty_id, zone)
+			 VALUES ('crafted_purchase', ?, ?, ?)`, buyerID, vOwner, zone)
 	}
 	if err := tx.Commit(); err != nil {
 		return nil, err

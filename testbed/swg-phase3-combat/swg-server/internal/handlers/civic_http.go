@@ -5,7 +5,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -359,7 +358,7 @@ func (ch *CivicHandler) cityOpenElection(w http.ResponseWriter, r *http.Request)
 		writeCraftJSON(w, http.StatusBadRequest, map[string]string{"error": "election cooldown"})
 		return
 	}
-	id := fmt.Sprintf("elec-%d", time.Now().UnixNano())
+	id := ch.db.NewRowID("elec")
 	if err := ch.db.OpenElection(id, cityID, now+civic.Secs(civic.ElectionPeriod)); err != nil {
 		writeCraftJSON(w, http.StatusBadRequest, map[string]string{"error": "open failed: " + err.Error()})
 		return

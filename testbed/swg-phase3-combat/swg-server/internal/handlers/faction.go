@@ -161,22 +161,57 @@ func (h *WorldHandler) pvpDeny(attacker *Client, victim *Client) string {
 	return ""
 }
 
+// stylePool maps a weapon style tag to its elite XP pool (Phase 9).
+func stylePool(style string) string {
+	switch style {
+	case "pistol":
+		return "pistol_combat"
+	case "rifle":
+		return "rifle_combat"
+	case "carbine":
+		return "carbine_combat"
+	case "fencing":
+		return "fencing_combat"
+	case "sword":
+		return "sword_combat"
+	case "polearm":
+		return "polearm_combat"
+	case "bounty":
+		return "bounty_hunter"
+	case "commando":
+		return "commando"
+	default:
+		return "combat"
+	}
+}
+
 // attackerWeapon mirrors the PvE weapon link (crafted sidearm replaces the
-// unarmed range and adds accuracy max as a bonus). [PROVISIONAL mapping]
+// unarmed range and adds accuracy max as a BaseAccuracy bonus). [PROVISIONAL mapping]
+// Phase 9: TKA Power Strikes tiers add unarmed damage (+2/tier, gate-add,
+// flagged) when fighting bare-handed.
 func (h *WorldHandler) attackerWeapon(client *Client) combat.Weapon {
 	weapon := unarmedWeapon
-	if wItem, _, err := h.db.EquippedItems(client.CharacterID); err == nil && wItem != nil {
-		if dmin, ok := wItem.Stats["damage_min"]; ok {
-			weapon.MinDamage = int(dmin)
-		}
-		if dmax, ok := wItem.Stats["damage_max"]; ok {
-			weapon.MaxDamage = int(dmax)
-		}
-		if acc, ok := wItem.Stats["accuracy_max"]; ok {
-			weapon.BaseAccuracy = unarmedWeapon.BaseAccuracy + int(acc)
-		}
-		weapon.Name = "crafted:" + wItem.ID
+	wItem, _, werr := h.db.EquippedItems(client.CharacterID)
+	if werr != nil {
+		return weapon
 	}
+	if wItem == nil {
+		// Bare-handed TKA scaling (gate-add, flagged).
+		tier := h.skillTier(client.CharacterID, "teraskasi_power_strikes_")
+		weapon.MinDamage += 2 * tier
+		weapon.MaxDamage += 2 * tier
+		return weapon
+	}
+	if dmin, ok := wItem.Stats["damage_min"]; ok {
+		weapon.MinDamage = int(dmin)
+	}
+	if dmax, ok := wItem.Stats["damage_max"]; ok {
+		weapon.MaxDamage = int(dmax)
+	}
+	if acc, ok := wItem.Stats["accuracy_max"]; ok {
+		weapon.BaseAccuracy = unarmedWeapon.BaseAccuracy + int(acc)
+	}
+	weapon.Name = "crafted:" + wItem.ID
 	return weapon
 }
 
@@ -319,7 +354,7 @@ func (h *WorldHandler) handlePlaceBase(client *Client, raw []byte) {
 		h.sendError(client, err.Error())
 		return
 	}
-	baseID := fmt.Sprintf("base-%d", time.Now().UnixNano())
+	baseID := h.db.NewRowID("base")
 	if err := h.db.PlaceBase(&database.BaseRow{
 		ID: baseID, GuildID: pm.GuildID, Faction: g.Faction,
 		Zone: client.Pos.Planet, PosX: pm.X, PosZ: pm.Z,
@@ -329,6 +364,7 @@ func (h *WorldHandler) handlePlaceBase(client *Client, raw []byte) {
 		return
 	}
 	_ = h.db.DeleteItem(client.CharacterID, pm.DeedItemID)
+	_ = h.db.AddCharacterXP(client.CharacterID, "structure_crafting", 100)
 	h.send(client, protocol.MsgBasePlaced, protocol.BasePlacedMsg{BaseID: baseID})
 }
 
@@ -491,6 +527,9 @@ func (h *WorldHandler) applyPvPDeathLegs(victim *Client) {
 		return
 	}
 	_ = transferred
+	// Phase 9: open player-bounty contracts on the victim pay out to the
+	// killer from poster escrow (stacked contracts all pay — flagged).
+	_, _ = h.db.PayBounties(victim.CharacterID, killerID, victim.Pos.Planet, BountyHunterXP)
 	if kc, online := h.findClient(killerID); online {
 		st, _ := h.db.GetStanding(killerID)
 		h.send(kc, protocol.MsgPointsAwarded, protocol.PointsAwardedMsg{

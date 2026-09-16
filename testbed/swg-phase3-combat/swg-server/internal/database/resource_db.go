@@ -223,7 +223,7 @@ func (db *DB) SeedZoneSpawns(zone string, rng *rand.Rand, now time.Time) (int, e
 			continue
 		}
 		s := resources.GenerateSpawn(rng,
-			fmt.Sprintf("spawn-%d-cover-%s", now.UnixNano(), t.ID),
+			fmt.Sprintf("%s-cover-%s", newRowID("spawn"), t.ID),
 			t.ID, zone,
 			(rng.Float64()-0.5)*600, (rng.Float64()-0.5)*600, now)
 		if err := db.InsertSpawn(s); err != nil {
@@ -239,7 +239,7 @@ func (db *DB) SeedZoneSpawns(zone string, rng *rand.Rand, now time.Time) (int, e
 	for i := 0; i < need; i++ {
 		t := resources.Types[rng.Intn(len(resources.Types))]
 		s := resources.GenerateSpawn(rng,
-			fmt.Sprintf("spawn-%d-%d", now.UnixNano(), i),
+			fmt.Sprintf("%s-%d", newRowID("spawn"), i),
 			t.ID, zone,
 			(rng.Float64()-0.5)*1000, (rng.Float64()-0.5)*1000, now)
 		if err := db.InsertSpawn(s); err != nil {
@@ -272,7 +272,7 @@ func (db *DB) TickSpawns(zone string, rng *rand.Rand, now time.Time) (int, int, 
 			}
 			retired++
 			ns := resources.GenerateSpawn(rng,
-				fmt.Sprintf("spawn-%d-%s", now.UnixNano(), s.ID),
+				fmt.Sprintf("%s-%s", newRowID("spawn"), s.ID),
 				s.Type, zone,
 				(rng.Float64()-0.5)*1000, (rng.Float64()-0.5)*1000, now)
 			if err := db.InsertSpawn(ns); err != nil {
@@ -363,6 +363,62 @@ func (db *DB) GetStacks(characterID string) ([]StackRow, error) {
 		out = append(out, r)
 	}
 	return out, rows.Err()
+}
+
+// ConsumeStackType deducts qty units of a resource TYPE across the character's
+// stacks (sample-mission sink). Errors when the type total is insufficient.
+func (db *DB) ConsumeStackType(characterID, rtype string, qty int) error {
+	rows, err := db.conn.Query(
+		`SELECT spawn_id, quantity FROM resource_stacks
+		WHERE character_id = ? AND resource_type = ? ORDER BY quantity DESC`,
+		characterID, rtype)
+	if err != nil {
+		return err
+	}
+	type hold struct {
+		spawn string
+		qty   int
+	}
+	var holds []hold
+	total := 0
+	for rows.Next() {
+		var h hold
+		if err := rows.Scan(&h.spawn, &h.qty); err != nil {
+			rows.Close()
+			return err
+		}
+		holds = append(holds, h)
+		total += h.qty
+	}
+	rows.Close()
+	if err := rows.Err(); err != nil {
+		return err
+	}
+	if total < qty {
+		return fmt.Errorf("insufficient %s: have %d, need %d", rtype, total, qty)
+	}
+	rest := qty
+	for _, h := range holds {
+		if rest <= 0 {
+			break
+		}
+		take := h.qty
+		if take > rest {
+			take = rest
+		}
+		if err := db.consumeStackQty(characterID, h.spawn, take); err != nil {
+			return err
+		}
+		rest -= take
+	}
+	return nil
+}
+
+func (db *DB) consumeStackQty(characterID, spawnID string, qty int) error {
+	_, err := db.conn.Exec(
+		`UPDATE resource_stacks SET quantity = quantity - ? WHERE character_id = ? AND spawn_id = ?`,
+		qty, characterID, spawnID)
+	return err
 }
 
 // ConsumeStack deducts units; errors when insufficient (used at finalize).
@@ -518,7 +574,7 @@ type CraftedItemRow struct {
 
 // InsertItem records a crafted item; returns its ID.
 func (db *DB) InsertItem(owner, schematic, name string, stats map[string]float64) (string, error) {
-	id := fmt.Sprintf("item-%d", time.Now().UnixNano())
+	id := newRowID("item")
 	statsJSON, _ := json.Marshal(stats)
 	_, err := db.conn.Exec(
 		`INSERT INTO crafted_items (id, owner_character_id, schematic_id, name, stats_json)
@@ -572,6 +628,46 @@ func (db *DB) GetItem(owner, id string) (*CraftedItemRow, error) {
 	_ = json.Unmarshal([]byte(statsJSON), &r.Stats)
 	r.Equipped = equipped != 0
 	return &r, nil
+}
+
+// ConsumeAmmo decrements one charge from the richest heavy_ammo_cell
+// (Phase 9 heavy weapons). Errors when no charged cell exists.
+func (db *DB) ConsumeAmmo(owner string) error {
+	items, err := db.GetItems(owner)
+	if err != nil {
+		return err
+	}
+	bestID, bestCharges := "", 0
+	for i := range items {
+		if items[i].Schematic != "heavy_ammo_cell" {
+			continue
+		}
+		c := int(items[i].Stats["charges_remaining"])
+		if c <= 0 {
+			if m, ok := items[i].Stats["charges_max"]; ok && int(m) > 0 {
+				c = int(m)
+			}
+		}
+		if c > bestCharges {
+			bestID, bestCharges = items[i].ID, c
+		}
+	}
+	if bestID == "" {
+		return fmt.Errorf("no charged ammo cell")
+	}
+	if bestCharges <= 1 {
+		return db.DeleteItem(owner, bestID)
+	}
+	// Decrement via stats blob rewrite (UpdateItemStats precedent).
+	for i := range items {
+		if items[i].ID != bestID {
+			continue
+		}
+		items[i].Stats["charges_remaining"] = float64(bestCharges - 1)
+		blob, _ := json.Marshal(items[i].Stats)
+		return db.UpdateItemStats(owner, bestID, string(blob))
+	}
+	return fmt.Errorf("ammo update failed")
 }
 
 // EquipItem marks an item equipped (slot: "weapon" or "armor") and records it on

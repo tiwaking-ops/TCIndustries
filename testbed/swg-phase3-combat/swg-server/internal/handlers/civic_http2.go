@@ -4,7 +4,6 @@ package handlers
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -33,7 +32,7 @@ func (ch *CivicHandler) guildFound(w http.ResponseWriter, r *http.Request) {
 		writeCraftJSON(w, http.StatusBadRequest, map[string]string{"error": "already in a guild"})
 		return
 	}
-	id := fmt.Sprintf("guild-%d", time.Now().UnixNano())
+	id := ch.db.NewRowID("guild")
 	if err := ch.db.CreateGuild(id, name, tag, charID, civic.GuildRegistrarCost); err != nil {
 		writeCraftJSON(w, http.StatusBadRequest, map[string]string{"error": "founding failed: " + err.Error()})
 		return
@@ -124,7 +123,7 @@ func (ch *CivicHandler) guildInvite(w http.ResponseWriter, r *http.Request) {
 		writeCraftJSON(w, http.StatusBadRequest, map[string]string{"error": "invitee already in a guild"})
 		return
 	}
-	id := fmt.Sprintf("ginv-%d", time.Now().UnixNano())
+	id := ch.db.NewRowID("ginv")
 	if err := ch.db.CreateGuildInvite(id, guildID, charID, invitee); err != nil {
 		writeCraftJSON(w, http.StatusInternalServerError, map[string]string{"error": "invite failed"})
 		return
@@ -358,7 +357,7 @@ func (ch *CivicHandler) groupInvite(w http.ResponseWriter, r *http.Request) {
 	g, err := ch.db.GroupOf(charID)
 	if err != nil {
 		// Inviter groupless: inviting founds the group (GDD 19.2.1).
-		gid := fmt.Sprintf("group-%d", time.Now().UnixNano())
+		gid := ch.db.NewRowID("group")
 		if err := ch.db.CreateGroup(gid, charID); err != nil {
 			writeCraftJSON(w, http.StatusInternalServerError, map[string]string{"error": "group founding failed"})
 			return
@@ -374,7 +373,7 @@ func (ch *CivicHandler) groupInvite(w http.ResponseWriter, r *http.Request) {
 		writeCraftJSON(w, http.StatusBadRequest, map[string]string{"error": "group full"})
 		return
 	}
-	id := fmt.Sprintf("grinv-%d", time.Now().UnixNano())
+	id := ch.db.NewRowID("grinv")
 	if err := ch.db.CreateGroupInvite(id, g.ID, charID, invitee); err != nil {
 		writeCraftJSON(w, http.StatusInternalServerError, map[string]string{"error": "invite failed"})
 		return
@@ -643,7 +642,7 @@ func (ch *CivicHandler) mailSend(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	id := fmt.Sprintf("mail-%d", time.Now().UnixNano())
+	id := ch.db.NewRowID("mail")
 	zone := ""
 	if c, err := ch.db.GetCharacterByID(senderID); err == nil {
 		zone = c.Planet
@@ -766,7 +765,7 @@ func (ch *CivicHandler) waypointAdd(w http.ResponseWriter, r *http.Request) {
 	if source == "" {
 		source = "manual"
 	}
-	id := fmt.Sprintf("wp-%d", time.Now().UnixNano())
+	id := ch.db.NewRowID("wp")
 	if err := ch.db.AddWaypoint(id, charID, strOf(body, "label"), zone, x, z, source); err != nil {
 		writeCraftJSON(w, http.StatusInternalServerError, map[string]string{"error": "waypoint failed"})
 		return
@@ -818,7 +817,7 @@ func (ch *CivicHandler) waypointShare(w http.ResponseWriter, r *http.Request) {
 		writeCraftJSON(w, http.StatusBadRequest, map[string]string{"error": "recipient waypoint list full"})
 		return
 	}
-	id := fmt.Sprintf("wp-%d", time.Now().UnixNano())
+	id := ch.db.NewRowID("wp")
 	if err := ch.db.AddWaypoint(id, targetID, src.Label, src.Zone, src.X, src.Z, "shared"); err != nil {
 		writeCraftJSON(w, http.StatusInternalServerError, map[string]string{"error": "share failed"})
 		return
