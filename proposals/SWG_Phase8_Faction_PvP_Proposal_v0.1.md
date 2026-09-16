@@ -268,10 +268,11 @@ right). HYGIENE_NOTE.md extended (§Phase 8 additions + correction log +
 F2-reconciliation review-gate note). Pre-existing Phase 6 lair-depletion flake
 recurred once more on a shared-DB run (5/6 dead again); rerun green — still
 out of scope (respawn design needs a human decision).
-REVIEW-GATE ITEM (§4/F2 refinement, surfaced not silent): the approved text
+REVIEW-GATE ITEM (§4/F2 refinement) — CONFIRMED 2026-09-16. The approved text
 said "both overt" while also quoting "attacking flags Overt" — implemented so
 a covert attacker with an otherwise-valid target is auto-flagged and proceeds
-(rejected attempts never flag). Owner to confirm or amend at the gate.
+(rejected attempts never flag). Owner confirmed as-implemented at the gate; no
+amendment, no code change.
 Human review gate (per §8/HD-TST-01 pattern) is now the next step before any
 Phase-9-equivalent work.
 

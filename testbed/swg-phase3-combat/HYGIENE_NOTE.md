@@ -229,7 +229,7 @@ Phase 5 leftovers and Phase 7 cities on shared DB).
 CODE-ONLY (flagged, durations untestable live): 30-day switch cooldown path
 beyond the live refusal, 60-day decay (lazy-halving on status read), 14-day
 sponsorship expiry (n/a — General OUT), reclaim reuse.
-REVIEW-GATE NOTE (F2 refinement, surfaced not silent): the approved plan said
+REVIEW-GATE NOTE (F2 refinement) — CONFIRMED 2026-09-16: the approved plan said
 "both overt" while also quoting "attacking flags Overt" — implemented the
 reconciliation (covert attacker + valid target → auto-flag + proceed; rejected
-attempts never flag). Owner to confirm at the gate.
+attempts never flag). Owner confirmed as-implemented; no code change.
