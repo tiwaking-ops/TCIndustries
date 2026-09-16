@@ -1,0 +1,40 @@
+# Build artifacts
+*.exe
+phase*test
+srv
+p9
+
+# ...but phase*test source directories ARE tracked — the pattern above was
+# meant for compiled test binaries (go build -o phase9test), not the
+# cmd/phaseNtest/ sources. Without these negations the integration-test
+# sources were invisible to git.
+!cmd/phase1test/
+!cmd/phase2test/
+!cmd/phase3test/
+!cmd/phase4test/
+!cmd/phase5test/
+!cmd/phase6test/
+!cmd/phase7test/
+!cmd/phase8test/
+!cmd/phase9test/
+!cmd/phase10test/
+
+# Debug / forensic artifacts
+*.db
+*.db-shm
+*.db-wal
+*_forensic.db
+*_postmortem.db
+forensic9d_tmp.py
+*_p9trace.log
+*_p9c.log
+/tmp/p9.db
+/tmp/p9.db-shm
+/tmp/p9.db-wal
+/tmp/srv.log
+/tmp/p9
+/tmp/srv
+
+# OS
+.DS_Store
+Thumbs.db
