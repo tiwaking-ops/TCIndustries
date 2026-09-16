@@ -107,10 +107,14 @@ simplification carries over (alignments are zone-agnostic character flags).
   (GDD-literal; rejected attempts do NOT flag — flagged reading). Overt + faction
   carried on `entity_spawn` (client-distinguishable, creature-template precedent).
 - **F2 — PvP resolution**: `combat_action` accepts character IDs; validity =
-  both overt + opposing alignments + same zone + in-range (8 m, existing) +
-  conscious + city `pvp_allowed` at the fight location + target not self;
-  same-faction/covert/neutral/cross-zone/out-of-range/city-disallowed rejected
-  with explicit errors. Reuses 9.2.2 flow, posture/stance, armor mitigation;
+  attacker aligned (non-neutral) + victim overt + opposing alignments + same
+  zone + in-range (8 m, existing) + conscious + city `pvp_allowed` at the fight
+  location + target not self; neutral-attacker / covert-victim / same-faction /
+  cross-zone / out-of-range / city-disallowed rejected with explicit errors.
+  Covert attackers are NOT rejected outright: a covert attacker with an
+  otherwise-valid target is auto-flagged overt by the attempt (reconciles
+  "cannot attack enemies" with "attacking flags Overt" — covert cannot attack
+  *while remaining* covert; victims must always be overt). Reuses 9.2.2 flow, posture/stance, armor mitigation;
   `combat_result` broadcast unchanged. No combat XP for PvP kills (points only —
   flagged; 7.2.1 formula is PvE-scoped and effective-level is unbuilt).
 - **F3 — PvP death penalties** (exit-criteria core): existing incap path
@@ -239,11 +243,37 @@ extended; commit per verified package (F1→F8).
 
 ## 10. Implementation status
 
-NOT YET APPROVED OR EXECUTED. No code written under this plan. Next step is owner
-decision on §9 (1–7); on approval, execution follows the verify-don't-claim methodology
-(`go build` + `go vet` clean, fresh DB, all phase tests re-run old+new with real pasted
-output, hygiene note extended per package, commit per verified package F1→F8), with the
-human review gate before any Phase-9-equivalent work (HD-TST-01 pattern).
+APPROVED AND EXECUTED 2026-09-15/16. Owner decisions (§9) received with no
+amendments and no supplied values (all recommendations confirmed): fork base,
+flavorless `alignment_a/b`, fast-cycle threshold compression, award/HP set
+(kill 100, destroy 250/participant, base HP 3000), credit-transfer-always +
+condition-minimal death economics, Architect base deeds + no-upkeep/no-repair,
+implementation AUTHORIZED.
+Results on `testbed/swg-phase3-combat/`: `go build` + `go vet` clean; fresh-DB
+phase8test 39/39 ALL PASS (real output) — alignment/flagging, gating rejects,
+covert-attack auto-flag, three overt duels to incap with 10% transfers +
+condition −10 + wounds/BF + points to Sergeant→Major→Colonel, city permission
+gate (live, both directions), Major-gated wilderness base, out-of-window
+refusal (precise reason), siege to destruction + destroy awards, destroyed-base
+refusal, faction-chat isolation, neutral refusal, overt roster, leaning
+display, covert delay (refusal + success), leave-reset, cooldown refusal,
+neutral declare/leave. Full 9-suite regression (testclient + phase1–8, one
+fresh DB, fast-cycle): ALL GREEN, exit 0.
+Bugs found by running: quota single-stack starvation (new ensureStack top-up +
+guarantee anchoring); quota arithmetic shortfall (five deeds before the
+sidearm); single-connection self-deadlock in GuildOfficerAlignments (open rows
++ nested lookup under SetMaxOpenConns(1) — fixed two-phase + static audit of
+all 38 rows-loops clean); test rank arithmetic (250 = Major — test fixed, code
+right). HYGIENE_NOTE.md extended (§Phase 8 additions + correction log +
+F2-reconciliation review-gate note). Pre-existing Phase 6 lair-depletion flake
+recurred once more on a shared-DB run (5/6 dead again); rerun green — still
+out of scope (respawn design needs a human decision).
+REVIEW-GATE ITEM (§4/F2 refinement, surfaced not silent): the approved text
+said "both overt" while also quoting "attacking flags Overt" — implemented so
+a covert attacker with an otherwise-valid target is auto-flagged and proceeds
+(rejected attempts never flag). Owner to confirm or amend at the gate.
+Human review gate (per §8/HD-TST-01 pattern) is now the next step before any
+Phase-9-equivalent work.
 
 *End of proposal v0.1. To enact: owner approves (or amends) §§3–6/9–10; approval and date
 recorded before any code is written.*

@@ -139,6 +139,11 @@ const (
 	// Phase 7: Civic Systems messages (generic testbed set)
 	MsgPlaceCityHall = "place_city_hall" // Client places a City Hall deed (founding)
 
+	// Phase 8: Faction & PvP messages (generic testbed set)
+	MsgGoOvert    = "go_overt"    // Client declares Overt (attackable)
+	MsgGoCovert   = "go_covert"   // Client requests Covert (safe; delay-gated)
+	MsgPlaceBase  = "place_base"  // Client places a faction-base deed (Major+)
+
 	// Phase 6: Social Support Professions messages (generic testbed set)
 	MsgHealWounds   = "heal_wounds"   // Medic heals a target's wounds
 	MsgApplyBuff    = "apply_buff"    // Medic applies a HAM-pool buff
@@ -183,6 +188,12 @@ const (
 	MsgCityFounded  = "city_founded"  // City Hall placed; city forming/active
 	MsgGroupInvited = "group_invited" // An inviter invited this client to a group
 	MsgGuildInvited = "guild_invited" // An inviter invited this client to a guild
+
+	// Phase 8 receipts and pushes.
+	MsgFlagChanged   = "flag_changed"   // Overt/covert change confirmed
+	MsgPointsAwarded = "points_awarded" // Faction points granted (kill/destroy)
+	MsgBasePlaced    = "base_placed"    // Faction-base deed placed
+	MsgBaseDestroyed = "base_destroyed" // Faction base destroyed in siege
 
 	// Phase 6 receipts.
 	MsgWoundHealed       = "wound_healed"
@@ -237,6 +248,9 @@ type EntitySpawnMsg struct {
 	// creature entities from player entities sharing the spatial grid.
 	EntityType string `json:"entity_type,omitempty"` // "player" or "creature"
 	TemplateID string `json:"template_id,omitempty"` // creature template ID, empty for players
+	// Phase 8: player spawns carry flagging (Overt readable at a glance).
+	Overt   bool   `json:"overt,omitempty"`
+	Faction string `json:"faction,omitempty"` // alignment_a | alignment_b | neutral
 }
 
 type EntityMoveMsg struct {
@@ -263,8 +277,8 @@ type PositionCorrectionMsg struct {
 
 // --- Phase 3: Combat messages ---
 
-// CombatActionMsg: client requests an attack. TargetID is a creature instance ID
-// (player-vs-player targeting is later-phase scope — no PvP flagging exists yet).
+// CombatActionMsg: client requests an attack. TargetID is a creature instance
+// ID, a character ID (Phase 8 PvP-validated), or a faction-base ID (siege).
 type CombatActionMsg struct {
 	TargetID string `json:"target_id"`
 }
@@ -444,6 +458,44 @@ type GroupInvitedMsg struct {
 	InviteID string `json:"invite_id"`
 	GroupID  string `json:"group_id"`
 	Inviter  string `json:"inviter"`
+}
+
+// --- Phase 8: Faction & PvP messages ---
+
+// FlagMsg toggles overt/covert (no payload — direction is the message type).
+type FlagMsg struct{}
+
+// FlagChangedMsg confirms a flag change.
+type FlagChangedMsg struct {
+	Overt   bool   `json:"overt"`
+	Faction string `json:"faction"`
+}
+
+// PointsAwardedMsg notifies a points grant.
+type PointsAwardedMsg struct {
+	Amount int    `json:"amount"`
+	Reason string `json:"reason"`
+	Total  int    `json:"total"`
+	Rank   string `json:"rank"`
+}
+
+// PlaceBaseMsg: client places a faction-base deed (consumes the deed).
+type PlaceBaseMsg struct {
+	X          float64 `json:"x"`
+	Z          float64 `json:"z"`
+	GuildID    string  `json:"guild_id"`
+	DeedItemID string  `json:"deed_item_id"`
+}
+
+// BasePlacedMsg confirms base placement.
+type BasePlacedMsg struct {
+	BaseID string `json:"base_id"`
+}
+
+// BaseDestroyedMsg notifies nearby clients of a siege kill.
+type BaseDestroyedMsg struct {
+	BaseID    string `json:"base_id"`
+	Destroyed bool   `json:"destroyed"`
 }
 
 // GuildInvitedMsg notifies an online invitee of a guild invite.

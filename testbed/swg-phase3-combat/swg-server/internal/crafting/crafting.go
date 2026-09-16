@@ -122,6 +122,18 @@ var Schematics = []Schematic{
 		},
 	},
 	{
+		ID: "base_deed", Name: "Faction Base Deed", ProfessionGate: "artisan_novice",
+		Complexity: 5, ExperimentPoints: 10, MaxRounds: 4, XPReward: 500,
+		EquipSlot: "deed",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 15},
+			{ID: "fittings", Label: "Fittings", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 8},
+		},
+		Properties: []ExpProperty{
+			{ID: "capacity", Label: "Capacity", BaseMin: 200, BaseMax: 200, QualityMult: 0.2},
+		},
+	},
+	{
 		ID: "stim_pack", Name: "Stim Pack", ProfessionGate: "medic_novice",
 		Complexity: 5, ExperimentPoints: 10, MaxRounds: 4, XPReward: 500,
 		EquipSlot: "consumable",

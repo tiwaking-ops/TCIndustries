@@ -184,6 +184,12 @@ func (h *WorldHandler) readPump(client *Client) {
 			h.handleUseStim(client, message)
 		case protocol.MsgPlaceCityHall:
 			h.handlePlaceCityHall(client, message)
+		case protocol.MsgGoOvert:
+			h.handleGoOvert(client, message)
+		case protocol.MsgGoCovert:
+			h.handleGoCovert(client, message)
+		case protocol.MsgPlaceBase:
+			h.handlePlaceBase(client, message)
 		default:
 			h.sendError(client, "unknown message type: "+msg.Type)
 		}
@@ -403,9 +409,13 @@ func (h *WorldHandler) handleChat(client *Client, raw []byte) {
 	}
 
 	// Phase 7: membership-routed channels + validated emotes (GDD 18.2).
+	// Phase 8: faction channel is membership-routed by alignment.
 	switch world.ChatChannel(chatMsg.Channel) {
-	case world.ChannelGroup, world.ChannelGuild, world.ChannelTell, world.ChannelFaction:
+	case world.ChannelGroup, world.ChannelGuild, world.ChannelTell:
 		h.handleCivicChat(client, chatMsg)
+		return
+	case world.ChannelFaction:
+		h.handleFactionChat(client, chatMsg.Text)
 		return
 	case world.ChannelEmote:
 		if !civic.ValidEmote(chatMsg.Text) {
@@ -572,7 +582,9 @@ func (h *WorldHandler) findEntity(characterID string) *world.Entity {
 }
 
 // buildSpawnMsg builds an entity_spawn message, tagging creature entities with
-// their type/template (players get entity_type "player"). Locking variant.
+// their type/template (players get entity_type "player") and player entities
+// with overt/faction flagging (Phase 8 — overt readable at a glance).
+// Locking variant.
 func (h *WorldHandler) buildSpawnMsg(entityID, name, spec string, pos world.Position) protocol.EntitySpawnMsg {
 	m := protocol.EntitySpawnMsg{
 		EntityID: entityID, Name: name, Species: spec, EntityType: "player",
@@ -581,6 +593,11 @@ func (h *WorldHandler) buildSpawnMsg(entityID, name, spec string, pos world.Posi
 	if tmplID, ok := h.creatureInfo(entityID); ok {
 		m.EntityType = "creature"
 		m.TemplateID = tmplID
+		return m
+	}
+	if st, err := h.db.GetStanding(entityID); err == nil {
+		m.Overt = st.Overt
+		m.Faction = st.Alignment
 	}
 	return m
 }
@@ -594,6 +611,11 @@ func (h *WorldHandler) buildSpawnMsgLocked(entityID, name, spec string, pos worl
 	if c, ok := h.liveCreatures[entityID]; ok {
 		m.EntityType = "creature"
 		m.TemplateID = c.TemplateID
+		return m
+	}
+	if st, err := h.db.GetStanding(entityID); err == nil {
+		m.Overt = st.Overt
+		m.Faction = st.Alignment
 	}
 	return m
 }

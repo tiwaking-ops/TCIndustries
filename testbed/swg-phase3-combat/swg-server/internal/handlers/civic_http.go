@@ -201,6 +201,24 @@ func (ch *CivicHandler) cityGet(w http.ResponseWriter, r *http.Request, _, cityI
 	if c.MayorID.Valid {
 		mayorName = ch.db.CharacterName(c.MayorID.String)
 	}
+	// Phase 8: faction leaning from citizen composition (GDD 14.4
+	// [ASSUMPTION]) — display-only; enforcement is OUT.
+	leanA, leanB, leanN := 0, 0, 0
+	for _, cz := range citizens {
+		st, err := ch.db.GetStanding(cz.CharacterID)
+		if err != nil {
+			leanN++
+			continue
+		}
+		switch st.Alignment {
+		case "alignment_a":
+			leanA++
+		case "alignment_b":
+			leanB++
+		default:
+			leanN++
+		}
+	}
 	election, _ := ch.db.GetOpenElection(cityID)
 	electionID := ""
 	var electionEnds int64
@@ -221,6 +239,10 @@ func (ch *CivicHandler) cityGet(w http.ResponseWriter, r *http.Request, _, cityI
 		"citizens":              cviews,
 		"structures_in_radius":  n,
 		"unlocks":               CityUnlocks(c.Rank),
+		"pvp_allowed":           ch.db.CityPvPAllowed(c.ID),
+		"leaning": map[string]int{
+			"alignment_a": leanA, "alignment_b": leanB, "neutral": leanN,
+		},
 	})
 }
 

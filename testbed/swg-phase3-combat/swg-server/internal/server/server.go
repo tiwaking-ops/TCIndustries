@@ -23,6 +23,7 @@ type Server struct {
 	econ     *handlers.EconomyHandler
 	svc      *handlers.ServicesHandler
 	civic    *handlers.CivicHandler
+	faction  *handlers.FactionHandler
 	httpAddr string
 	wsAddr   string
 }
@@ -46,6 +47,7 @@ func New() (*Server, error) {
 		econ:     handlers.NewEconomyHandler(db),
 		svc:      handlers.NewServicesHandler(db),
 		civic:    handlers.NewCivicHandler(db, world),
+		faction:  handlers.NewFactionHandler(db, world),
 		httpAddr: getEnv("HTTP_ADDR", ":8080"),
 		wsAddr:   getEnv("WS_ADDR", ":8080"),
 	}, nil
@@ -88,6 +90,11 @@ func (s *Server) Run() error {
 		log.Printf("Warning: failed to seed civic world: %v", err)
 	}
 
+	// Phase 8: seed faction persistence (standings, pending kills, bases).
+	if err := s.world.SeedFactionWorld(); err != nil {
+		log.Printf("Warning: failed to seed faction world: %v", err)
+	}
+
 	mux := http.NewServeMux()
 
 	// --- Public API routes (no auth required) ---
@@ -117,6 +124,9 @@ func (s *Server) Run() error {
 
 	// --- Phase 7: Civic Systems routes (all authed) ---
 	mux.HandleFunc("/api/civic/", handlers.AuthMiddleware(s.db, s.civic.HandleCivicRoute))
+
+	// --- Phase 8: Faction & PvP routes (all authed) ---
+	mux.HandleFunc("/api/faction/", handlers.AuthMiddleware(s.db, s.faction.HandleFactionRoute))
 
 	// --- WebSocket route (auth via query param token) ---
 	mux.HandleFunc("GET /ws", s.world.HandleWebSocket)

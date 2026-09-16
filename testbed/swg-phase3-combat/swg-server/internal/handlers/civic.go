@@ -207,13 +207,11 @@ func (h *WorldHandler) handleCivicChat(client *Client, chatMsg protocol.ChatMsg)
 		}
 		h.send(other, protocol.MsgChatMessage, out)
 		h.send(client, protocol.MsgChatMessage, out) // echo
-	case world.ChannelFaction:
-		// No faction/alignment system exists before Phase 8: the channel
-		// exists in vocabulary but has no membership to route to.
-		h.sendError(client, "faction alignment unavailable (later phase)")
 	default:
 		h.sendError(client, "unknown chat channel")
 	}
+	// NOTE: the faction channel left this switch in Phase 8 — world.go routes
+	// it to handleFactionChat (alignment membership) instead.
 }
 
 // --- City simulation tick (driven from the resource tick loop, 1 s cadence;

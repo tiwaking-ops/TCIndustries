@@ -173,7 +173,63 @@ CODE-ONLY (flagged, durations untestable live): mayor-inactivity emergency elect
 term-expiry turnover, 30-day guild succession countdown, 180-day reclaim reuse.
 KNOWN PRE-EXISTING ISSUE (not introduced, not fixed — out of scope): no lair-respawn
 mechanic exists, so shared-DB Phase 6 depends on earlier suites leaving survivors —
-one full-suite run failed Test 1 with a single template-0001 survivor that could not
-outpace regen (DB forensics: 5/6 instances dead); rerun passed. Respawn design
-belongs to combat-system ownership (human decision), not this phase.
+two full-suite runs failed Test 1 with only weak survivors left that could not
+outpace regen (DB forensics, first incident: 5/6 instances dead, lone template-0001
+in stale aggro on a disconnected char); reruns passed. Respawn design belongs to
+combat-system ownership (human decision), not this phase.
 KNOWN-REMAINING from Phases 3–6 unchanged (species IDs, Godot client).
+
+## Phase 8 additions (proposal SWG_Phase8_Faction_PvP_Proposal_v0.1, approved 2026-09-15)
+
+New strings generic throughout: `alignment_a` / `alignment_b` / `neutral`
+(deliberately flavorless per HD-TST-01 — no Rebel/Imperial or other SW names
+anywhere in the fork, verified by search), faction rank titles (generic military
+English), base/window/flag/points vocabulary, deed schematic (`base_deed`,
+15M+8P like other deeds). No SW names.
+GDD-given numbers implemented: Overt→Covert 5-min delay (fast-cycle 30 s);
+rank thresholds 0/2500/10k/30k + General+sponsorship OUT (fast-cycle 100/200/300
+for Sergeant→Colonel, defaults GDD-given); 10% credit drop (resolved as
+victim→killer transfer, never a sink — proposal §5.d); 10% condition loss;
+wound/BF death ranges (reused); war-window SHAPE (guild-set); 30-day switch
+cooldown + 60-day decay ([ASSUMPTION]-tagged, implemented flagged; cooldown live
+via refusal path, decay code-only); PvP TTK 30–60 s as target (sidearm-scale
+duels land inside it).
+Owner-approved provisionals: kill award 100; destroy award 250/participant;
+base HP 3000 (≈90 s solo siege); one active base per guild; single war window
+(GDD plural simplified — flagged); 2 h window cap; window-start 30 s skew
+tolerance; condition floor-0 with no breakage/repair (OQ-010 follow-ups);
+base 20 m separation; city `pvp_allowed` default-allow + mayor toggle;
+mentorship-style fast-cycle mappings table (thresholds/delay only — cooldown and
+decay uncompressed by design, since the live-tested paths are the refusals).
+Deliberate mechanics where the GDD is silent: kill credit = killing blow at
+incap, consumed at clone, voided at revive (multi-attacker unsplit — flagged);
+covert attackers auto-flag on valid attempts ("cannot attack while remaining
+covert" reconciliation — victims must always be overt); no combat XP for PvP
+kills (7.2.1 is PvE-scoped); no base upkeep/repair; guild label (leader-set)
+with officer-alignment gate at placement, members unrestricted; leaning
+display-only; faction chat needs membership, not overt; overt roster = online
+same-side overt (Phase 9 input surface); Architect base deeds (GDD names no
+crafter — flagged analogy); faction rank explicitly NOT social reputation (no
+scores/leaderboards; status + chat tag only).
+OUT as approved: General/sponsorship, turrets, upkeep/repair, vendor discounts
+(no faction NPC vendors — blocked), exclusive schematics, specialization
+influence, Bounty Hunter/bounties/missions (Phase 9), duels + TEF (no GDD
+source), NPC-city safe zones (vacuous — spawn-area exposure flagged, not
+patched), DoTs beyond existing states, group XP/threat in PvP.
+CORRECTION LOG (verify-don't-claim): single-connection self-deadlock in
+GuildOfficerAlignments (open rows + nested GetStanding under SetMaxOpenConns(1)
+— caught as a 10 s placement hang with no server response; fixed two-phase;
+full static audit of all 38 rows-loops found no other nesting); quota math
+shortfall (five deeds need 75M before the sidearm — caught at craft assign);
+single-stack starvation (totals met across split spawns — new ensureStack
+top-up + guarantee anchoring); test rank arithmetic (250 destroy award =
+Major, not Sergeant — test expectation fixed, code was right); test-name and
+geography coexistence (unique names; mini-city center 515, base 320: clear of
+Phase 5 leftovers and Phase 7 cities on shared DB).
+CODE-ONLY (flagged, durations untestable live): 30-day switch cooldown path
+beyond the live refusal, 60-day decay (lazy-halving on status read), 14-day
+sponsorship expiry (n/a — General OUT), reclaim reuse.
+REVIEW-GATE NOTE (F2 refinement, surfaced not silent): the approved plan said
+"both overt" while also quoting "attacking flags Overt" — implemented the
+reconciliation (covert attacker + valid target → auto-flag + proceed; rejected
+attempts never flag). Owner to confirm at the gate.
