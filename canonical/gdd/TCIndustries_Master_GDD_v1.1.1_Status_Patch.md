@@ -607,14 +607,16 @@ Players and organisations must be able to own and place meaningful structures (h
 Structures should support functional roles (storage, crafting stations, vendors, social space, manufacturing) as well as aesthetic and identity expression.
 
 ## BLD-003 — Cities and Governance
-**Status: PROPOSED / TBD**
+**Status: RULED (formation + basic depth) / civic depth TBD**
 
-Player cities should support governance, zoning, taxation or maintenance models, civic structures, and community identity. Exact city formation, governance, and rules are **TBD**.
+Player cities should support governance, zoning, taxation or maintenance models, civic structures, and community identity. **Formation structure and basic governance depth are RULED** — free-claim settlement formation, with ownership + zoning presence + shared maintenance responsibility (Human Rulings Register HD-BLD-01). Civic-depth instruments (policy, treasury, offices) remain **TBD**, pending OQ-013/OQ-009 rulings.
 
 ## BLD-004 — Placement and Limits
-**Status: TBD**
+**Status: RULED (abandonment handling) / placement, lots, density TBD**
 
-Structure placement rules, lot systems, density limits, and abandonment handling are unresolved.
+**Abandonment handling is RULED** — a placed structure requires ongoing maintenance credit; at zero credit the upkeep lapses after a 24-hour zero-credit period and the structure is removed from the world, with everything inside it removed with it (no salvage, no recovery window, no restitution). The credit balance is the recourse path; removal is terminal at structure scale (Human Rulings Register HD-BLD-02 + HD-BLD-03).
+
+**Structure placement rules, lot systems, and density limits remain unresolved (TBD).** Settlement-institution dissolution on last-structure removal also remains open. No credit rates, costs, or depletion schedules are authorised (BAL-001).
 
 ---
 
@@ -788,11 +790,11 @@ The following systems require dedicated future design passes (not exhaustive):
 - Crafting experimentation model and schematic structure (**TBD**)
 - Manufacturing facility rules and automation constraints (**TBD**)
 - Transportation and logistics (**TBD**)
-- City formation, governance, and maintenance (**TBD**)
+- City formation, governance, and maintenance (**formation + basic depth RULED** — HD-BLD-01; civic depth and maintenance parameters **TBD**)
 - Combat systems (PvE/PvP scope, risk, progression) (**TBD**)
 - Currency, money sinks, and economic stabilisers (**TBD**)
 - Organisation governance and rights (**TBD**)
-- Item durability, repair, and decay (**TBD**)
+- Item durability, repair, and decay (**RULED structurally** — HD-ITM-01 + HD-ITM-02; numerics **TBD**)
 - Species/ancestry/setting content (**DEFERRED**)
 - Full service profession definitions (**TBD**)
 
@@ -808,16 +810,16 @@ The following systems require dedicated future design passes (not exhaustive):
 | OQ-004 | Crafting experimentation model details? | Crafting, Identity | Crafter skill expression and reputation | TBD |
 | OQ-005 | Manufacturing/factory throughput, maintenance, and ownership rules? | Manufacturing, Automation | Anti-automation-drift enforcement | TBD |
 | OQ-006 | Transportation model and fast-travel constraints? | World, Economy, Logistics | Geographic meaning vs. friction | TBD |
-| OQ-007 | City formation, governance, taxation/maintenance models? | Cities, Society, Buildings | Player-created society pillar | TBD |
+| OQ-007 | City formation, governance, taxation/maintenance models? | Cities, Society, Buildings | Player-created society pillar | **RULED (formation + basic depth)** — see Human Rulings Register HD-BLD-01; civic-depth instruments remain open |
 | OQ-008 | Combat scope (PvE/PvP), risk model, and progression integration? | Combat, Economy, Services | Demand generation without forced path | TBD |
 | OQ-009 | Currency system(s) and money sinks? | Economy | Economic stability | TBD |
-| OQ-010 | Item durability, decay, and repair model? | Items, Services, Economy | Service demand and item identity | TBD |
-| OQ-011 | Respecialisation exact costs and rules? | Progression, Identity | Balance of flexibility vs. commitment | TBD |
+| OQ-010 | Item durability, decay, and repair model? | Items, Services, Economy | Service demand and item identity | **RULED (no baseline decay; death-damage/repair/destruction behaviour)** — see Human Rulings Register HD-ITM-01 + HD-ITM-02 |
+| OQ-011 | Respecialisation exact costs and rules? | Progression, Identity | Balance of flexibility vs. commitment | **RULED (cost instrument: free-drop)** — see Human Rulings Register HD-PROF-01 + HD-PROF-02; magnitudes deferred (BAL-001); the acquisition half (PROG-003) remains open |
 | OQ-012 | Multi-accounting and economic exploit policies? | Economy, Safety | Fairness and stability | TBD |
 | OQ-013 | Organisation rights, hierarchy, and property model? | Social Systems | Collective ownership | TBD |
 | OQ-014 | Species/ancestry/starting location design? | Character | Setting and identity expression | DEFERRED |
-| OQ-015 | Which systems are required for first playable prototype vs. persistent alpha? | Production planning | Scope control | TBD |
-| OQ-016 | Exact vendor and retail mechanics? | Retail, Economy | Player commerce viability | TBD |
+| OQ-015 | Which systems are required for first playable prototype vs. persistent alpha? | Production planning | Scope control | **RULED (S1 economic spine)** — see Human Rulings Register HD-SCOPE-01; early-game economic on-ramp named-open |
+| OQ-016 | Exact vendor and retail mechanics? | Retail, Economy | Player commerce viability | **RULED (structural)** — see Human Rulings Register HD-RET-01; fees/taxation/price bands deferred (BAL-001) |
 | OQ-017 | Provenance depth and visibility rules? | Identity, Crafting, Items | Reputation pillar support | TBD |
 
 ---
@@ -930,6 +932,38 @@ No further LLM consolidation of the Master GDD should occur. The next operations
 
 This patch applies **only** the human authority rulings of 2026-08-25 arising from the Authority & Provenance Reconciliation Matrix. No new game-design decisions, mechanics, numbers, or system expansions were introduced.
 
+## Later status applications to this document (recorded here for lineage)
+
+The document version and filename remain **v1.1.1**; the following later human
+rulings have had their status lines applied to this document. They are recorded
+here rather than as a new version number so the filename/content correspondence
+is preserved. The rulings themselves — and only the rulings — are the authority;
+this section is a status pointer.
+
+**Applied 2026-09-28** (project owner's explicit instruction; the status-line
+edits were reserved as the owner's act in each decision record's filing-time
+acts). All entries below are transcribed from
+`governance/TCIndustries_Human_Rulings_Register.md` Sections C and D.
+
+| Affected ID | Ruling | Applied status line |
+|---|---|---|
+| OQ-007 / BLD-003 | HD-BLD-01 | Formation + basic governance depth **RULED**; civic depth TBD |
+| OQ-016 | HD-RET-01 | Vendor & retail structural model **RULED**; numerics TBD (BAL-001) |
+| OQ-015 | HD-SCOPE-01 | First-playable scope **RULED** (S1 economic spine); early-game on-ramp named-open |
+| OQ-010 / ITM-002 | HD-ITM-01 + HD-ITM-02 | Durability/repair/destruction **RULED** (no baseline decay); numerics TBD |
+| OQ-011 | HD-PROF-01 + HD-PROF-02 | Respecialisation cost **RULED** (free-drop); magnitudes TBD (BAL-001) |
+| BLD-004 | HD-BLD-02 + HD-BLD-03 | Abandonment handling **RULED** (zero-credit removal, contents removed with structure); placement/lots/density **TBD** |
+
+**No status was promoted beyond what these rulings state.** No numeric value was
+introduced. No TBD was closed by inference. Sections §30, §31, and §36 were
+edited only to remove items these rulings expressly resolve and to add explicit
+pointers; every other TBD, PROPOSED, DERIVED CONSTRAINT, and DEFERRED status in
+this document is unchanged.
+
+## v1.1.1 Status Patch — Change Scope (original 2026-08-25 application)
+
+This patch applies **only** the human authority rulings of 2026-08-25 arising from the Authority & Provenance Reconciliation Matrix. No new game-design decisions, mechanics, numbers, or system expansions were introduced.
+
 ### Human rulings applied
 
 | ID | Ruling | Result |
@@ -991,10 +1025,10 @@ The following remain **NOT CANONICAL** unless explicitly promoted by a future hu
 2. Resource lifecycle mathematics and attribute set — **TBD**
 3. Crafting experimentation model — **PROPOSED / TBD**
 4. Manufacturing and automation constraint details — **PROPOSED / TBD**
-5. City formation and governance rules — **TBD**
+5. ~~City formation and governance rules — **TBD**~~ **RULED at the structural layer** (formation + basic depth, HD-BLD-01); civic-depth instruments remain TBD.
 6. Combat scope and risk model — **TBD**
 7. Currency and economic stabiliser design — **TBD**
-8. Exact respecialisation costs and rules — **TBD**
+8. ~~Exact respecialisation costs and rules — **TBD**~~ **RULED** (HD-PROF-01 + HD-PROF-02); magnitudes deferred to a BAL-001 pass; the acquisition half (PROG-003) remains open.
 9. Multi-accounting and exploit policies — **TBD**
 10. Reconciliation of any existing prototype against this GDD (Evidence Reconciliation Pass)
 

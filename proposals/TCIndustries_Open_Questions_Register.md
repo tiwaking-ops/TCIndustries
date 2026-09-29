@@ -1,8 +1,8 @@
 ---
 doc_id: OPEN-QUESTIONS-REGISTER
 title: TCIndustries — Open Questions & Gates Register
-version: "1.1"
-date: 2026-08-25
+version: "1.2"
+date: 2026-09-28
 status: active
 authority_class: null   # index only; answers questions, decides nothing
 human_approved: false
@@ -11,7 +11,7 @@ superseded_by: null
 controlling_documents: [MASTER-GDD-v1.1.1, HUMAN-RULINGS-REGISTER]
 reading_priority: mandatory
 archived_author_note: "Author LLM Unknown (filed 2026-09-12 as unadjudicated proposal; see proposals/README.md)"
-change_note: "v1.1 — Item 5 (authority-review queue) upgraded from passive flag to an active gate (GDD-AUTH-REVIEW-GATE) per project-owner direction during the consolidation audit. WRLD-001, PLR-001, PLR-003, CRFT-001, SAFE-001 downgraded from HUMAN-LOCKED back to authority-review-queue status pending a re-review that captures decision rationale, not just outcome."
+change_note: "v1.2 — OQ-010 and OQ-011 status cells pointed at their rulings (HD-ITM-01 + HD-ITM-02; HD-PROF-01 + HD-PROF-02); §4 items 5 and 8 annotated as ruled. Pointer-only edits executed 2026-09-28 on the project owner's instruction; the rulings in governance/TCIndustries_Human_Rulings_Register.md remain the authority. v1.1 — Item 5 (authority-review queue) upgraded from passive flag to an active gate (GDD-AUTH-REVIEW-GATE) per project-owner direction during the consolidation audit. WRLD-001, PLR-001, PLR-003, CRFT-001, SAFE-001 downgraded from HUMAN-LOCKED back to authority-review-queue status pending a re-review that captures decision rationale, not just outcome."
 ---
 
 # TCIndustries — Open Questions & Gates Register
@@ -42,16 +42,16 @@ Restated from `Master_GDD_v1.1.1_Status_Patch.md` §31 — not re-derived, not r
 | OQ-004 | Crafting experimentation model details? | Crafting, Identity | TBD |
 | OQ-005 | Manufacturing/factory throughput, maintenance, ownership rules? | Manufacturing, Automation | TBD |
 | OQ-006 | Transportation model and fast-travel constraints? | World, Economy, Logistics | TBD |
-| OQ-007 | City formation, governance, taxation/maintenance models? | Cities, Society, Buildings | TBD |
+| OQ-007 | City formation, governance, taxation/maintenance models? | Cities, Society, Buildings | RULED (formation + basic depth) — see HD-BLD-01 |
 | OQ-008 | Combat scope (PvE/PvP), risk model, progression integration? | Combat, Economy, Services | TBD |
 | OQ-009 | Currency system(s) and money sinks? | Economy | TBD |
-| OQ-010 | Item durability, decay, repair model? | Items, Services, Economy | TBD |
-| OQ-011 | Respecialisation exact costs and rules? | Progression, Identity | TBD |
+| OQ-010 | Item durability, decay, repair model? | Items, Services, Economy | RULED (no decay; death-damage/repair/destruction behaviour per HD-ITM-01 + HD-ITM-02) — see HD-ITM-01, HD-ITM-02 |
+| OQ-011 | Respecialisation exact costs and rules? | Progression, Identity | RULED (cost instrument: free-drop) — see HD-PROF-01 + HD-PROF-02 |
 | OQ-012 | Multi-accounting and economic exploit policies (implementation)? | Economy, Safety | TBD — *validation stance* (in-scope, no account restriction) is settled per HD-EIC-03; *implementation* is not |
 | OQ-013 | Organisation rights, hierarchy, and property model? | Social Systems | TBD |
 | OQ-014 | Species/ancestry/starting location design? | Character | DEFERRED |
-| OQ-015 | Which systems are required for first playable prototype vs. persistent alpha? | Production planning | TBD |
-| OQ-016 | Exact vendor and retail mechanics? | Retail, Economy | TBD |
+| OQ-015 | Which systems are required for first playable prototype vs. persistent alpha? | Production planning | RULED — see HD-SCOPE-01 |
+| OQ-016 | Exact vendor and retail mechanics? | Retail, Economy | RULED — see HD-RET-01 |
 | OQ-017 | Provenance depth and visibility rules? | Identity, Crafting, Items | TBD |
 
 ## 3. Assumption Register (AS-001–005)
@@ -72,10 +72,10 @@ Not status issues — genuine unresolved design decisions requiring human/projec
 2. Resource lifecycle mathematics and attribute set.
 3. Crafting experimentation model.
 4. Manufacturing and automation constraint details.
-5. City formation and governance rules.
+5. ~~City formation and governance rules.~~ **RULED at the structural layer** — HD-BLD-01 (free-claim formation; basic governance depth). Civic-depth instruments (policy/treasury/offices) and OQ-013 remain open.
 6. Combat scope and risk model.
 7. Currency and economic stabiliser design.
-8. Exact respecialisation costs and rules.
+8. ~~Exact respecialisation costs and rules.~~ **RULED** — HD-PROF-01 (identity/provenance survives respec; INV-011a approved) + HD-PROF-02 (cost instrument: free-drop — points returned, no fee/time/penalty). Magnitudes deferred to a BAL-001 pass; the acquisition half of OQ-011 / PROG-003 remains open.
 9. Multi-accounting and exploit policies (implementation detail; stance already settled — see OQ-012).
 10. Reconciliation of any existing prototype against this GDD (Evidence Reconciliation Pass) — process requirement, not a design question.
 
