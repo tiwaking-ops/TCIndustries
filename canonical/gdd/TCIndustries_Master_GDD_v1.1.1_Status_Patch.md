@@ -812,9 +812,9 @@ The following systems require dedicated future design passes (not exhaustive):
 | OQ-006 | Transportation model and fast-travel constraints? | World, Economy, Logistics | Geographic meaning vs. friction | TBD |
 | OQ-007 | City formation, governance, taxation/maintenance models? | Cities, Society, Buildings | Player-created society pillar | **RULED (formation + basic depth)** — see Human Rulings Register HD-BLD-01; civic-depth instruments remain open |
 | OQ-008 | Combat scope (PvE/PvP), risk model, and progression integration? | Combat, Economy, Services | Demand generation without forced path | TBD |
-| OQ-009 | Currency system(s) and money sinks? | Economy | Economic stability | TBD |
+| OQ-009 | Currency system(s) and money sinks? | Economy | Economic stability | **RULED (Structure A: single unified currency; INV-009a approved, faucet-exceeds-sink mandate)** — see Human Rulings Register HD-ECO-01; sink instrument classes remain named-open, numerics TBD |
 | OQ-010 | Item durability, decay, and repair model? | Items, Services, Economy | Service demand and item identity | **RULED (no baseline decay; death-damage/repair/destruction behaviour)** — see Human Rulings Register HD-ITM-01 + HD-ITM-02 |
-| OQ-011 | Respecialisation exact costs and rules? | Progression, Identity | Balance of flexibility vs. commitment | **RULED (cost instrument: free-drop)** — see Human Rulings Register HD-PROF-01 + HD-PROF-02; magnitudes deferred (BAL-001); the acquisition half (PROG-003) remains open |
+| OQ-011 | Respecialisation exact costs and rules? | Progression, Identity | Balance of flexibility vs. commitment | **RULED** (cost: free-drop; acquisition: trainer-gated) — see Human Rulings Register HD-PROF-01 + HD-PROF-02 + HD-PROF-03; magnitudes TBD (BAL-001); INV-011c and scope confirmation still open; the OQ-001 budget model remains EIC-coupled and blocked behind the open HD-EIC-07 gate |
 | OQ-012 | Multi-accounting and economic exploit policies? | Economy, Safety | Fairness and stability | TBD |
 | OQ-013 | Organisation rights, hierarchy, and property model? | Social Systems | Collective ownership | TBD |
 | OQ-014 | Species/ancestry/starting location design? | Character | Setting and identity expression | DEFERRED |
@@ -998,7 +998,7 @@ The following remain **NOT CANONICAL** unless explicitly promoted by a future hu
 - Time-limited vs extraction-limited resource pool model (as chosen model)
 - Harvesters as installed structures (specific implementation)
 - Experimentation point allocation / success-critical-failure model
-- Single unified currency as the default
+- ~~Single unified currency as the default~~ **PROMOTED TO CANONICAL DESIGN 2026-09-28 by HD-ECO-01.** A single unified currency is now the design's medium, and INV-009a is approved in the faucet-exceeds-sink mandate reading. Withdrawn from this non-canonical list by explicit owner ruling; see Human Rulings Register HD-ECO-01.
 - Commerce Directory
 - Fully tradeable by default / no account or character soul-binding
 - Services required to be recurring/consumable by design

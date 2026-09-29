@@ -276,17 +276,28 @@ whatever boundaries the human later supplies can be tested against them.
 - **Constraint:** single unified currency as default is on the **non-canonical
   list** (may not be assumed); NPC vendors must not dominate production (ECO-001);
   economic observability is a PROPOSED design obligation (SAFE-003).
-- **Invariant (candidate INV-009a — sink sufficiency):** *For any currency
-  design, total faucet flow exceeds sink flow in every bounded observation
-  window by a measurable, monitorable margin that the observability system can
-  detect and attribute — i.e., inflation cannot proceed silently.* (Structure,
-  not numbers: no rate is proposed; the invariant is that the *imbalance is
-  observable and attributable*.)
-- **Invariant (candidate INV-009b — currency contestability):** *If multiple
+- **Invariant INV-009a — APPROVED as a design invariant (TEST-001 class),
+  HD-ECO-01, 2026-09-28**, in the **faucet-exceeds-sink mandate** reading: *For any currency
+  design, total faucet flow exceeds sink flow in every bounded observation window
+  by a measurable, monitorable margin that the observability system can detect
+  and attribute — i.e., inflation cannot proceed silently.* (Structure, not
+  numbers: no rate is proposed; the invariant is that the *imbalance is
+  observable and attributable*.) **As ruled, this is the stronger mandate
+  reading:** faucets are required to outrun sinks **by design**, making net money
+  growth a standing economic policy rather than a monitoring requirement alone.
+  Owner's stated reason, verbatim: *"Historicity. SWG always had a problem with
+  not enough money sinks. Players became money sinks by hoarding money."*
+  Composing ruling: HD-RET-01 (player-only vendors, NPC commerce limited to
+  baseline services) makes player creation the dominant faucet base — the two
+  rulings are complementary, not in tension.
+- **Invariant (candidate INV-009b — currency contestability) — NOT RULED; MOOT on
+  the current design:** *If multiple
   currencies/media are adopted, each retains at least one use case in which it
   is strictly preferred, or it disappears through player choice — no
-  forced-acceptance zombie currency is design-mandated.* (Applies only if
-  multi-currency is chosen; records the shape so the choice can be tested.)
+  forced-acceptance zombie currency is design-mandated.* It binds only if
+  multiple currencies are adopted; HD-ECO-01 ruled a **single unified currency**
+  (Structure A). Remains available as a standing constraint on any future
+  multi-currency decision. Neither approved nor declined.
 - **Failure condition:** unattributable aggregate money growth (no faucet/sink
   accounting), or a mandated medium with no preferred use.
 - **Test:** ledger-accounting audit of any implemented/simulated economy (the
@@ -342,12 +353,18 @@ whatever boundaries the human later supplies can be tested against them.
   Recorded as not-approved-under-the-ruled-model, not as rejected in principle:
   the owner chose a free-drop respec (points returned, no fee/time/penalty), so a
   future respec ruling could adopt a different instrument and re-approve this.
-- **Invariant (candidate INV-011c — acquisition-route equivalence) — remains a
-  candidate** (HD-PROF-02, 2026-09-20, did not request approval; approval is
-  independent): *Whatever
+- **Invariant (candidate INV-011c — acquisition-route equivalence) — NOT RULED;
+  remains a candidate** (HD-PROF-03, 2026-09-28): *Whatever
   the acquisition model, alternative specialisations remain reachable from any
   starting state — no acquisition path locks a character out of any legitimate
-  career permanently.*
+  career permanently.* The owner addressed the reachability concern
+  substantively when ruling trainer-gated acquisition: training is always
+  available — for a fee from an NPC trainer, or free from a player who holds the
+  class. No explicit approve/decline was given, and per-invariant granularity no
+  approval is inferred from an answer to a question. Residual dependency recorded:
+  a character needs either credits or a willing player trainer; because HD-ECO-01
+  rules a faucet-exceeds-sink money-supply policy, the credits branch is not
+  structurally scarce.
 - **Failure condition:** identity erasure under respecialisation; zero-cost
   respec ping-ponging as a dominant strategy; or an unreachable-specialisation
   dead end.

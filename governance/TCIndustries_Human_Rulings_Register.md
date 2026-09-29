@@ -1,7 +1,7 @@
 ---
 doc_id: HUMAN-RULINGS-REGISTER
 title: TCIndustries — Human Rulings Register
-version: "1.3"
+version: "1.4"
 date: 2026-09-28
 status: active
 authority_class: A
@@ -18,7 +18,7 @@ merges:
 superseded_by: null
 controlling_documents: []
 reading_priority: mandatory
-change_note: "v1.3 — Filed Section D (HD-ITM-01, HD-PROF-01, HD-BLD-02, HD-PROF-02, HD-ITM-02, HD-BLD-03): six owner rulings of 2026-09-19/20 transcribed verbatim from their decision records at the owner's instruction on 2026-09-28; Full Cumulative State table brought current from 2026-08-25. v1.2 — Added Section C (HD-RET-01, HD-BLD-01, HD-SCOPE-01), the first three autonomous-loop production rulings (2026-09-19), pasted verbatim from their decision records at the owner's explicit filing instruction. v1.1 — Added Section B (HD-GDD-01), the re-review and re-confirmation of the 5 GDD authority-review-queue items, recovered from prior chat history and formally recorded here for the first time."
+change_note: "v1.4 — Filed Section E (HD-ECO-01 OQ-009 currency structure + INV-009a faucet-exceeds-sink mandate; HD-PROF-03 OQ-011 acquisition trainer-gated). Both PARTIAL: scope confirmations, INV-009b, and INV-011c remain open. Master GDD non-canonical list entry "Single unified currency as the default" PROMOTED to canonical by HD-ECO-01. v1.3 — Filed Section D (HD-ITM-01, HD-PROF-01, HD-BLD-02, HD-PROF-02, HD-ITM-02, HD-BLD-03): six owner rulings of 2026-09-19/20 transcribed verbatim from their decision records at the owner's instruction on 2026-09-28; Full Cumulative State table brought current from 2026-08-25. v1.2 — Added Section C (HD-RET-01, HD-BLD-01, HD-SCOPE-01), the first three autonomous-loop production rulings (2026-09-19), pasted verbatim from their decision records at the owner's explicit filing instruction. v1.1 — Added Section B (HD-GDD-01), the re-review and re-confirmation of the 5 GDD authority-review-queue items, recovered from prior chat history and formally recorded here for the first time."
 ---
 
 # TCIndustries — Human Rulings Register
@@ -467,6 +467,143 @@ GDD text edits (reserved controlled acts at filing time).
 ---
 
 
+# Section E â€” Production & Systems Rulings, continued (2026-09-28: HD-ECO-01, HD-PROF-03)
+
+**Source:** Owner ruling session, 2026-09-28, in the Freebuff/OpenCode workspace
+(recorder: OpenCode (space-bunny-free); decisions by the project owner).
+**Filed:** 2026-09-28, transcribed verbatim from the section 3 ready-to-file
+entries of each decision record.
+**Filing provenance (GR-004):** recorded by the agent at the owner's explicit
+instruction. The text below is mechanical transcription of the owner's own
+decision records; no wording, option, invariant, status, or numeric value was
+authored, altered, inferred, or added by the recorder. The authority asserted by
+these entries is the owner's rulings of 2026-09-28, not the filing act.
+**Partially-ruled form:** both entries in this section are **PARTIAL**. Each
+records a ruled primary decision plus, for HD-ECO-01, an approved invariant; the
+scope confirmations, and INV-009b and INV-011c, were **not** ruled and are
+recorded as explicitly open. This follows the HD-PROF-01 precedent. No remaining
+slot is silently closed.
+**GR-006 compliance:** filed under GR-006 (in force 2026-09-28). The GR-006.5
+mechanical check was run for both IDs; the GR-006.1 filing window remains
+UNDETERMINED, which does not affect this filing.
+
+---
+## HD-ECO-01 — OQ-009 Currency & Money Sinks (PARTIAL: structure + INV-009a; scope and INV-009b open)
+
+**Source:** Owner ruling session, 2026-09-28, on
+`proposals/TCIndustries_OQ-009_Currency_Money_Sinks_Proposal_Drafter_v1_2026-09-19.md`;
+decision record `proposals/TCIndustries_OQ-009_Currency_Money_Sinks_Ruling_Record_HD-ECO-01_2026-09-28.md`.
+
+**Status:** HUMAN-LOCKED (currency structure + the faucet-exceeds-sink policy
+only). Complements HD-EIC-01–09, HD-GDD-01, HD-TST-01, HD-RET-01, HD-BLD-01,
+HD-SCOPE-01, HD-ITM-01, HD-BLD-02, HD-PROF-02, HD-ITM-02, HD-BLD-03, which
+remain in force. Supersedes nothing.
+
+### Decision
+
+1. **PRIMARY — Structure A (single unified currency).** Owner's stated reason,
+   verbatim: *"Historicity. SWG only had credits as a currency."* Answers OQ-009
+   (GDD §31) at the structural layer.
+2. **NON-CANONICAL PROMOTION.** The Master GDD historical non-canonical list
+   entry *"Single unified currency as the default"* is **PROMOTED to canonical
+   design** by this ruling and struck from that list, replaced by a pointer here.
+   This is a direct consequence of decision 1, recorded as part of it. No other
+   non-canonical item is promoted.
+3. **INVARIANT — INV-009a APPROVED**, in the **faucet-exceeds-sink mandate**
+   reading: total faucet flow exceeds sink flow in every bounded observation
+   window **by design**, by a measurable and monitorable margin the observability
+   system can detect and attribute; inflation cannot proceed silently. Owner's
+   stated reason, verbatim: *"Historicity. SWG always had a problem with not
+   enough money sinks. Players became money sinks by hoarding money."* This is a
+   standing economic policy, not only a monitoring requirement. Sets no numeric
+   value.
+4. **SCOPE — NOT CONFIRMED, REMAINS OPEN.** The three sub-confirmations (sink
+   parameters to BAL-001; sink instrument classes named-open, each by its own
+   future ruling; backlog 6c separate and unanswered) were not ruled this
+   session. Default boundaries nonetheless remain in force: numerics are
+   BAL-001-gated, and no sink instrument class is authorised by this ruling.
+5. **INVARIANT — INV-009b NOT RULED, MOOT ON THE CURRENT DESIGN.** It binds only
+   if multiple currencies are adopted; a single currency was ruled. It remains
+   available as a standing constraint on any future multi-currency decision.
+   Neither approved nor declined.
+
+**Explicitly does not authorise:** any numeric value (BAL-001, including the
+1000-credit SWG precedent figure); any specific sink instrument class; backlog 6c
+(remains open per HD-SCOPE-01); any other currency medium; provenance or
+reputation work (DEFERRED, HD-EIC-08); any EIC shaping (HD-EIC-07 gate untouched
+and open); any implementation, simulation, or testbed work.
+
+### Traceability
+| Item | Source |
+|---|---|
+| Proposal given effect | `proposals/TCIndustries_OQ-009_Currency_Money_Sinks_Proposal_Drafter_v1_2026-09-19.md` (retained as provenance) |
+| Decision record | `proposals/TCIndustries_OQ-009_Currency_Money_Sinks_Ruling_Record_HD-ECO-01_2026-09-28.md` |
+| Invariant approved | INV-009a, faucet-exceeds-sink mandate reading (Invariant Register v0.1, OQ-009 entry) |
+| Non-canonical entry promoted | "Single unified currency as the default" — Master GDD §36 historical boundary list |
+| Composing rulings relied upon | HD-RET-01 (player-only vendors, NPC baseline only — the faucet base); HD-PROF-03 (trainer-gated acquisition — a credit-consuming sink this ruling keeps affordable) |
+| Prior rulings affected | None |
+
+---
+
+## HD-PROF-03 — OQ-011 Acquisition Half / PROG-003 Skill Acquisition Model (PARTIAL: model; INV-011c and scope open)
+
+**Source:** Owner ruling session, 2026-09-28, on
+`proposals/TCIndustries_Skill_Acquisition_Proposal_Drafter_v1_2026-09-19.md`;
+decision record `proposals/TCIndustries_Skill_Acquisition_Proposal_Ruling_Record_HD-PROF-03_2026-09-28.md`.
+
+**Status:** HUMAN-LOCKED (acquisition model only). Complements HD-EIC-01–09,
+HD-GDD-01, HD-TST-01, HD-RET-01, HD-BLD-01, HD-SCOPE-01, HD-ITM-01, HD-BLD-02,
+HD-PROF-01, HD-PROF-02, HD-ITM-02, HD-BLD-03, HD-ECO-01, which remain in force.
+Supersedes nothing; amends nothing.
+
+### Decision
+
+1. **PRIMARY — Option A (trainer-gated study).** Owner's stated reason, verbatim:
+   *"Historicity. SWG had NPC trainers you could pay 1000 credits to to learn
+   skills. You could also have other players teach you skills for free if they
+   already had that skill."* The owner's elaboration, recorded verbatim in the
+   decision record §1b: a character is created into a **starting class** with
+   appropriate starting equipment; **additional classes are acquired by attending
+   a class trainer**; the trainer path is **credit-gated** — *"You pay money. No
+   money no training. no training no gain skill"* — and **a second,
+   non-monetary path exists**: *"Another player can train you for free."* The
+   acquisition gate is therefore not purely monetary. Answers the OQ-011
+   acquisition half / PROG-003 at the structural layer.
+2. **NUMERIC DISCIPLINE.** The 1000-credit figure is recorded as Pre-CU SWG
+   historical precedent cited as design rationale, **not** as an authorised
+   value. All training, credit, and point magnitudes are BAL-001-gated and
+   undecided.
+3. **INVARIANT — INV-011c NOT RULED; REMAINS OPEN.** The owner addressed the
+   reachability concern substantively, confirming that training is always
+   available — for a fee from an NPC trainer, or free from a player who holds the
+   class — but gave no explicit approve/decline. Per-invariant granularity: no
+   approval is inferred from an answer to a recorder's question.
+4. **SCOPE — NOT CONFIRMED, REMAINS OPEN.** The three sub-confirmations (no OQ-001
+   budget model selected or implied; all magnitudes to BAL-001; respecialisation
+   cost instrument remains with HD-PROF-02) were not ruled this session. Default
+   boundaries remain in force: numerics are BAL-001-gated, and OQ-001 remains
+   open and EIC-coupled.
+
+**Explicitly does not authorise:** any numeric value (BAL-001, including the
+1000-credit SWG precedent figure); any budget or specialisation-cap model (OQ-001,
+EIC-coupled and blocked behind the open HD-EIC-07 gate); any change to the
+respecialisation cost instrument (HD-PROF-02 free-drop stands) or to PROF-004;
+any NPC, dialogue, or trainer-roster design; provenance or reputation work
+(DEFERRED, HD-EIC-08); **any EIC shaping — this ruling does not supply or satisfy
+the HD-EIC-07 structural boundaries**; any implementation, simulation, or testbed
+work.
+
+### Traceability
+| Item | Source |
+|---|---|
+| Proposal given effect | `proposals/TCIndustries_Skill_Acquisition_Proposal_Drafter_v1_2026-09-19.md` (retained as provenance) |
+| Decision record | `proposals/TCIndustries_Skill_Acquisition_Proposal_Ruling_Record_HD-PROF-03_2026-09-28.md` |
+| Invariant | INV-011c — NOT RULED, remains a candidate (Invariant Register v0.1, OQ-011 entry) |
+| Composing rulings relied upon | HD-PROF-02 (free-drop respec — the exit cost is zero, so a wrong class choice is recoverable); HD-ECO-01 (faucet-exceeds-sink policy — the condition under which the credit-gated training path stays affordable) |
+| Prior rulings affected | None |
+
+---
+
 # Full Cumulative State (All Sections Combined) — Current as of 2026-09-28
 
 | Item | Current Status |
@@ -489,14 +626,16 @@ GDD text edits (reserved controlled acts at filing time).
 | SAFE-001 (Ownership/transfer safeguards) | **HUMAN-LOCKED, principle only** — mechanism open (HD-GDD-01) |
 | Testbed (SWG Pre-CU engine) | **HUMAN-LOCKED, patterns-only** (HD-TST-01); preconditions (due-diligence steps 1–4, de-SWG fork, human review gate) **not executed** |
 | OQ-016 vendor & retail | **HUMAN-LOCKED, structural** (HD-RET-01) — player-owned/stocked vendors; NPC commerce limited to baseline services; fees/taxation deferred (BAL-001) |
+| OQ-009 currency & money sinks | **HUMAN-LOCKED** (HD-ECO-01) — **Structure A: single unified currency**; INV-009a APPROVED in the **faucet-exceeds-sink mandate** reading (net money growth by design, observable and attributable). Non-canonical entry "Single unified currency as the default" PROMOTED to canonical. Sink instrument classes remain named-open; numerics BAL-001-gated; INV-009b not ruled (moot under a single currency); scope confirmation open |
+| Training/acquisition economy | Credit-gated class training is a consumption sink whose affordability is guaranteed by the HD-ECO-01 faucet-exceeds-sink mandate (composing rulings, neither implies the other) |
 | OQ-007 city formation | **HUMAN-LOCKED, structural** (HD-BLD-01) — free-claim formation; basic governance depth (ownership + zoning presence + shared maintenance); civic-depth instruments open |
 | OQ-015 first-playable scope | **HUMAN-LOCKED, structural** (HD-SCOPE-01) — S1 economic spine; combat/cities/orgs/transport/factories deferred-TBD; early-game on-ramp **named-open** (backlog 6c) |
 | OQ-010 durability/decay/repair | **HUMAN-LOCKED** (HD-ITM-01 + HD-ITM-02) — no baseline decay; 1% death-damage while holding; repairable (mechanics open); destruction only by player action; no salvage system at present |
-| OQ-011 respecialisation | **HUMAN-LOCKED** (HD-PROF-01 + HD-PROF-02) — identity/provenance survives respec (INV-011a); cost instrument **free-drop** (points returned, no fee/time/penalty); magnitudes deferred |
+| OQ-011 respecialisation | **HUMAN-LOCKED** (HD-PROF-01 + HD-PROF-02 + HD-PROF-03) — identity/provenance survives respec (INV-011a); cost instrument **free-drop** (points returned, no fee/time/penalty); acquisition **trainer-gated** (NPC trainer for credits, or free from a player who holds the class; no training, no skill gain). Magnitudes deferred (BAL-001); INV-011c NOT ruled; OQ-001 budget still EIC-coupled |
 | BLD-004 building abandonment | **HUMAN-LOCKED** (HD-BLD-02 + HD-BLD-03) — zero maintenance credit → removal; upkeep lapses after 24h at zero credit; **contents removed with structure** (no salvage/recovery/restitution); placement/lots/density remain TBD; backlog 6e(b) settlement dissolution OPEN |
 | Invariants approved to date | INV-016a, INV-016b, INV-007a, INV-015, INV-010 (conditional), INV-011a, INV-BLD-004b |
 | Invariants explicitly **not** approved | INV-007b, INV-011b, INV-011c, INV-BLD-004a (each remains a candidate; per-invariant granularity — no batch approval) |
-| Open questions still awaiting ruling | Skill acquisition model (PROG-003 / OQ-011 acquisition half); multi-account & exploit implementation policy (OQ-012 / SAFE-002, INV-012); 6d salvage/destruction/contents reduced surface; backlog 6c early-game on-ramp; backlog 6e(b) settlement dissolution |
+| Open questions still awaiting ruling | Multi-account & exploit implementation policy (OQ-012 / SAFE-002, INV-012) — the only item still in the live queue; plus unclosed slots on already-ruled items: HD-ECO-01 scope confirmation + INV-009b, HD-PROF-03 scope confirmation + INV-011c; backlog 6c early-game on-ramp; backlog 6e(b) settlement dissolution; HD-EIC-07 structural boundaries (blocks OQ-001/OQ-004/OQ-005, T-03, T-06) |
 | Post-Phase-10 testbed direction | **NOT DECIDED — no default exists**; all testbed work stays closed pending the owner's answer (`proposals/SWG_Post_Phase10_Program_Proposal_v0.1.md` §9 item 1) |
 
 *End of Human Rulings Register.*

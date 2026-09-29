@@ -44,9 +44,9 @@ Restated from `Master_GDD_v1.1.1_Status_Patch.md` §31 — not re-derived, not r
 | OQ-006 | Transportation model and fast-travel constraints? | World, Economy, Logistics | TBD |
 | OQ-007 | City formation, governance, taxation/maintenance models? | Cities, Society, Buildings | RULED (formation + basic depth) — see HD-BLD-01 |
 | OQ-008 | Combat scope (PvE/PvP), risk model, progression integration? | Combat, Economy, Services | TBD |
-| OQ-009 | Currency system(s) and money sinks? | Economy | TBD |
+| OQ-009 | Currency system(s) and money sinks? | Economy | RULED (Structure A single unified currency; INV-009a approved, faucet-exceeds-sink mandate) — see HD-ECO-01 |
 | OQ-010 | Item durability, decay, repair model? | Items, Services, Economy | RULED (no decay; death-damage/repair/destruction behaviour per HD-ITM-01 + HD-ITM-02) — see HD-ITM-01, HD-ITM-02 |
-| OQ-011 | Respecialisation exact costs and rules? | Progression, Identity | RULED (cost instrument: free-drop) — see HD-PROF-01 + HD-PROF-02 |
+| OQ-011 | Respecialisation exact costs and rules? | Progression, Identity | RULED (acquisition: trainer-gated; cost: free-drop) — see HD-PROF-01, HD-PROF-02, HD-PROF-03; INV-011c and scope confirmation still open |
 | OQ-012 | Multi-accounting and economic exploit policies (implementation)? | Economy, Safety | TBD — *validation stance* (in-scope, no account restriction) is settled per HD-EIC-03; *implementation* is not |
 | OQ-013 | Organisation rights, hierarchy, and property model? | Social Systems | TBD |
 | OQ-014 | Species/ancestry/starting location design? | Character | DEFERRED |
