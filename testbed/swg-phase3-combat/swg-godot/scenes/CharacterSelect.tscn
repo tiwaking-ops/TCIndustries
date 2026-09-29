@@ -1,0 +1,106 @@
+[gd_scene load_steps=2 format=3 uid="uid://charselect_scene"]
+
+[ext_resource type="Script" path="res://scripts/CharacterSelect.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/SWGApiClient.gd" id="2"]
+
+[node name="CharacterSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftPanel" type="VBoxContainer" parent="VBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="VBox/LeftPanel"]
+layout_mode = 2
+text = "Your Characters"
+
+[node name="CharacterList" type="ItemList" parent="VBox/LeftPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+custom_minimum_size = Vector2(300, 200)
+
+[node name="HBox" type="HBoxContainer" parent="VBox/LeftPanel"]
+layout_mode = 2
+
+[node name="CreateButton" type="Button" parent="VBox/LeftPanel/HBox"]
+layout_mode = 2
+text = "Create New"
+
+[node name="EnterButton" type="Button" parent="VBox/LeftPanel/HBox"]
+layout_mode = 2
+text = "Enter World"
+
+[node name="DeleteButton" type="Button" parent="VBox/LeftPanel/HBox"]
+layout_mode = 2
+text = "Delete"
+disabled = true
+
+[node name="StatusLabel" type="Label" parent="VBox/LeftPanel"]
+layout_mode = 2
+text = ""
+
+[node name="RightPanel" type="Panel" parent="VBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(300, 0)
+
+[node name="VBox" type="VBoxContainer" parent="VBox/RightPanel"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CreateTitle" type="Label" parent="VBox/RightPanel/VBox"]
+layout_mode = 2
+text = "Create New Character"
+
+[node name="NameLabel" type="Label" parent="VBox/RightPanel/VBox"]
+layout_mode = 2
+text = "Name:"
+
+[node name="NameEdit" type="LineEdit" parent="VBox/RightPanel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 30)
+placeholder_text = "Character name (3-30 chars)"
+
+[node name="SpeciesLabel" type="Label" parent="VBox/RightPanel/VBox"]
+layout_mode = 2
+text = "Species:"
+
+[node name="SpeciesDropdown" type="OptionButton" parent="VBox/RightPanel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 30)
+
+[node name="Spacer" type="Control" parent="VBox/RightPanel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 10)
+
+[node name="ConfirmCreateButton" type="Button" parent="VBox/RightPanel/VBox"]
+layout_mode = 2
+text = "Create Character"
+
+[node name="CancelButton" type="Button" parent="VBox/RightPanel/VBox"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="SWGApiClient" type="Node" parent="."]
+script = ExtResource("2")

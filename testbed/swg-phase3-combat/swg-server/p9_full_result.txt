@@ -1,0 +1,5 @@
+=== Phase 9 Integration Test (testbed fork, generic content) ===
+Elites → surveying → camps → lairs → missions → bounties → commerce hooks
+
+Server is reachable.
+2026/09/17 08:21:06 create character MissionM failed (HTTP 409): {"error":"character name already taken"}

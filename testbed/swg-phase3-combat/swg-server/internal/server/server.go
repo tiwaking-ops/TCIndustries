@@ -18,12 +18,15 @@ type Server struct {
 	auth     *handlers.AuthHandler
 	char     *handlers.CharacterHandler
 	world    *handlers.WorldHandler
+	phase10  *handlers.Phase10TelemetryHandler
 	skills   *handlers.SkillsHandler
 	craft    *handlers.CraftHandler
 	econ     *handlers.EconomyHandler
 	svc      *handlers.ServicesHandler
 	civic    *handlers.CivicHandler
 	faction  *handlers.FactionHandler
+	mission  *handlers.MissionHandler
+	elite    *handlers.EliteHandler
 	httpAddr string
 	wsAddr   string
 }
@@ -42,12 +45,15 @@ func New() (*Server, error) {
 		auth:     handlers.NewAuthHandler(db),
 		char:     handlers.NewCharacterHandler(db),
 		world:    world,
+		phase10:  handlers.NewPhase10TelemetryHandler(db),
 		skills:   handlers.NewSkillsHandler(db),
 		craft:    handlers.NewCraftHandler(db),
 		econ:     handlers.NewEconomyHandler(db),
 		svc:      handlers.NewServicesHandler(db),
 		civic:    handlers.NewCivicHandler(db, world),
 		faction:  handlers.NewFactionHandler(db, world),
+		mission:  handlers.NewMissionHandler(db, world),
+		elite:    handlers.NewEliteHandler(db, world),
 		httpAddr: getEnv("HTTP_ADDR", ":8080"),
 		wsAddr:   getEnv("WS_ADDR", ":8080"),
 	}, nil
@@ -95,6 +101,19 @@ func (s *Server) Run() error {
 		log.Printf("Warning: failed to seed faction world: %v", err)
 	}
 
+	// Phase 9: seed elite/mission persistence (terminals, missions, pets, camps).
+	if err := s.world.SeedPhase9World(); err != nil {
+		log.Printf("Warning: failed to seed phase 9 world: %v", err)
+	}
+
+	// Phase 10: seed telemetry tables (interdependence_events, phase10_jobs)
+	// and start the §29.6 nightly economic-snapshot telemetry job loop
+	// (§29.8-shaped, fast-cycle-mapped; separate from the real-time loop).
+	if err := s.world.SeedPhase10Telemetry(); err != nil {
+		log.Printf("Warning: failed to seed phase 10 telemetry: %v", err)
+	}
+	s.world.StartTelemetryJobLoop()
+
 	mux := http.NewServeMux()
 
 	// --- Public API routes (no auth required) ---
@@ -127,6 +146,13 @@ func (s *Server) Run() error {
 
 	// --- Phase 8: Faction & PvP routes (all authed) ---
 	mux.HandleFunc("/api/faction/", handlers.AuthMiddleware(s.db, s.faction.HandleFactionRoute))
+
+	// --- Phase 9: Elite Professions & Missions routes (all authed) ---
+	mux.HandleFunc("/api/missions/", handlers.AuthMiddleware(s.db, s.mission.HandleMissionRoute))
+	mux.HandleFunc("/api/elite/", handlers.AuthMiddleware(s.db, s.elite.HandleEliteRoute))
+
+	// --- Phase 10: read-only telemetry & anomaly review routes (all authed) ---
+	mux.HandleFunc("/api/phase10/", handlers.AuthMiddleware(s.db, s.phase10.HandlePhase10Route))
 
 	// --- WebSocket route (auth via query param token) ---
 	mux.HandleFunc("GET /ws", s.world.HandleWebSocket)

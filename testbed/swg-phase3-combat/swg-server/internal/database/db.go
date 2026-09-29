@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 
 	"swg-server/internal/models"
 	"swg-server/internal/species"
@@ -24,7 +24,7 @@ func New(dbPath string) (*DB, error) {
 		dbPath = "swg.db"
 	}
 
-	conn, err := sql.Open("sqlite3", dbPath+"?_foreign_keys=on")
+	conn, err := sql.Open("sqlite", dbPath+"?_foreign_keys=on")
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database: %w", err)
 	}
@@ -306,9 +306,15 @@ func (db *DB) GetCharacterByID(id string) (*models.CharacterWithHAM, error) {
 		&c.Appearance.HairStyle, &c.Appearance.HairColor,
 		&c.Appearance.FaceType, &c.Appearance.EyeColor, &c.Appearance.Height,
 		&c.PosX, &c.PosY, &c.PosZ, &c.Heading, &c.Planet, &c.Credits, &c.CreatedAt,
-		&c.HAM.Health, &c.HAM.Health,
-		&c.HAM.Action, &c.HAM.Action,
-		&c.HAM.Mind, &c.HAM.Mind,
+		// Live current pools from ham_pool_states (Phase 3: "DB is the authority").
+		// The *_max columns scan into throwaways: HAMState has no max fields
+		// (Phase 0 shape). The old code scanned health_max into the same target
+		// as health_current (last-write-wins → max), then overwrote the whole
+		// struct with species baselines — so REST /api/characters/{id} reported
+		// a frozen 1000 regardless of live combat damage (Phase 9 E2E Test 4).
+		&c.HAM.Health, new(int),
+		&c.HAM.Action, new(int),
+		&c.HAM.Mind, new(int),
 		&c.HAM.Strength, &c.HAM.Constitution,
 		&c.HAM.Quickness, &c.HAM.Stamina,
 		&c.HAM.Focus, &c.HAM.Willpower,
@@ -319,11 +325,6 @@ func (db *DB) GetCharacterByID(id string) (*models.CharacterWithHAM, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	// Recompute HAM max values from species to ensure consistency
-	// (current values may differ from max once wounds/BF are implemented)
-	ham := species.ComputeHAM(species.SpeciesID(c.Species))
-	c.HAM = ham
 
 	return c, nil
 }

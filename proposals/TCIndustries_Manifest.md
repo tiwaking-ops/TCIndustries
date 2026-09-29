@@ -36,7 +36,7 @@ During this consolidation effort, one of the GDD's HUMAN-LOCKED tags (WRLD-001/P
 ## 2. Current Governance / Authority Rules
 
 **File:** `TCIndustries_Authority_Provenance_Reconciliation_Matrix.md`
-Defines Authority Classes A–G and governance rules GR-001–003 (most important: **GR-001 — canonical presence is not human approval**). Read this whenever adjudicating whether a statement elsewhere is genuinely LOCKED.
+Defines Authority Classes A–G and governance rules GR-001–004 and GR-006 (most important: **GR-001 — canonical presence is not human approval**). Read this whenever adjudicating whether a statement elsewhere is genuinely LOCKED. Matrix is at v1.1 (2026-09-28); §2 now contains GR-001, GR-002, GR-003, GR-004, and GR-006. **GR-005 is not in this matrix** — see below.
 
 ### GR-004 — Ruling Context Disclosure *(new — proposed for merge into the Authority Matrix; in effect now, project-owner confirmed 2026-08-25)*
 
@@ -50,7 +50,19 @@ A ruling made without full corpus context is **not thereby invalid**. This rule 
 
 **Implementation:** the `ruling_context` field is now part of the standard metadata schema (see `Changelog.md` for the field addition) and has been retrofitted, where determinable, onto the existing `HD-EIC-01–08` and `HD-GDD-01` entries in `Human_Rulings_Register.md`.
 
-**Human authorization required:** GR-004's text above is written ready to paste directly into `Authority_Provenance_Reconciliation_Matrix.md` §2, alongside GR-001–003, as a formal fourth governance rule. Until that file is actually edited, this manifest is GR-004's operative home.
+**Human authorization required:** ~~GR-004's text above is written ready to paste directly into `Authority_Provenance_Reconciliation_Matrix.md` §2~~ **RESOLVED 2026-09-17 — GR-004 IS now present in the matrix §2.** This manifest is **no longer GR-004's operative home**; the matrix is. This paragraph is retained as provenance. (Retired per filing-time act 5 of the GR-006 filing, 2026-09-28.)
+
+### GR-006 — Detective and Corrective Control of Project Decisions *(in force — see the matrix, not this manifest)*
+
+**Status: GOVERNANCE RULE — IN FORCE from 2026-09-28.**
+
+**This manifest is not GR-006's home.** The rule's operative text is `governance/TCIndustries_Authority_Provenance_Reconciliation_Matrix.md` §2 (GR-006). The draft that produced it is retained as provenance at `proposals/TCIndustries_Governance_Rule_GR-006_Detective_Corrective_Control_Draft_2026-09-28.md`.
+
+Owner rationale: *"Allows greater detective and corrective control of project decisions."* Summary: every ruling must reach the authority record; dependent documents (canonical GDD, Open Questions Register, Invariant Register, `project_memory.md`, Continuous Queue Tracker) must be updated in the same filing action or the divergence is a defect; reserved filing acts must be tracked; closure requires a mechanical ID search, not a judgement call; gaps are corrected by **completing the record**, and a filing defect **never voids a ruling** (GR-006.6, GR-006.7); no agent may correct a gap unilaterally (GR-006.8).
+
+Grounded in five filing failures actually observed in this repository — six rulings undetectable in the authority record for ~9 days (2026-09-19/20 → 2026-09-28); the canonical GDD and OQR contradicting already-ruled decisions; `project_memory.md` silent on all six; the authority register's "Full Cumulative State" table stale relative to its own body; and reserved filing acts indistinguishable from forgotten ones. All five were repaired on 2026-09-28.
+
+**Open implementation values reserved to the owner:** WINDOW (filing period — **undetermined**, no default inferred), RETRO (forward-only vs a one-off sweep — **not authorised**, no sweep performed), REPORT (who runs the check and how often), EDGE (whether same-session agent drafting counts as filing). Filed under the partially-ruled precedent of HD-PROF-01.
 
 ### GR-005 — Filename Convention Compliance *(new — proposed for merge into the Authority Matrix; in effect now, project-owner confirmed 2026-08-25)*
 

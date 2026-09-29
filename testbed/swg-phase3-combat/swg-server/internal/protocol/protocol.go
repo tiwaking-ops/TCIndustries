@@ -144,6 +144,19 @@ const (
 	MsgGoCovert   = "go_covert"   // Client requests Covert (safe; delay-gated)
 	MsgPlaceBase  = "place_base"  // Client places a faction-base deed (Major+)
 
+	// Phase 9: Elite Professions & Missions messages (generic testbed set)
+	MsgTameCreature = "tame_creature" // Creature Handler taming attempt
+	MsgDNASample    = "dna_sample"    // Bio-Engineer DNA/tissue sampling
+	MsgDeployCamp   = "deploy_camp"   // Ranger/Scout camp deployment
+	MsgTrack        = "track"         // Ranger/Scout creature tracking
+	MsgMeditate     = "meditate"      // TKA meditation toggle
+
+	MsgTamed      = "tamed"       // Taming succeeded (pet issued)
+	MsgSampled    = "dna_sampled" // DNA/tissue sampling succeeded
+	MsgCampDeployed = "camp_deployed" // Camp deployed
+	MsgMeditationStarted = "meditation_started" // TKA meditation on
+	MsgMeditationStopped = "meditation_stopped" // TKA meditation off
+
 	// Phase 6: Social Support Professions messages (generic testbed set)
 	MsgHealWounds   = "heal_wounds"   // Medic heals a target's wounds
 	MsgApplyBuff    = "apply_buff"    // Medic applies a HAM-pool buff
@@ -194,6 +207,9 @@ const (
 	MsgPointsAwarded = "points_awarded" // Faction points granted (kill/destroy)
 	MsgBasePlaced    = "base_placed"    // Faction-base deed placed
 	MsgBaseDestroyed = "base_destroyed" // Faction base destroyed in siege
+
+	// Phase 9 receipts and pushes.
+	MsgLairDestroyed = "lair_destroyed" // Creature lair destroyed
 
 	// Phase 6 receipts.
 	MsgWoundHealed       = "wound_healed"
@@ -360,6 +376,15 @@ type SurveyResultMsg struct {
 	DistanceM     float64     `json:"distance_m"`
 	Concentration int         `json:"concentration"`
 	Waypoint      WaypointMsg `json:"waypoint"`
+	// Phase 9: triangulation refinement — first survey reports bucketed
+	// concentration (tens); re-surveying the same spawn within 60 s refines
+	// to exact (Refined=true). Waypoints stay exact-center (legacy
+	// simplification preserved — positional imprecision would break the
+	// verified gather pipeline; recorded, human-directed).
+	Refined bool `json:"refined"`
+	// ToolTier echoes the best owned tool tier for the spawn's category
+	// (0 basic, 1 crafted) — introspection for tier asserts.
+	ToolTier int `json:"tool_tier"`
 }
 
 // SampleResultMsg: units extracted into the character's stack.
@@ -496,6 +521,49 @@ type BasePlacedMsg struct {
 type BaseDestroyedMsg struct {
 	BaseID    string `json:"base_id"`
 	Destroyed bool   `json:"destroyed"`
+}
+
+// --- Phase 9: Elite Professions & Missions messages ---
+
+// LairDestroyedMsg notifies nearby clients of lair destruction.
+type LairDestroyedMsg struct {
+	LairID    string `json:"lair_id"`
+	Destroyed bool   `json:"destroyed"`
+}
+
+// TameMsg attempts taming on a live creature instance.
+type TameMsg struct {
+	TargetID string `json:"target_id"` // creature instance ID
+	Name     string `json:"name,omitempty"`
+}
+
+// TamedMsg confirms a tame (pet ID issued).
+type TamedMsg struct {
+	PetID      string `json:"pet_id"`
+	TemplateID string `json:"template_id"`
+}
+
+// DNASampleMsg samples DNA/tissue from a corpse or owned pet.
+type DNASampleMsg struct {
+	TargetID string `json:"target_id"` // instance ID, corpse ID, or pet ID
+}
+
+// DNASampledMsg confirms sampling (item IDs issued).
+type DNASampledMsg struct {
+	ItemIDs []string `json:"item_ids"`
+}
+
+// DeployCampMsg deploys a camp at the sender's position.
+type DeployCampMsg struct{}
+
+// CampDeployedMsg confirms camp deployment.
+type CampDeployedMsg struct {
+	CampID string `json:"camp_id"`
+}
+
+// TrackMsg requests creature tracking (optional template filter).
+type TrackMsg struct {
+	TemplateID string `json:"template_id,omitempty"`
 }
 
 // GuildInvitedMsg notifies an online invitee of a guild invite.

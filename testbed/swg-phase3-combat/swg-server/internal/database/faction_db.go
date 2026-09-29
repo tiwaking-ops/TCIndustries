@@ -331,6 +331,63 @@ func (db *DB) ApplyPvPDeath(victimID, killerID string, creditPct, condLoss, kill
 	return transferred, nil
 }
 
+// PayBounties settles all open contracts on a PvP victim: escrow (already
+// deducted at posting) moves to the killer with ledger legs, contracts close
+// paid, killer earns BH XP per contract. Poster=killer self-claim is allowed
+// (zero-sum, flagged). Called from the death path (Phase 9 bounty loop).
+func (db *DB) PayBounties(victimID, killerID, zone string, bhXP int) (int, error) {
+	contracts, err := db.OpenContractsOn(victimID, time.Now().Unix())
+	if err != nil {
+		return 0, err
+	}
+	paid := 0
+	for i := range contracts {
+		c := &contracts[i]
+		if err := db.payOneBounty(c, killerID, zone, bhXP); err != nil {
+			return paid, err
+		}
+		paid++
+	}
+	return paid, nil
+}
+
+// payOneBounty settles a single contract (explicit rollback on every error
+// path — a leaked tx would wedge the single-connection pool).
+func (db *DB) payOneBounty(c *ContractRow, killerID, zone string, bhXP int) error {
+	tx, err := db.conn.Begin()
+	if err != nil {
+		return err
+	}
+	fail := func(err error) error {
+		tx.Rollback()
+		return err
+	}
+	if _, err := tx.Exec(
+		`UPDATE characters SET credits = credits + ? WHERE id = ?`,
+		c.Amount, killerID); err != nil {
+		return fail(err)
+	}
+	if _, err := tx.Exec(
+		`UPDATE bounty_contracts SET status = 'paid' WHERE id = ? AND status = 'open'`,
+		c.ID); err != nil {
+		return fail(err)
+	}
+	if err := RecordLedgerTx(tx, killerID, c.Amount,
+		"bounty_payout", "transfer", "contract:"+c.ID, zone); err != nil {
+		return fail(err)
+	}
+	if _, err := tx.Exec(
+		`INSERT INTO pvp_point_events (character_id, amount, reason, counterparty)
+		VALUES (?, ?, 'bounty_kill', ?)`, killerID, bhXP, c.ID); err != nil {
+		return fail(err)
+	}
+	if err := tx.Commit(); err != nil {
+		return err
+	}
+	_ = db.AddCharacterXP(killerID, "bounty_hunter", bhXP)
+	return nil
+}
+
 // --- Bases ---
 
 // BaseRow maps one faction_bases row.

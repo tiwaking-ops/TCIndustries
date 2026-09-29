@@ -42,7 +42,56 @@ var corpseYieldType = map[string]string{
 var (
 	surveyMu       sync.Mutex
 	lastSurveyByCh = make(map[string]time.Time)
+	// lastSurveyRef tracks per-character triangulation state (spawn + time)
+	// for concentration refinement (Phase 9, GDD 26.2.4 step 3).
+	lastSurveyRef = make(map[string]surveyRef)
 )
+
+type surveyRef struct {
+	SpawnID string
+	Tool    string
+	X, Z    float64
+	At      time.Time
+}
+
+// surveyRefineWindow: re-survey inside this window refines (provisional;
+// GDD gives the refine step without a window).
+const surveyRefineWindow = 60 * time.Second
+
+// scoutSurveyTier returns the best of Exploration/Survival tiers (Phase 9:
+// 26.2.2 Scout bonuses keyed on existing trees — there is no separate Hunting
+// bonus hook here; Hunting drives tracking instead).
+func (h *WorldHandler) scoutSurveyTier(characterID string) int {
+	a := h.skillTier(characterID, "scout_exploration_")
+	b := h.skillTier(characterID, "scout_survival_")
+	if b > a {
+		return b
+	}
+	return a
+}
+
+// toolTierFor returns the best owned survey-tool tier for a resource type:
+// 0 basic (no item), 1 crafted (survey_tool_<category> owned). Auto-selected
+// (flagged simplification — no equip UI for tools).
+func (h *WorldHandler) toolTierFor(characterID, resourceType string) int {
+	items, err := h.db.GetItems(characterID)
+	if err != nil {
+		return 0
+	}
+	for _, tool := range resources.ToolCategories() {
+		for _, t := range resources.ToolCategory(tool) {
+			if t != resourceType {
+				continue
+			}
+			for _, it := range items {
+				if it.Schematic == "survey_tool_"+tool {
+					return 1
+				}
+			}
+		}
+	}
+	return 0
+}
 
 // SeedResourceWorld prepares Phase 4 persistence + zone spawns. Idempotent.
 func (h *WorldHandler) SeedResourceWorld() error {
@@ -79,6 +128,8 @@ func (h *WorldHandler) StartResourceTickLoop() {
 				h.tickHarvesters()
 				h.tickStructures() // Phase 5: structure maintenance + grace/destroy
 				h.tickCities()      // Phase 7: activation, upkeep, ranks, elections, flat tax
+				h.tickLairs()       // Phase 9: population regen + relocation
+				h.tickCamps()       // Phase 9: camp expiry + occupant regen + camping XP
 				if _, err := h.db.WriteSnapshot(); err != nil {
 					log.Printf("snapshot failed: %v", err)
 				}
@@ -140,6 +191,8 @@ func (h *WorldHandler) tickHarvesters() {
 // --- Client message handlers ---
 
 func (h *WorldHandler) handleSurvey(client *Client, raw []byte) {
+	// TEMPORARY Phase 9 bring-up trace (silent-survey diagnosis).
+	log.Printf("survey: request char=%s", client.CharacterID)
 	if client.CharacterID == "" {
 		h.sendError(client, "not in world")
 		return
@@ -157,9 +210,17 @@ func (h *WorldHandler) handleSurvey(client *Client, raw []byte) {
 		h.sendError(client, "unknown survey tool")
 		return
 	}
+	// Phase 9: Scout tiers cut the cooldown (GDD 26.2.2 Hunting-tree bonus,
+	// keyed on existing Exploration/Survival — flagged adaptation).
+	// Cooldown floor 5 s [PROVISIONAL].
+	cooldown := resources.SurveyCooldown -
+		time.Duration(h.scoutSurveyTier(client.CharacterID))*time.Second
+	if cooldown < 5*time.Second {
+		cooldown = 5 * time.Second
+	}
 	surveyMu.Lock()
 	if last, ok := lastSurveyByCh[client.CharacterID]; ok &&
-		time.Since(last) < resources.SurveyCooldown {
+		time.Since(last) < cooldown {
 		surveyMu.Unlock()
 		h.sendError(client, "survey cooling down")
 		return
@@ -167,6 +228,9 @@ func (h *WorldHandler) handleSurvey(client *Client, raw []byte) {
 	lastSurveyByCh[client.CharacterID] = time.Now()
 	surveyMu.Unlock()
 
+	// Phase 9: Scout tiers extend detection radius (GDD 26.2.2 concentration-
+	// detection, +100 m/tier [PROVISIONAL]).
+	radius := SurveyRadiusM + float64(h.scoutSurveyTier(client.CharacterID))*100.0
 	spawns, err := h.db.ActiveSpawns(client.Pos.Planet)
 	if err != nil {
 		h.sendError(client, "survey failed")
@@ -177,7 +241,7 @@ func (h *WorldHandler) handleSurvey(client *Client, raw []byte) {
 		want[t] = true
 	}
 	var best *database.SpawnRow
-	bestD := SurveyRadiusM * SurveyRadiusM
+	bestD := radius * radius
 	first := true
 	for i := range spawns {
 		s := &spawns[i]
@@ -187,7 +251,7 @@ func (h *WorldHandler) handleSurvey(client *Client, raw []byte) {
 		dx := client.Pos.X - s.CenterX
 		dz := client.Pos.Z - s.CenterZ
 		d := dx*dx + dz*dz
-		if d > SurveyRadiusM*SurveyRadiusM {
+		if d > radius*radius {
 			continue
 		}
 		if first || d < bestD {
@@ -199,12 +263,39 @@ func (h *WorldHandler) handleSurvey(client *Client, raw []byte) {
 		return
 	}
 	_ = h.db.AddCharacterXP(client.CharacterID, "scouting", 10) // [PROVISIONAL]
+	tierEcho := h.toolTierFor(client.CharacterID, best.Type)
+	conc := database.EffectiveConcentration(best, client.Pos.X, client.Pos.Z)
+	// Triangulation refinement (GDD 26.2.4 step 3): first survey buckets to
+	// tens; re-survey refines to exact when it repeats the same spawn OR when
+	// the surveyor stands still (same tool, <5 m drift) — the latter keeps
+	// refinement stable under spawn churn (flagged dual rule).
+	refined := false
+	surveyMu.Lock()
+	if ref, ok := lastSurveyRef[client.CharacterID]; ok &&
+		time.Since(ref.At) < surveyRefineWindow {
+		dx := client.Pos.X - ref.X
+		dz := client.Pos.Z - ref.Z
+		if ref.SpawnID == best.ID ||
+			(ref.Tool == sm.Tool && dx*dx+dz*dz < 25) {
+			refined = true
+		}
+	}
+	if !refined {
+		conc = conc / 10 * 10
+	}
+	lastSurveyRef[client.CharacterID] = surveyRef{
+		SpawnID: best.ID, Tool: sm.Tool,
+		X: client.Pos.X, Z: client.Pos.Z, At: time.Now(),
+	}
+	surveyMu.Unlock()
 	h.send(client, protocol.MsgSurveyResult, protocol.SurveyResultMsg{
 		SpawnID:       best.ID,
 		ResourceType:  best.Type,
 		DistanceM:     math.Sqrt(bestD),
-		Concentration: database.EffectiveConcentration(best, client.Pos.X, client.Pos.Z),
+		Concentration: conc,
 		Waypoint:      protocol.WaypointMsg{X: best.CenterX, Z: best.CenterZ},
+		Refined:       refined,
+		ToolTier:      tierEcho,
 	})
 }
 
@@ -234,7 +325,17 @@ func (h *WorldHandler) handleSample(client *Client, raw []byte) {
 		return
 	}
 	conc := database.EffectiveConcentration(best, client.Pos.X, client.Pos.Z)
-	units := 1 + conc/50 // [PROVISIONAL] basic-tool yield curve: 80% → 2 units
+	// Phase 9 tool tiers (GDD 26.2.1): basic curve PRESERVED verbatim
+	// (non-breaking — verified quotas depend on it); crafted tier yields the
+	// GDD 2–3 band; Ranger Wilderness Survival adds +1 at tier 2+, capped at
+	// 3 so the band holds. [PROVISIONAL additions]
+	units := 1 + conc/50 // basic-tool yield curve: 80% → 2 units
+	if h.toolTierFor(client.CharacterID, best.Type) >= 1 {
+		units = 2 + conc/100 // crafted tier: 2–3 band
+		if h.skillTier(client.CharacterID, "ranger_wilderness_survival_") >= 2 {
+			units++
+		}
+	}
 	if units > 3 {
 		units = 3 // GDD 1–3 band
 	}

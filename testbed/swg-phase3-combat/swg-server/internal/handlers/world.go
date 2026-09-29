@@ -60,6 +60,10 @@ type WorldHandler struct {
 	// NOTE: randomness uses per-call fresh *rand.Rand (never shared): a shared
 	// instance once raced across tick/request goroutines and killed a tick loop.
 	liveCreatures map[string]*LiveCreature
+
+	// Phase 9: live pets (ID → runtime mirror). Populated on tame; guarded
+	// by mu. Pets are grid entities (entity_type "pet") with DB-backed state.
+	livePets map[string]*PetRuntime
 }
 
 func NewWorldHandler(db *database.DB) *WorldHandler {
@@ -190,6 +194,16 @@ func (h *WorldHandler) readPump(client *Client) {
 			h.handleGoCovert(client, message)
 		case protocol.MsgPlaceBase:
 			h.handlePlaceBase(client, message)
+		case protocol.MsgTameCreature:
+			h.handleTameCreature(client, message)
+		case protocol.MsgDNASample:
+			h.handleDNASample(client, message)
+		case protocol.MsgDeployCamp:
+			h.handleDeployCamp(client, message)
+		case protocol.MsgTrack:
+			h.handleTrack(client, message)
+		case protocol.MsgMeditate:
+			h.handleMeditate(client, message)
 		default:
 			h.sendError(client, "unknown message type: "+msg.Type)
 		}
@@ -419,8 +433,13 @@ func (h *WorldHandler) handleChat(client *Client, raw []byte) {
 		return
 	case world.ChannelEmote:
 		if !civic.ValidEmote(chatMsg.Text) {
-			h.sendError(client, "unknown emote (standard library only)")
-			return
+			// Phase 9: Image Designer customs (perform rights required).
+			holo, herr := h.db.HoloByName(chatMsg.Text)
+			if herr != nil || !h.db.HasHoloRight(holo.ID, client.CharacterID) {
+				h.sendError(client, "unknown emote (standard library only)")
+				return
+			}
+			chatMsg.Text = holo.Text
 		}
 	}
 
@@ -578,6 +597,14 @@ func (h *WorldHandler) findEntity(characterID string) *world.Entity {
 			Pos:         world.Position{Planet: c.Zone, X: c.PosX, Y: 5.0, Z: c.PosZ},
 		}
 	}
+	if p, ok := h.livePets[characterID]; ok {
+		return &world.Entity{
+			CharacterID: p.ID,
+			Name:        p.Name,
+			Species:     "pet",
+			Pos:         world.Position{Planet: p.Zone, X: p.PosX, Y: 5.0, Z: p.PosZ},
+		}
+	}
 	return nil
 }
 
@@ -593,6 +620,10 @@ func (h *WorldHandler) buildSpawnMsg(entityID, name, spec string, pos world.Posi
 	if tmplID, ok := h.creatureInfo(entityID); ok {
 		m.EntityType = "creature"
 		m.TemplateID = tmplID
+		return m
+	}
+	if _, ok := h.livePets[entityID]; ok {
+		m.EntityType = "pet"
 		return m
 	}
 	if st, err := h.db.GetStanding(entityID); err == nil {
@@ -611,6 +642,10 @@ func (h *WorldHandler) buildSpawnMsgLocked(entityID, name, spec string, pos worl
 	if c, ok := h.liveCreatures[entityID]; ok {
 		m.EntityType = "creature"
 		m.TemplateID = c.TemplateID
+		return m
+	}
+	if _, ok := h.livePets[entityID]; ok {
+		m.EntityType = "pet"
 		return m
 	}
 	if st, err := h.db.GetStanding(entityID); err == nil {

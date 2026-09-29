@@ -35,14 +35,20 @@ type ExpProperty struct {
 type Schematic struct {
 	ID               string
 	Name             string
-	ProfessionGate   string // required skill box (MVP: artisan_novice for all)
+	ProfessionGate   string // required skill box to craft
 	Complexity       int
 	Slots            []SchematicSlot
 	Properties       []ExpProperty
 	ExperimentPoints int
 	MaxRounds        int
-	XPReward         int // [PROVISIONAL] crafting XP on finalize
-	EquipSlot        string // "weapon" | "armor" | "deed" | "none"
+	XPReward         int // XP on finalize (pool = XPPool or generic crafting)
+	EquipSlot        string // "weapon" | "armor" | "deed" | "tool" | "consumable" | "ammo" | "none"
+	// Phase 9 elite fields (all flagged): XPPool overrides the generic
+	// crafting pool; WeaponStyle tags style pools for kill awards;
+	// EquipGate requires a skill box to fire/wear (deed-style gating).
+	XPPool       string // XP pool on finalize; "" = generic crafting
+	WeaponStyle  string // style pool tag: pistol|rifle|carbine|fencing|sword|polearm|bounty|commando
+	EquipGate    string // required box to use; "" = ungated
 }
 
 // Schematics is the MVP generic registry (owner-approved trio, proposal §6.4).
@@ -131,6 +137,356 @@ var Schematics = []Schematic{
 		},
 		Properties: []ExpProperty{
 			{ID: "capacity", Label: "Capacity", BaseMin: 200, BaseMax: 200, QualityMult: 0.2},
+		},
+	},
+	{
+		ID: "survey_tool_mineral", Name: "Survey Tool (Mineral)", ProfessionGate: "artisan_novice",
+		Complexity: 5, ExperimentPoints: 10, MaxRounds: 4, XPReward: 500,
+		EquipSlot: "tool",
+		Slots: []SchematicSlot{
+			{ID: "casing", Label: "Casing", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 8},
+			{ID: "sensor", Label: "Sensor", AcceptedTypes: []string{"structural_polymer", "fibrous_flora", "industrial_chemical"}, UnitsRequired: 4},
+		},
+		Properties: []ExpProperty{
+			{ID: "precision", Label: "Precision", BaseMin: 250, BaseMax: 250, QualityMult: 0},
+		},
+	},
+	{
+		ID: "survey_tool_chemical", Name: "Survey Tool (Chemical)", ProfessionGate: "artisan_novice",
+		Complexity: 5, ExperimentPoints: 10, MaxRounds: 4, XPReward: 500,
+		EquipSlot: "tool",
+		Slots: []SchematicSlot{
+			{ID: "casing", Label: "Casing", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 8},
+			{ID: "sensor", Label: "Sensor", AcceptedTypes: []string{"structural_polymer", "fibrous_flora", "industrial_chemical"}, UnitsRequired: 4},
+		},
+		Properties: []ExpProperty{
+			{ID: "precision", Label: "Precision", BaseMin: 250, BaseMax: 250, QualityMult: 0},
+		},
+	},
+	{
+		ID: "survey_tool_flora", Name: "Survey Tool (Flora)", ProfessionGate: "artisan_novice",
+		Complexity: 5, ExperimentPoints: 10, MaxRounds: 4, XPReward: 500,
+		EquipSlot: "tool",
+		Slots: []SchematicSlot{
+			{ID: "casing", Label: "Casing", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 8},
+			{ID: "sensor", Label: "Sensor", AcceptedTypes: []string{"structural_polymer", "fibrous_flora", "industrial_chemical"}, UnitsRequired: 4},
+		},
+		Properties: []ExpProperty{
+			{ID: "precision", Label: "Precision", BaseMin: 250, BaseMax: 250, QualityMult: 0},
+		},
+	},
+	{
+		ID: "survey_tool_organic", Name: "Survey Tool (Organic)", ProfessionGate: "artisan_novice",
+		Complexity: 5, ExperimentPoints: 10, MaxRounds: 4, XPReward: 500,
+		EquipSlot: "tool",
+		Slots: []SchematicSlot{
+			{ID: "casing", Label: "Casing", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 8},
+			{ID: "sensor", Label: "Sensor", AcceptedTypes: []string{"structural_polymer", "fibrous_flora", "industrial_chemical"}, UnitsRequired: 4},
+		},
+		Properties: []ExpProperty{
+			{ID: "precision", Label: "Precision", BaseMin: 250, BaseMax: 250, QualityMult: 0},
+		},
+	},
+	{
+		ID: "survey_tool_water", Name: "Survey Tool (Water)", ProfessionGate: "artisan_novice",
+		Complexity: 5, ExperimentPoints: 10, MaxRounds: 4, XPReward: 500,
+		EquipSlot: "tool",
+		Slots: []SchematicSlot{
+			{ID: "casing", Label: "Casing", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 8},
+			{ID: "sensor", Label: "Sensor", AcceptedTypes: []string{"structural_polymer", "fibrous_flora", "industrial_chemical"}, UnitsRequired: 4},
+		},
+		Properties: []ExpProperty{
+			{ID: "precision", Label: "Precision", BaseMin: 250, BaseMax: 250, QualityMult: 0},
+		},
+	},
+	// Phase 9 elite schematics (all generic content; SW-vocabulary equivalents
+	// renamed — e.g. no DL-44. Bands sit inside GDD 9.7.1/12.2.1 shapes;
+	// XPReward follows complexity (100×Complexity, flagged mapping:
+	// Complexity 5 → 500 matches all existing schematics; elite 8 → 800).
+	// Survey-tool sensors are uniform across categories (function comes from
+	// the schematic ID, not the build materials — flagged simplification).
+	{
+		ID: "duelist_pistol", Name: "Duelist Pistol", ProfessionGate: "weaponsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "weapon", XPPool: "weapon_crafting",
+		WeaponStyle: "pistol", EquipGate: "pistoleer_novice",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "grip", Label: "Grip", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "damage", Label: "Damage", BaseMin: 25, BaseMax: 55, QualityMult: 0.5},
+			{ID: "accuracy", Label: "Accuracy", BaseMin: 5, BaseMax: 15, QualityMult: 0.3},
+		},
+	},
+	{
+		ID: "marksman_rifle", Name: "Marksman Rifle", ProfessionGate: "weaponsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "weapon", XPPool: "weapon_crafting",
+		WeaponStyle: "rifle", EquipGate: "rifleman_novice",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "grip", Label: "Grip", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "damage", Label: "Damage", BaseMin: 35, BaseMax: 75, QualityMult: 0.5},
+			{ID: "accuracy", Label: "Accuracy", BaseMin: 5, BaseMax: 15, QualityMult: 0.3},
+		},
+	},
+	{
+		ID: "patrol_carbine", Name: "Patrol Carbine", ProfessionGate: "weaponsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "weapon", XPPool: "weapon_crafting",
+		WeaponStyle: "carbine", EquipGate: "carbineer_novice",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "grip", Label: "Grip", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "damage", Label: "Damage", BaseMin: 30, BaseMax: 65, QualityMult: 0.5},
+			{ID: "accuracy", Label: "Accuracy", BaseMin: 5, BaseMax: 15, QualityMult: 0.3},
+		},
+	},
+	{
+		ID: "dueling_blade", Name: "Dueling Blade", ProfessionGate: "weaponsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "weapon", XPPool: "weapon_crafting",
+		WeaponStyle: "fencing", EquipGate: "fencer_novice",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "grip", Label: "Grip", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "damage", Label: "Damage", BaseMin: 25, BaseMax: 55, QualityMult: 0.5},
+			{ID: "accuracy", Label: "Accuracy", BaseMin: 5, BaseMax: 15, QualityMult: 0.3},
+		},
+	},
+	{
+		ID: "battle_sword", Name: "Battle Sword", ProfessionGate: "weaponsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "weapon", XPPool: "weapon_crafting",
+		WeaponStyle: "sword", EquipGate: "swordsman_novice",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "grip", Label: "Grip", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "damage", Label: "Damage", BaseMin: 30, BaseMax: 70, QualityMult: 0.5},
+			{ID: "accuracy", Label: "Accuracy", BaseMin: 5, BaseMax: 15, QualityMult: 0.3},
+		},
+	},
+	{
+		ID: "war_pike", Name: "War Pike", ProfessionGate: "weaponsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "weapon", XPPool: "weapon_crafting",
+		WeaponStyle: "polearm", EquipGate: "pikeman_novice",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "grip", Label: "Grip", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "damage", Label: "Damage", BaseMin: 35, BaseMax: 75, QualityMult: 0.5},
+			{ID: "accuracy", Label: "Accuracy", BaseMin: 5, BaseMax: 15, QualityMult: 0.3},
+		},
+	},
+	{
+		ID: "longshot_rifle", Name: "Longshot Rifle", ProfessionGate: "weaponsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "weapon", XPPool: "weapon_crafting",
+		WeaponStyle: "bounty", EquipGate: "bountyhunter_novice",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "grip", Label: "Grip", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "damage", Label: "Damage", BaseMin: 80, BaseMax: 160, QualityMult: 0.5},
+			{ID: "accuracy", Label: "Accuracy", BaseMin: 5, BaseMax: 15, QualityMult: 0.3},
+		},
+	},
+	{
+		ID: "scatter_pistol", Name: "Scatter Pistol", ProfessionGate: "weaponsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "weapon", XPPool: "weapon_crafting",
+		WeaponStyle: "bounty", EquipGate: "bountyhunter_novice",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "grip", Label: "Grip", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "damage", Label: "Damage", BaseMin: 40, BaseMax: 90, QualityMult: 0.5},
+			{ID: "accuracy", Label: "Accuracy", BaseMin: 5, BaseMax: 15, QualityMult: 0.3},
+		},
+	},
+	{
+		ID: "flame_projector", Name: "Flame Projector", ProfessionGate: "weaponsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "weapon", XPPool: "weapon_crafting",
+		WeaponStyle: "commando", EquipGate: "commando_novice",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "grip", Label: "Grip", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "damage", Label: "Damage", BaseMin: 150, BaseMax: 300, QualityMult: 0.5},
+			{ID: "accuracy", Label: "Accuracy", BaseMin: 5, BaseMax: 10, QualityMult: 0.3},
+		},
+	},
+	{
+		ID: "missile_tube", Name: "Missile Tube", ProfessionGate: "weaponsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "weapon", XPPool: "weapon_crafting",
+		WeaponStyle: "commando", EquipGate: "commando_novice",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "grip", Label: "Grip", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "damage", Label: "Damage", BaseMin: 150, BaseMax: 300, QualityMult: 0.5},
+			{ID: "accuracy", Label: "Accuracy", BaseMin: 5, BaseMax: 10, QualityMult: 0.3},
+		},
+	},
+	{
+		ID: "acid_caster", Name: "Acid Caster", ProfessionGate: "weaponsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "weapon", XPPool: "weapon_crafting",
+		WeaponStyle: "commando", EquipGate: "commando_novice",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "grip", Label: "Grip", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "damage", Label: "Damage", BaseMin: 150, BaseMax: 300, QualityMult: 0.5},
+			{ID: "accuracy", Label: "Accuracy", BaseMin: 5, BaseMax: 10, QualityMult: 0.3},
+		},
+	},
+	{
+		ID: "arc_caster", Name: "Arc Caster", ProfessionGate: "weaponsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "weapon", XPPool: "weapon_crafting",
+		WeaponStyle: "commando", EquipGate: "commando_novice",
+		Slots: []SchematicSlot{
+			{ID: "frame", Label: "Frame", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "grip", Label: "Grip", AcceptedTypes: []string{"structural_polymer", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "damage", Label: "Damage", BaseMin: 150, BaseMax: 300, QualityMult: 0.5},
+			{ID: "accuracy", Label: "Accuracy", BaseMin: 5, BaseMax: 10, QualityMult: 0.3},
+		},
+	},
+	{
+		ID: "heavy_ammo_cell", Name: "Heavy Ammo Cell", ProfessionGate: "weaponsmith_novice",
+		Complexity: 5, ExperimentPoints: 10, MaxRounds: 4, XPReward: 500,
+		EquipSlot: "ammo", XPPool: "weapon_crafting",
+		Slots: []SchematicSlot{
+			{ID: "casing", Label: "Casing", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 8},
+			{ID: "filler", Label: "Filler", AcceptedTypes: []string{"structural_polymer", "fibrous_flora", "industrial_chemical"}, UnitsRequired: 4},
+		},
+		Properties: []ExpProperty{
+			{ID: "charges", Label: "Charges", BaseMin: 8, BaseMax: 12, QualityMult: 0},
+		},
+	},
+	{
+		ID: "armor_composite", Name: "Composite Armor", ProfessionGate: "armorsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "armor", XPPool: "armor_crafting",
+		Slots: []SchematicSlot{
+			{ID: "plating", Label: "Plating", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "lining", Label: "Lining", AcceptedTypes: []string{"cultured_organic", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "protection", Label: "Protection", BaseMin: 10, BaseMax: 30, QualityMult: 0.4},
+			{ID: "durability", Label: "Durability", BaseMin: 80, BaseMax: 100, QualityMult: 0.2},
+		},
+	},
+	{
+		ID: "armor_bone", Name: "Bone Armor", ProfessionGate: "armorsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "armor", XPPool: "armor_crafting",
+		Slots: []SchematicSlot{
+			{ID: "plating", Label: "Plating", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "lining", Label: "Lining", AcceptedTypes: []string{"cultured_organic", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "protection", Label: "Protection", BaseMin: 10, BaseMax: 30, QualityMult: 0.4},
+			{ID: "durability", Label: "Durability", BaseMin: 80, BaseMax: 100, QualityMult: 0.2},
+		},
+	},
+	{
+		ID: "armor_chitin", Name: "Chitin Armor", ProfessionGate: "armorsmith_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "armor", XPPool: "armor_crafting",
+		Slots: []SchematicSlot{
+			{ID: "plating", Label: "Plating", AcceptedTypes: []string{"ferric_metal", "conductive_alloy"}, UnitsRequired: 10},
+			{ID: "lining", Label: "Lining", AcceptedTypes: []string{"cultured_organic", "fibrous_flora"}, UnitsRequired: 5},
+		},
+		Properties: []ExpProperty{
+			{ID: "protection", Label: "Protection", BaseMin: 10, BaseMax: 30, QualityMult: 0.4},
+			{ID: "durability", Label: "Durability", BaseMin: 80, BaseMax: 100, QualityMult: 0.2},
+		},
+	},
+	{
+		ID: "spice_rush", Name: "Spice Rush", ProfessionGate: "smuggler_novice",
+		Complexity: 5, ExperimentPoints: 10, MaxRounds: 4, XPReward: 500,
+		EquipSlot: "consumable", XPPool: "smuggler",
+		Slots: []SchematicSlot{
+			{ID: "bio", Label: "Bio-Active Agent", AcceptedTypes: []string{"cultured_organic", "fibrous_flora"}, UnitsRequired: 6},
+			{ID: "binding", Label: "Binding Agent", AcceptedTypes: []string{"industrial_chemical"}, UnitsRequired: 4},
+		},
+		Properties: []ExpProperty{
+			{ID: "potency", Label: "Action Boost", BaseMin: 200, BaseMax: 400, QualityMult: 0.5},
+			{ID: "charges", Label: "Charges", BaseMin: 1, BaseMax: 3, QualityMult: 0},
+		},
+	},
+	{
+		ID: "spice_calm", Name: "Spice Calm", ProfessionGate: "smuggler_novice",
+		Complexity: 5, ExperimentPoints: 10, MaxRounds: 4, XPReward: 500,
+		EquipSlot: "consumable", XPPool: "smuggler",
+		Slots: []SchematicSlot{
+			{ID: "bio", Label: "Bio-Active Agent", AcceptedTypes: []string{"cultured_organic", "fibrous_flora"}, UnitsRequired: 6},
+			{ID: "binding", Label: "Binding Agent", AcceptedTypes: []string{"industrial_chemical"}, UnitsRequired: 4},
+		},
+		Properties: []ExpProperty{
+			{ID: "potency", Label: "Mind Boost", BaseMin: 200, BaseMax: 400, QualityMult: 0.5},
+			{ID: "charges", Label: "Charges", BaseMin: 1, BaseMax: 3, QualityMult: 0},
+		},
+	},
+	{
+		ID: "buff_pack_health", Name: "Health Buff Pack", ProfessionGate: "doctor_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "consumable", XPPool: "medical",
+		Slots: []SchematicSlot{
+			{ID: "bio", Label: "Bio-Active Agent", AcceptedTypes: []string{"cultured_organic", "fibrous_flora"}, UnitsRequired: 6},
+			{ID: "binding", Label: "Binding Agent", AcceptedTypes: []string{"industrial_chemical"}, UnitsRequired: 4},
+		},
+		Properties: []ExpProperty{
+			{ID: "potency", Label: "Pool Boost", BaseMin: 500, BaseMax: 1500, QualityMult: 0.5},
+			{ID: "charges", Label: "Charges", BaseMin: 1, BaseMax: 3, QualityMult: 0},
+		},
+	},
+	{
+		ID: "buff_pack_action", Name: "Action Buff Pack", ProfessionGate: "doctor_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "consumable", XPPool: "medical",
+		Slots: []SchematicSlot{
+			{ID: "bio", Label: "Bio-Active Agent", AcceptedTypes: []string{"cultured_organic", "fibrous_flora"}, UnitsRequired: 6},
+			{ID: "binding", Label: "Binding Agent", AcceptedTypes: []string{"industrial_chemical"}, UnitsRequired: 4},
+		},
+		Properties: []ExpProperty{
+			{ID: "potency", Label: "Pool Boost", BaseMin: 500, BaseMax: 1500, QualityMult: 0.5},
+			{ID: "charges", Label: "Charges", BaseMin: 1, BaseMax: 3, QualityMult: 0},
+		},
+	},
+	{
+		ID: "buff_pack_mind", Name: "Mind Buff Pack", ProfessionGate: "doctor_novice",
+		Complexity: 8, ExperimentPoints: 10, MaxRounds: 4, XPReward: 800,
+		EquipSlot: "consumable", XPPool: "medical",
+		Slots: []SchematicSlot{
+			{ID: "bio", Label: "Bio-Active Agent", AcceptedTypes: []string{"cultured_organic", "fibrous_flora"}, UnitsRequired: 6},
+			{ID: "binding", Label: "Binding Agent", AcceptedTypes: []string{"industrial_chemical"}, UnitsRequired: 4},
+		},
+		Properties: []ExpProperty{
+			{ID: "potency", Label: "Pool Boost", BaseMin: 500, BaseMax: 1500, QualityMult: 0.5},
+			{ID: "charges", Label: "Charges", BaseMin: 1, BaseMax: 3, QualityMult: 0},
 		},
 	},
 	{
@@ -225,6 +581,8 @@ type Session struct {
 	RoundsUsed     int
 	Phase          SessionPhase
 	Log            []string
+	// Crits counts critical-success experiments (Phase 9: GDD 7.2.2 2x XP).
+	Crits int
 }
 
 // NewSession opens a design-phase session.

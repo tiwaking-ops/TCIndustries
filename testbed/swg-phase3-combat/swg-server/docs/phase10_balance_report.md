@@ -1,6 +1,6 @@
 # Phase 10 Balance Validation Report (B3)
 
-Generated: 2026-09-16T20:26:47Z
+Generated: 2026-09-16T21:52:36Z
 
 Author: Buffy — Codebuff agent, Phase 10 implementation (proposal v0.2 §3/B3).
 
@@ -20,7 +20,7 @@ Author: Buffy — Codebuff agent, Phase 10 implementation (proposal v0.2 §3/B3)
 | Economic §12.2.1 | mission reward band (delivery, qty 2–4) | 1000–2000 credits (= 500×qty, missions.go:193 [PROVISIONAL]) | 500–10,000 band (§12.2.1, HISTORICAL) | IN-BAND | inside the band |
 | Economic §12.2.1 | mission reward band (sample / recon) | 750 / 500 credits (missions.go:201,214 [PROVISIONAL]) | 500–10,000 band (§12.2.1, HISTORICAL) | IN-BAND | inside the band |
 | Faction §15.2.3 | ranked faction thresholds | NOT-BUILT: fork has alignment declaration + overt flagging only; no ranked point thresholds exist | 2,500 / 10,000 / 30,000 / 75,000 (§15.2.3, HISTORICAL) | NOT-MEASURABLE | recorded: nothing to compare — an unbuilt mechanic, not a gap (ability-system-class residual) |
-| Economic §12.4 | 30-day net inflation window | OBSERVED: circulation=18450 faucet30d=0 sink30d=57 net=-0.31% (snapshot at 2026-09-16T20:26:35Z) | ~5–10% annualized (§12.4, HISTORICAL) | OBSERVED | testbed windows are hours old, not 30 days — read as pipeline proof, not as an inflation measurement |
+| Economic §12.4 | 30-day net inflation window | OBSERVED: circulation=18450 faucet30d=0 sink30d=57 net=-0.31% (snapshot at 2026-09-16T21:52:21Z) | ~5–10% annualized (§12.4, HISTORICAL) | OBSERVED | testbed windows are hours old, not 30 days — read as pipeline proof, not as an inflation measurement |
 | Wealth §34.3 | credit distribution (diagnostic Gini) | OBSERVED: players=4 total_credits=18450 gini=0.047 | no §33 target — Gini is diagnostic only (§34.3) | OBSERVED | tracked, never target-capped, never a lever |
 | Economic §33.4 | maintenance share of weekly income/sink | OBSERVED: maintenance_fee=7 of 57 total sink over trailing 7d (12.3%) | 5–15% of weekly income (§33.4, HISTORICAL) | OBSERVED | fresh-world windows are dominated by training sinks; the share is recorded, not judged |
 | Economy §34 | crafted provenance share | OBSERVED: 1/1 items carry schematic provenance (100%) | ≥95% crafted (§1.3/§34, HISTORICAL) | OBSERVED | raw counts beside the percentage (small-cohort rule) |

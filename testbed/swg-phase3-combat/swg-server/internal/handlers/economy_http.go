@@ -52,6 +52,27 @@ func (eh *EconomyHandler) HandleEconomyRoute(w http.ResponseWriter, r *http.Requ
 	}
 }
 
+// merchantTier counts owned boxes in the Merchant Vendor Management tree
+// (skillTier lives on WorldHandler; this DB-direct twin serves HTTP-only
+// handlers — same prefix semantics).
+func (eh *EconomyHandler) merchantTier(characterID string) int {
+	owned, err := eh.db.GetCharacterSkillBoxes(characterID)
+	if err != nil {
+		return 0
+	}
+	n := 0
+	for id := range owned {
+		if len(id) > len("merchant_vendor_management_") &&
+			id[:len("merchant_vendor_management_")] == "merchant_vendor_management_" {
+			n++
+		}
+	}
+	if n > 4 {
+		n = 4
+	}
+	return n
+}
+
 func (eh *EconomyHandler) ownVendor(w http.ResponseWriter, charID, vendorID string) (*database.StructureRow, bool) {
 	v, err := eh.db.GetStructure(vendorID)
 	if err != nil || v.Kind != "vendor" {
@@ -94,7 +115,10 @@ func (eh *EconomyHandler) stock(w http.ResponseWriter, r *http.Request) {
 		writeCraftJSON(w, http.StatusInternalServerError, map[string]string{"error": "listing lookup failed"})
 		return
 	}
-	if len(live) >= economy.VendorSlotCap {
+	// Phase 9: Merchant Vendor Management tiers add +10 slots each
+	// (GDD 8.3.5 "increase vendor inventory slots" — curve provisional).
+	cap := economy.VendorSlotCap + 10*eh.merchantTier(v.OwnerCharacterID)
+	if len(live) >= cap {
 		writeCraftJSON(w, http.StatusBadRequest, map[string]string{"error": "vendor inventory full"})
 		return
 	}

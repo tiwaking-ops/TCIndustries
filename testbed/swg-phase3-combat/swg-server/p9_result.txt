@@ -1,0 +1,24 @@
+=== Phase 9 Integration Test (testbed fork, generic content) ===
+Elites → surveying → camps → lairs → missions → bounties → commerce hooks
+
+Server is reachable.
+Setup: missionary + crafter + victim (basic novices)
+  [PASS] All three clients entered world
+
+--- Test 1: Quotas + diminishing XP ---
+  quota(ferric_metal): met (175/175)
+  quota(structural_polymer): survey empty, recentering
+  quota(structural_polymer): met (90/90)
+  stack(ferric_metal): richest 175 (need 15)
+  stack(structural_polymer): richest 90 (need 8)
+  [PASS] Quotas sampled (single-stack needs covered)
+  [PASS] Repeat diminishing live (first +500, 11th +250)
+  [PASS] Tools + deeds + sidearms crafted; sidearm mailed + equipped
+
+--- Test 2: Registry + gates ---
+  [PASS] Registry: 28 professions / 504 boxes / elite schematics / 6 trainers
+  [PASS] Elite gates refuse (prereqs + trainer coverage + novice-first)
+  [PASS] Service/handshake refusal surface (tame/DNA/slice/ID/meditate/BH-list)
+
+--- Test 3: Scout line + surveying ---
+  [PASS] Scout Exploration I / Hunting II / Survival III trained
