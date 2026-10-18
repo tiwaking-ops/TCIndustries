@@ -406,26 +406,22 @@ func main() {
 	moveTo(wcF, 650, 0, &ax, &az)
 	moveTo(wcE, 650, 0, &bx, &bz)
 
-	// Induce a real wound on F via sparring swings from E (E is adjacent).
-	wF0 := restHealth(tokenF, charF)
-	sparred := 0
-	for i := 0; i < 14; i++ {
-		swingHit, _, swingOK := sparOnce(wcE, charF)
-		if !swingOK {
-			log.Fatal("sparring swing refused — interdependence setup broken")
-		}
-		_ = swingHit
-		sparred++
-		if restHealth(tokenF, charF) < wF0 {
-			break
-		}
-		time.Sleep(800 * time.Millisecond)
-	}
-	fmt.Printf("  (sparring swings exchanged: %d; F health %d → %d)\n", sparred, wF0, restHealth(tokenF, charF))
+	// Close the heal-evidence gap (Option A): wounds only arise from an
+	// incap -> clone (revive) cycle, not from sparring. Duel F to incap via
+	// E, then clone (revive) so F carries wounds; the medic can then heal.
+	duelToIncap(wcE, wcF, charF)
+	cloneAndStay(wcF)
+	time.Sleep(2 * time.Second)
+	// After clone, F respawns at its bind point; reset tracked coords.
+	ax, az = 20, 0
+	moveTo(wcF, 650, 0, &ax, &az)
+	moveTo(wcM, 650, 0, &cx, &cz)
+	time.Sleep(2 * time.Second)
+	fmt.Printf("  (F incapacitated+cloned; wounds present; F health %d)\n", restHealth(tokenF, charF))
 
 	// Medic heals F (wound-heal path writes the 'heal' interdependence event).
 	// The heal cooldown gates repeats per healer-target pair, so retry until
-	// a receipt lands (first attempt usually rides the sparring cooldown).
+	// a receipt lands.
 	moveTo(wcM, 650, 0, &cx, &cz)
 	healF := false
 	for i := 0; i < 3 && !healF; i++ {
@@ -922,4 +918,35 @@ func placeVendorAndStock(token, charID string, wc *wsClient, itemID string, px, 
 	time.Sleep(25 * time.Second)
 	listing := stockItemMust(token, charID, vendorID, itemID, 500)
 	return vendorID, listing
+}
+func seenType(wc *wsClient, msgType string) bool {
+	wc.mu.Lock()
+	defer wc.mu.Unlock()
+	for _, m := range wc.messages {
+		if m.Type == msgType {
+			return true
+		}
+	}
+	return false
+}
+
+func duelToIncap(att, vic *wsClient, vicChar string) {
+	vic.clearMessages()
+	deadline := time.Now().Add(300 * time.Second)
+	for time.Now().Before(deadline) {
+		att.send(protocol.MsgCombatAction, protocol.CombatActionMsg{TargetID: vicChar})
+		time.Sleep(800 * time.Millisecond)
+		if seenType(vic, protocol.MsgIncapacitated) {
+			return
+		}
+	}
+	log.Fatal("duel never reached incapacitation")
+}
+
+func cloneAndStay(vic *wsClient) {
+	vic.clearMessages()
+	vic.send(protocol.MsgClone, map[string]interface{}{})
+	if _, ok := vic.waitFor(protocol.MsgCloned, 10*time.Second); !ok {
+		log.Fatal("no clone after PvP incap")
+	}
 }
