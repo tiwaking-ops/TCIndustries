@@ -18,6 +18,7 @@ import (
 	"math"
 	"net/http"
 	"os"
+	"strings"
 	"sync"
 	"time"
 
@@ -26,8 +27,13 @@ import (
 	"swg-server/internal/protocol"
 )
 
-const serverURL = "http://localhost:8080"
-const wsURL = "ws://localhost:8080/ws"
+var serverURL = envOr("SERVER_URL", "http://localhost:8080")
+var wsURL = func() string {
+	if v := os.Getenv("SERVER_URL"); v != "" {
+		return strings.Replace(v, "http", "ws", 1) + "/ws"
+	}
+	return "ws://localhost:8080/ws"
+}()
 
 type wsClient struct {
 	conn     *websocket.Conn
@@ -82,6 +88,13 @@ func asMap(m protocol.WSMessage) map[string]interface{} {
 	var out map[string]interface{}
 	json.Unmarshal(data, &out)
 	return out
+}
+
+func envOr(key, fallback string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return fallback
 }
 
 func main() {

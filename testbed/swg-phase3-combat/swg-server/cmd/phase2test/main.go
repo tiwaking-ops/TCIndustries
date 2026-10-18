@@ -19,7 +19,14 @@ import (
 // spend skill points at a trainer NPC, and see the skill persist across
 // logout/login."
 
-const serverURL = "http://localhost:8080"
+var serverURL = envOr("SERVER_URL", "http://localhost:8080")
+
+func envOr(key, fallback string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return fallback
+}
 
 func main() {
 	fmt.Println("=== SWG Pre-CU Phase 2 Integration Test ===")
