@@ -291,6 +291,7 @@ func (h *CharacterHandler) GetCharacter(w http.ResponseWriter, r *http.Request) 
 	}
 
 	writeJSON(w, http.StatusOK, protocol.GetCharacterResponse{
+		Credits: charWithHAM.Credits,
 		ID:      charWithHAM.ID,
 		Name:    charWithHAM.Name,
 		Species: charWithHAM.Species,

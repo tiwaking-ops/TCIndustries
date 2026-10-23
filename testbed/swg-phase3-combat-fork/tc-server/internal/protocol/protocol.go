@@ -68,6 +68,7 @@ type GetCharacterResponse struct {
 	Position   Position               `json:"position"`
 	Planet     string                 `json:"planet"`
 	HAM        HAMState               `json:"ham"`
+	Credits    int                    `json:"credits"`
 }
 
 type Position struct {
@@ -121,7 +122,27 @@ const (
 	MsgSetStance    = "set_stance"    // Client requests a stance change (GDD 9.2.3)
 	MsgClone        = "clone"         // Client requests respawn at bound clone facility after death
 	MsgRevive       = "revive"        // Client attempts to revive a nearby incapacitated player
+
+	// Phase 6 (GDD Sections 23-24): Social Support Professions
+	MsgHealWounds   = "heal_wounds"   // Medic heals a target's wounds (S1)
+	MsgApplyBuff    = "apply_buff"    // Medic applies a HAM-pool buff (S3)
+	MsgPerformStart = "perform_start" // Entertainer starts a performance (S4)
+	MsgPerformStop  = "perform_stop"  // Entertainer stops performing (S4)
+	MsgWatchStart   = "watch_start"   // Client starts watching a performer (S4)
+	MsgWatchStop    = "watch_stop"    // Client stops watching (S4)
+	MsgTip          = "tip"           // Client tips a watched performer (S6)
+	MsgUseStim      = "use_stim"      // Client uses a stim pack on a target (S5)
+
+	// Phase 4 (GDD Section 10): Resources & Crafting
+	MsgSurvey           = "survey"           // Client surveys for a resource type with a tool
+	MsgSample           = "sample"           // Client samples the nearest spawn in range
+	MsgPlaceHarvester   = "place_harvester" // Client places a harvester deed
+	MsgEmptyHopper      = "empty_hopper"     // Client empties nearest owned harvester hopper
+	MsgHarvestCorpse    = "harvest_corpse"   // Client harvests a nearby corpse
+	MsgPurchase         = "purchase"         // Client purchases/prepares a structure deed
+	MsgCollectTill      = "collect_till"    // Client collects till into their tillbox wallet
 )
+
 
 // Server → Client messages
 const (
@@ -139,6 +160,22 @@ const (
 	MsgCreatureDeath  = "creature_death"  // A creature instance died
 	MsgIncapacitated  = "incapacitated"   // A character was incapacitated
 	MsgCloned         = "cloned"          // A character respawned at their clone facility
+		MsgSurveyResult   = "survey_result"
+		MsgSampleResult   = "sample_result"
+	MsgHarvesterPlaced = "harvester_placed" // Harvester deed placed
+	MsgHopperEmptied   = "hopper_emptied"   // Hopper units moved into stack
+	MsgCorpseHarvested = "corpse_harvested" // Corpse yield moved into stack
+
+	// Phase 6 (GDD Sections 23-24) receipts.
+	MsgWoundHealed        = "wound_healed"
+	MsgBuffApplied        = "buff_applied"
+	MsgPerformanceStarted = "performance_started"
+	MsgPerformanceStopped = "performance_stopped"
+	MsgWatchStarted       = "watch_started"
+	MsgWatchStopped       = "watch_stopped"
+	MsgTipReceipt         = "tip_receipt"
+	MsgTipReceived        = "tip_received"
+	MsgStimUsed           = "stim_used"
 )
 
 type EnterWorldMsg struct {
@@ -269,4 +306,122 @@ type ClonedMsg struct {
 	CharacterID string   `json:"character_id"`
 	Position    Position `json:"position"`
 	Planet      string   `json:"planet"`
+}
+
+// --- Phase 4: Resources & Crafting messages (GDD 10) ---
+
+// SurveyMsg: client surveys with a category tool.
+type SurveyMsg struct {
+	Tool string `json:"tool"` // resource category, e.g. "mineral"
+}
+
+// WaypointMsg is an approximate spawn location (exact center for the basic tier;
+// triangulation refinement deferred — flagged simplification).
+type WaypointMsg struct {
+	X float64 `json:"x"`
+	Z float64 `json:"z"`
+}
+
+// SurveyResultMsg: nearest in-zone active spawn of the tool's types.
+type SurveyResultMsg struct {
+	SpawnID       string      `json:"spawn_id"`
+	ResourceType  string      `json:"resource_type"`
+	DistanceM     float64     `json:"distance_m"`
+	Concentration int         `json:"concentration"`
+	Waypoint      WaypointMsg `json:"waypoint"`
+	Refined       bool        `json:"refined"`
+	ToolTier      int         `json:"tool_tier"`
+}
+
+// SampleResultMsg: units extracted into the character's stack.
+type SampleResultMsg struct {
+	SpawnID      string `json:"spawn_id"`
+	ResourceType string `json:"resource_type"`
+	Units        int    `json:"units"`
+}
+
+// PlaceHarvesterMsg: client places a harvester (consumes a deed item).
+type PlaceHarvesterMsg struct {
+	X          float64 `json:"x"`
+	Z          float64 `json:"z"`
+	Kind       string  `json:"kind"` // "personal" | "medium" | "heavy"
+	DeedItemID string  `json:"deed_item_id"`
+}
+
+// HarvesterPlacedMsg confirms placement.
+type HarvesterPlacedMsg struct {
+	HarvesterID string `json:"harvester_id"`
+	SpawnID     string `json:"spawn_id"`
+}
+
+// HopperEmptiedMsg confirms hopper transfer.
+type HopperEmptiedMsg struct {
+	HarvesterID string `json:"harvester_id"`
+	Units       int    `json:"units"`
+}
+
+// CorpseHarvestedMsg confirms corpse-yield transfer.
+type CorpseHarvestedMsg struct {
+	InstanceID   string `json:"instance_id"`
+	ResourceType string `json:"resource_type"`
+	Units        int    `json:"units"`
+	Quality      int    `json:"quality"`
+}
+
+// --- Phase 6: Social Support Professions messages (GDD 23-24) ---
+
+// TargetMsg addresses another character (heal target).
+type TargetMsg struct {
+	TargetID string `json:"target_id"`
+}
+
+// WoundHealedMsg confirms wound healing (S1).
+type WoundHealedMsg struct {
+	TargetID   string `json:"target_id"`
+	Pool       string `json:"pool"`
+	Amount     int    `json:"amount"`
+	WoundsLeft int    `json:"wounds_left"`
+}
+
+// BuffMsg requests a pool buff (S3).
+type BuffMsg struct {
+	TargetID string `json:"target_id"`
+	Pool     string `json:"pool"` // "health" | "action" | "mind"
+}
+
+// BuffAppliedMsg confirms a buff (S3).
+type BuffAppliedMsg struct {
+	TargetID  string `json:"target_id"`
+	Pool      string `json:"pool"`
+	Amount    int    `json:"amount"`
+	ExpiresAt string `json:"expires_at"`
+}
+
+// PerformMsg starts/stops a performance (S4).
+type PerformMsg struct {
+	Kind string `json:"kind,omitempty"` // "music" | "dance"
+}
+
+// WatchMsg starts/stops watching a performer (S4).
+type WatchMsg struct {
+	PerformerID string `json:"performer_id,omitempty"`
+}
+
+// TipMsg tips a watched performer (S6).
+type TipMsg struct {
+	TargetID string `json:"target_id"`
+	Amount   int    `json:"amount"`
+}
+
+// StimMsg uses a stim pack on a target (S5).
+type StimMsg struct {
+	ItemID   string `json:"item_id"`
+	TargetID string `json:"target_id"`
+}
+
+// StimUsedMsg confirms stim use (S5).
+type StimUsedMsg struct {
+	TargetID    string `json:"target_id"`
+	ChargesLeft int    `json:"charges_left"`
+	Healing     int    `json:"healing"`
 }

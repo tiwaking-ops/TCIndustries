@@ -28,6 +28,7 @@ type HAMPoolState struct {
 
 	WoundsHealth, WoundsAction, WoundsMind int
 	BattleFatiguePct                        float64
+	BuffHealth, BuffAction, BuffMind        int
 
 	Posture Posture
 	Stance  Stance
@@ -53,13 +54,14 @@ type HAMPoolState struct {
 // worse of the two, not a naive double-penalty) since that keeps very
 // wounded + very fatigued characters from having a max of zero or negative
 // from double-counting. Flagged here rather than silently picked.
-func EffectiveMax(speciesMax, wounds int, battleFatiguePct float64) int {
-	woundedMax := speciesMax - wounds
-	fatiguedMax := int(float64(speciesMax) * (1 - battleFatiguePct/100))
+func EffectiveMax(base, wounds int, battleFatiguePct float64, buff int) int {
+	woundedMax := base - wounds
+	fatiguedMax := int(float64(base) * (1 - battleFatiguePct/100))
 	effective := woundedMax
 	if fatiguedMax < effective {
 		effective = fatiguedMax
 	}
+	effective += buff
 	if effective < 1 {
 		effective = 1 // a pool can be nearly exhausted but never non-positive
 	}
@@ -71,7 +73,7 @@ func EffectiveMax(speciesMax, wounds int, battleFatiguePct float64) int {
 // later-phase special-attack feature per GDD 9.2.4). Returns the updated
 // state and whether this damage caused incapacitation.
 func ApplyDamage(state HAMPoolState, damage int, now time.Time) (HAMPoolState, bool) {
-	effMax := EffectiveMax(state.HealthMax, state.WoundsHealth, state.BattleFatiguePct)
+	effMax := EffectiveMax(state.HealthMax, state.WoundsHealth, state.BattleFatiguePct, state.BuffHealth)
 	state.HealthCurrent -= damage
 	if state.HealthCurrent > effMax {
 		state.HealthCurrent = effMax
@@ -104,7 +106,7 @@ func IsDead(state HAMPoolState, now time.Time) bool {
 // that's the only concrete range the document provides for this kind of
 // event, applied at its midpoint rather than randomized for reproducibility.
 func Revive(state HAMPoolState, now time.Time) HAMPoolState {
-	effMax := EffectiveMax(state.HealthMax, state.WoundsHealth, state.BattleFatiguePct)
+	effMax := EffectiveMax(state.HealthMax, state.WoundsHealth, state.BattleFatiguePct, state.BuffHealth)
 	state.HealthCurrent = effMax / 10
 	if state.HealthCurrent < 1 {
 		state.HealthCurrent = 1
