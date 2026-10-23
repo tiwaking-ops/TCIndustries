@@ -413,11 +413,12 @@ whatever boundaries the human later supplies can be tested against them.
 - **Constraint:** implementation is TBD (OQ-012); the validation layer is
   independent participants including orgs (HD-EIC-01); wash-trading and
   manipulation must be detectable (SAFE-003 observability).
-- **Invariant (candidate INV-012):** *The observability surface can attribute
-  economically coordinated behavior across nominal identities to reviewable
-  signals (ledger patterns, anomaly lists, interdependence events) — without
-  any account restriction mechanism existing.* (Detectability, not prevention:
-  prevention policy is the human decision.)
+- **Invariant (INV-012 — APPROVED 2026-10-23, HD-SAFE-01):** *The
+  observability surface can attribute economically coordinated behavior
+  across nominal identities to reviewable signals (ledger patterns, anomaly
+  lists, interdependence events) — without any account restriction mechanism
+  existing.* (Detectability, not prevention: prevention policy is the human
+  decision.)
 - **Failure condition:** a coordination pattern (circular trades, pooled
   logistics, synthetic demand) producing no reviewable signal anywhere.
 - **Test:** red-team exercise on the observability design (Task T-07 output);

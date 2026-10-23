@@ -685,7 +685,50 @@ bounded EIC search; any change to OQ-001, OQ-004, or OQ-005, which become
 
 ---
 
-# Full Cumulative State (All Sections Combined) — Current as of 2026-09-28
+# Section F — Safety & Exploit Implementation Policy (2026-10-23: HD-SAFE-01)
+
+## HD-SAFE-01 — OQ-012 Multi-Account & Exploit Implementation Policy
+**Source:** Owner ruling session, 2026-10-23, on `proposals/TCIndustries_Multi_Account_Exploit_Policy_Proposal_Drafter_v1_2026-09-19.md`. Filed at the owner's explicit authorisation.
+**Status:** HUMAN-LOCKED (multi-account and exploit implementation policy only). Complements HD-EIC-03 / HD-EIC-09, HD-SAFE-001, which remain in force. Supersedes nothing.
+
+### Decision
+1. **PRIMARY — Option A (Detection-first, human-review-only):** The project answers economic exploitation with *evidence*, not suspicion. Observability surfaces (event-tagged ledger, append-only transaction history, anomaly review lists covering wash-trade pairs, near-zero-net churn, placement bursts, price-spread anomalies) are built, and detected patterns go to human review. Consequences are decided case-by-case by the project's human authority. **Zero automatic penalties or consequences.**
+2. **INVARIANT — INV-012 APPROVED** as a design invariant (TEST-001 class) per `proposals/TCIndustries_Invariant_Register_v0.1.md` (OQ-012 entry): *"The observability surface can attribute economically coordinated behavior across nominal identities to reviewable signals (ledger patterns, anomaly lists, interdependence events) — without any account restriction mechanism existing."*
+3. **SCOPE CONFIRMATION:** Confirmed that (a) no account-level restriction is authorised (HD-EIC-03 stands), (b) all signals remain strictly on economic/transactional surfaces, and (c) no numeric thresholds are set (BAL-001).
+
+**Explicitly does not authorise:** any account-level restriction; automatic penalties; tradeability/soul-binding rules; any numeric threshold; non-economic observability (social/chat surveillance excluded).
+
+### Traceability
+| Item | Source |
+|---|---|
+| Proposal given effect | `proposals/TCIndustries_Multi_Account_Exploit_Policy_Proposal_Drafter_v1_2026-09-19.md` |
+| Invariant approved | INV-012 (`proposals/TCIndustries_Invariant_Register_v0.1.md`, OQ-012 entry) |
+| Prior rulings relied upon | HD-EIC-03 (multi-accounting legitimate, no account restriction); HD-EIC-09 (broad capability permitted); SAFE-001 |
+
+---
+
+# Section G — EIC Programme Authorisation (2026-10-23: HD-EIC-11)
+
+## HD-EIC-11 — Bounded EIC Search & γ′ Re-test Authorisation
+**Source:** Owner explicit authorisation, 2026-10-23. Filed to follow HD-EIC-10 (structural boundary statement).
+**Status:** HUMAN-LOCKED (authorisation act). Complements HD-EIC-05 through HD-EIC-10, which remain in force. Supersedes nothing.
+
+### Decision
+1. **BOUNDED EIC SEARCH AUTHORISED:** The bounded new EIC architectural search (previously authorised in principle only under HD-EIC-07 Part A) is **now fully authorised to begin**, operating strictly within the structural boundaries established by HD-EIC-10 (Gloss G2; commitments C1 non-internalisable scarcity, C2 persistent info/discovery asymmetry, C4 non-economic institutional/social constraint; soft-residual exclusions by category).
+2. **γ′ RE-TEST AUTHORISED:** Under HD-EIC-10's adopted G2 gloss ("literal effortlessness"), γ′ re-test eligibility is reopened and **hereby authorised for execution**, subject to the same HD-EIC-10 structural boundaries.
+3. **GOVERNANCE BOUNDARIES RETAINED:** All standing governance boundaries remain strictly in force — no numeric balance tuning (BAL-001), no Provenance & Reputation engine design (HD-EIC-08), no Master GDD consolidation, no automatic Architecture D, no residual-channel invention outside the HD-EIC-10 boundaries.
+
+**Explicitly does not authorise:** any numeric value; automatic Architecture D; provenance engine work; GDD consolidation.
+
+### Traceability
+| Item | Source |
+|---|---|
+| Composing ruling | HD-EIC-10 (`governance/TCIndustries_Human_Rulings_Register.md`, Section E) |
+| Authorisation scope | Bounded EIC search + γ′ re-test under G2 |
+
+---
+
+# Full Cumulative State (All Sections Combined) — Current as of 2026-10-23
 
 | Item | Current Status |
 |---|---|
@@ -698,8 +741,9 @@ bounded EIC search; any change to OQ-001, OQ-004, or OQ-005, which become
 | Provenance & Reputation Engine | **Deferred** |
 | Architecture D (automatic) | **Not authorised** |
 | New residual-channel invention without human boundaries | **Not authorised** |
-| Bounded new architectural shaping | Authorised in principle; structural boundaries **supplied 2026-10-23 (HD-EIC-10)** — G2 gloss, C1/C2/C4 committed, C3 deferred, soft-residual exclusions adopted. **Remains separately unauthorised to begin** until the owner issues a distinct authorisation act |
-| Next required human action | **HD-EIC-07 gate CLOSED (HD-EIC-10, 2026-10-23).** Next: a **separate** owner authorisation to begin the bounded EIC search (or a γ′ re-test under G2, also a separate act); or OQ-012 multi-account/exploit implementation ruling (sole live queue item) |
+| Bounded new architectural shaping & γ′ re-test | **AUTHORISED (HD-EIC-11, 2026-10-23)** under the HD-EIC-10 structural boundaries (G2 gloss, C1/C2/C4 committed, C3 deferred, soft-residual exclusions by category) |
+| Next required human action | **None blocked.** Live queue is empty (0 items). Next optional actions: provide recollection answers for `proposals/SWG_Historical_Accuracy-v1.md`; or execute GAP analysis tasks T-03 through T-09 |
+| OQ-012 multi-account/exploit implementation | **HUMAN-LOCKED (HD-SAFE-01, 2026-10-23)** — Option A (detection-first, human-review-only); INV-012 approved; scope confirmed (no account restrictions) |
 | WRLD-001 (Persistent shared world) | **HUMAN-LOCKED** (HD-GDD-01) |
 | PLR-001 (Persistent character identity) | **HUMAN-LOCKED** (HD-GDD-01) |
 | PLR-003 (Persistent meaningful ownership) | **HUMAN-LOCKED, principle only** — implementation open (HD-GDD-01) |
@@ -714,9 +758,9 @@ bounded EIC search; any change to OQ-001, OQ-004, or OQ-005, which become
 | OQ-010 durability/decay/repair | **HUMAN-LOCKED** (HD-ITM-01 + HD-ITM-02) — no baseline decay; 1% death-damage while holding; repairable (mechanics open); destruction only by player action; no salvage system at present |
 | OQ-011 respecialisation | **HUMAN-LOCKED** (HD-PROF-01 + HD-PROF-02 + HD-PROF-03) — identity/provenance survives respec (INV-011a); cost instrument **free-drop** (points returned, no fee/time/penalty); acquisition **trainer-gated** (NPC trainer for credits, or free from a player who holds the class; no training, no skill gain). Magnitudes deferred (BAL-001); INV-011c NOT ruled; OQ-001 budget still EIC-coupled |
 | BLD-004 building abandonment | **HUMAN-LOCKED** (HD-BLD-02 + HD-BLD-03) — zero maintenance credit → removal; upkeep lapses after 24h at zero credit; **contents removed with structure** (no salvage/recovery/restitution); placement/lots/density remain TBD; backlog 6e(b) settlement dissolution OPEN |
-| Invariants approved to date | INV-016a, INV-016b, INV-007a, INV-015, INV-010 (conditional), INV-011a, INV-BLD-004b |
+| Invariants approved to date | INV-016a, INV-016b, INV-007a, INV-015, INV-010 (conditional), INV-011a, INV-BLD-004b, INV-012 |
 | Invariants explicitly **not** approved | INV-007b, INV-011b, INV-011c, INV-BLD-004a (each remains a candidate; per-invariant granularity — no batch approval) |
-| Open questions still awaiting ruling | Multi-account & exploit implementation policy (OQ-012 / SAFE-002, INV-012) — the only item still in the live queue; plus unclosed slots on already-ruled items: HD-ECO-01 scope confirmation + INV-009b, HD-PROF-03 scope confirmation + INV-011c; backlog 6c early-game on-ramp; backlog 6e(b) settlement dissolution. **HD-EIC-07 structural boundaries RESOLVED 2026-10-23 (HD-EIC-10)** — OQ-001/OQ-004/OQ-005, T-03, T-06 are now *workable* but not resolved (still EIC-coupled pending a separate search-authorisation act) |
+| Open questions still awaiting ruling | **None in the live queue.** Unclosed slots on already-ruled items: HD-ECO-01 scope confirmation + INV-009b, HD-PROF-03 scope confirmation + INV-011c; backlog 6c early-game on-ramp; backlog 6e(b) settlement dissolution. EIC-coupled questions (OQ-001, OQ-004, OQ-005, T-03, T-06) are now **unblocked and authorised for search execution** under HD-EIC-10/11 |
 | Post-Phase-10 testbed direction | **NOT DECIDED — no default exists**; all testbed work stays closed pending the owner's answer (`proposals/SWG_Post_Phase10_Program_Proposal_v0.1.md` §9 item 1) |
 
 *End of Human Rulings Register.*
