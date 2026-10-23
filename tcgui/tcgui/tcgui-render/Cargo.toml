@@ -4,6 +4,10 @@ version = "0.1.0"
 edition.workspace = true
 rust-version.workspace = true
 
+[features]
+# Optional SWG asset import surface (ADR-0002, task T-81). Off by default.
+swg-import = ["dep:image"]
+
 [dependencies]
 tcgui-core = { path = "../tcgui-core" }
 wgpu.workspace = true
@@ -11,3 +15,6 @@ bytemuck.workspace = true
 ab_glyph.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+thiserror.workspace = true
+# Optional: texture import for the `swg-import` feature (ADR-0001 Amendment 1).
+image = { workspace = true, optional = true, default-features = false, features = ["dds", "tga"] }

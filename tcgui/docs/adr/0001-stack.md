@@ -46,6 +46,20 @@
    - `wgpu`, `bytemuck`, `ab_glyph` — rendering and text
    - `winit`, `pollster` — platform/windowing
    - `nalgebra` — 3D scene math
+   - `image` (`0.25.5`) — texture import for the optional `swg-import` feature (see ADR 0002, task T-81). Optional dependency; not compiled unless `--features swg-import` is enabled.
+
+## Amendment 1 — `image` for T-81 texture import
+
+**Date:** 2026-10-24
+**Reason:** Task T-81 (M8) specifies DDS/TGA texture import via the `image` crate.
+
+- **Double-licensed MIT / Apache-2.0** (permissive; MPL alternative may apply to certain optional sub-dependencies — not enabled by the `dds`/`tga` features used here).
+- **Optional dependency.** `image` is only pulled in when the `swg-import` feature is enabled; the default build graph is unchanged.
+- **Feature selection:** Only the `dds` and `tga` features are enabled. This avoids pulling in codecs the project does not need (JPEG/PNG/WebP/etc.), keeping the dependency tree minimal.
+- **No unsafe directly in our code:** all decode operations go through `image`'s safe public API; no swg-owned data is processed (see ADR 0002, T-80 findings: no extracted assets exist).
+- **Alternatives considered:** writing hand-rolled DDS/TGA parsers would require ~400+ lines of unsafe-free but unchecked bit manipulation and no spec authority; using `ddsfile`+`targa` (two deps instead of one) was rejected in favor of the consolidated `image` crate already widely used in the Rust ecosystem.
+
+**Impact:** none on default (`check.sh`) builds; `image` is compiled only under `--features swg-import`.
 
 ## Consequences
 - Pinning versions ensures reproducible builds across CI, development, and deployment environments.

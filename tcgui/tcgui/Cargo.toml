@@ -26,3 +26,6 @@ winit = "0.30.8"
 pollster = "0.4.0"
 nalgebra = "0.33.2"
 schemars = "0.8.21"
+# Optional: texture import for the `swg-import` feature (T-81).
+image = { version = "0.25.5", default-features = false, features = ["dds", "tga"] }
+
