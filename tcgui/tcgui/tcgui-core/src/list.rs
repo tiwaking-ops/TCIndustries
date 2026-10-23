@@ -32,6 +32,7 @@ pub struct ListWidget {
     /// Current drag payload being dragged from this list.
     pub drag_payload: Option<DragPayload>,
     /// Predicate function determining if a dropped payload is accepted.
+    #[allow(clippy::type_complexity)]
     pub can_drop: Option<Box<dyn Fn(&DragPayload) -> bool>>,
     /// Current widget state.
     pub state: WidgetState,
@@ -144,6 +145,7 @@ pub struct GridWidget {
     /// Current drag payload originating from this grid cell.
     pub drag_payload: Option<DragPayload>,
     /// Drop validation callback.
+    #[allow(clippy::type_complexity)]
     pub can_drop: Option<Box<dyn Fn(&DragPayload) -> bool>>,
     /// Current widget state.
     pub state: WidgetState,

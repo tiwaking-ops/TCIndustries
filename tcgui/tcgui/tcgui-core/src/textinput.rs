@@ -303,10 +303,8 @@ impl TextInput {
 
     /// Push current text to command history and reset staging.
     pub fn submit_to_history(&mut self) {
-        if !self.text.is_empty() {
-            if self.history.last().map_or(true, |last| last != &self.text) {
-                self.history.push(self.text.clone());
-            }
+        if !self.text.is_empty() && self.history.last() != Some(&self.text) {
+            self.history.push(self.text.clone());
         }
         self.history_idx = None;
         self.history_staging.clear();
