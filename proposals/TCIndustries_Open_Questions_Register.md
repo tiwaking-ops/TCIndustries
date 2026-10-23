@@ -74,10 +74,11 @@ Not status issues — genuine unresolved design decisions requiring human/projec
 4. Manufacturing and automation constraint details.
 5. ~~City formation and governance rules.~~ **RULED at the structural layer** — HD-BLD-01 (free-claim formation; basic governance depth). Civic-depth instruments (policy/treasury/offices) and OQ-013 remain open.
 6. Combat scope and risk model.
-7. Currency and economic stabiliser design.
-8. ~~Exact respecialisation costs and rules.~~ **RULED** — HD-PROF-01 (identity/provenance survives respec; INV-011a approved) + HD-PROF-02 (cost instrument: free-drop — points returned, no fee/time/penalty). Magnitudes deferred to a BAL-001 pass; the acquisition half of OQ-011 / PROG-003 remains open.
+7. ~~Currency and economic stabiliser design.~~ **RULED (structure)** — HD-ECO-01 (Structure A: single unified currency; INV-009a approved as faucet-exceeds-sink mandate). Sink instrument classes remain named-open, each by its own future ruling; numerics BAL-001-gated; INV-009b moot.
+8. ~~Exact respecialisation costs and rules.~~ **RULED** — HD-PROF-01 (identity/provenance survives respec; INV-011a approved) + HD-PROF-02 (cost instrument: free-drop — points returned, no fee/time/penalty) + HD-PROF-03 (acquisition: trainer-gated). Magnitudes deferred to a BAL-001 pass; INV-011c and scope confirmation still open; the OQ-001 budget model remains EIC-coupled and blocked behind the open HD-EIC-07 gate.
 9. Multi-accounting and exploit policies (implementation detail; stance already settled — see OQ-012).
 10. Reconciliation of any existing prototype against this GDD (Evidence Reconciliation Pass) — process requirement, not a design question.
+11. ~~Salvage, destruction & contents handling (backlog 6d).~~ **RULED (structure)** — HD-SAL-01 (Option A: salvage-to-owner with provenance continuity; contents sub-rule selection deferred to BAL-001; INV-SAL-01 approved). Backlog 6e(a) closed; backlog 6e(b) settlement-institution dissolution remains open.
 
 ## 5. GDD-AUTH-REVIEW-GATE — Resolved (Closed 2026-08-25)
 
