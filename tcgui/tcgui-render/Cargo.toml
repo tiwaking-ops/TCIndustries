@@ -1,0 +1,11 @@
+[package]
+name = "tcgui-render"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tcgui-core = { path = "../tcgui-core" }
+wgpu = "24.0"
+bytemuck = { version = "1.19", features = ["derive"] }
+image = "0.25"
+ab_glyph = "0.2"

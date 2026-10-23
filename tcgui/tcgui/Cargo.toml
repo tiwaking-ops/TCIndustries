@@ -1,0 +1,28 @@
+# tcgui workspace
+
+[workspace]
+resolver = "2"
+members = [
+    "tcgui-core",
+    "tcgui-render",
+    "tcgui-platform",
+    "tcgui-scene",
+    "tcgui-demo",
+    "tools/asset-gen",
+]
+
+[workspace.package]
+edition = "2021"
+rust-version = "1.99"
+
+[workspace.dependencies]
+serde = { version = "1.0.217", features = ["derive"] }
+serde_json = "1.0.135"
+thiserror = "2.0.11"
+wgpu = "24.0.1"
+bytemuck = { version = "1.21.0", features = ["derive"] }
+ab_glyph = "0.2.28"
+winit = "0.30.8"
+pollster = "0.4.0"
+nalgebra = "0.33.2"
+schemars = "0.8.21"

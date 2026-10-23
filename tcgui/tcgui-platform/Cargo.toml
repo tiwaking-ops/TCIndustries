@@ -1,0 +1,10 @@
+[package]
+name = "tcgui-platform"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tcgui-core = { path = "../tcgui-core" }
+tcgui-render = { path = "../tcgui-render" }
+winit = "0.30"
+pollster = "0.4"

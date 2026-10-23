@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PaletteFile",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "tokens"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "tokens": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/PaletteToken"
+      }
+    }
+  },
+  "definitions": {
+    "PaletteToken": {
+      "type": "object",
+      "required": [
+        "hex"
+      ],
+      "properties": {
+        "hex": {
+          "type": "string"
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

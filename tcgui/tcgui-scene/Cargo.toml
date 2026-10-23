@@ -1,0 +1,9 @@
+[package]
+name = "tcgui-scene"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tcgui-core = { path = "../tcgui-core" }
+tcgui-render = { path = "../tcgui-render" }
+nalgebra = "0.33"
