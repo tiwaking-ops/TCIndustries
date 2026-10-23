@@ -1,0 +1,20 @@
+; Engine configuration file for the testbed game client.
+; Godot 4.x project. Open this folder in Godot 4 to run the client.
+
+config_version=5
+
+[application]
+config/name="Testbed Game Client"
+config/description="Patterns-only mechanical testbed client - Phase 0"
+run/main_scene="res://scenes/Login.tscn"
+config/features=PackedStringArray("4.2", "GL Compatibility")
+
+[autoload]
+GameState="*res://scripts/GameState.gd"
+
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
