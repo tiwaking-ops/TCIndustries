@@ -8,3 +8,5 @@ rust-version.workspace = true
 tcgui-core = { path = "../tcgui-core" }
 tcgui-render = { path = "../tcgui-render" }
 nalgebra.workspace = true
+wgpu.workspace = true
+bytemuck.workspace = true

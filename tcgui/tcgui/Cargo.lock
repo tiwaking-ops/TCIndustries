@@ -1804,9 +1804,11 @@ dependencies = [
 name = "tcgui-scene"
 version = "0.1.0"
 dependencies = [
+ "bytemuck",
  "nalgebra",
  "tcgui-core",
  "tcgui-render",
+ "wgpu",
 ]
 
 [[package]]

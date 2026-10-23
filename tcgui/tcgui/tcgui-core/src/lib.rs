@@ -13,6 +13,7 @@ pub mod theme;
 pub mod layout_loader;
 pub mod textinput;
 pub mod list;
+pub mod stats;
 
 pub use geometry::{Vec2, Rect, Color, blend_colors};
 pub use arena::{WidgetId, WidgetNode, WidgetArena, ArenaStats};
@@ -36,6 +37,7 @@ pub use layout_loader::{
     UiWidgetJson, UiAxisSpec, UiLayoutSpec, LayoutLoadError,
     load_layout_from_str, generate_layout_schema,
 };
+pub use stats::SoakTestHarness;
 
 #[cfg(test)]
 mod tests {
