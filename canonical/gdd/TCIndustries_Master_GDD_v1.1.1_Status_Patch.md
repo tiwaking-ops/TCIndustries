@@ -951,8 +951,9 @@ acts). All entries below are transcribed from
 | OQ-016 | HD-RET-01 | Vendor & retail structural model **RULED**; numerics TBD (BAL-001) |
 | OQ-015 | HD-SCOPE-01 | First-playable scope **RULED** (S1 economic spine); early-game on-ramp named-open |
 | OQ-010 / ITM-002 | HD-ITM-01 + HD-ITM-02 | Durability/repair/destruction **RULED** (no baseline decay); numerics TBD |
-| OQ-011 | HD-PROF-01 + HD-PROF-02 | Respecialisation cost **RULED** (free-drop); magnitudes TBD (BAL-001) |
+| OQ-011 | HD-PROF-01 + HD-PROF-02 + HD-PROF-03 | Respecialisation cost **RULED** (free-drop); skill acquisition **RULED** (trainer-gated with free player-teacher path); magnitudes TBD (BAL-001); INV-011c still open |
 | BLD-004 | HD-BLD-02 + HD-BLD-03 | Abandonment handling **RULED** (zero-credit removal, contents removed with structure); placement/lots/density **TBD** |
+| Backlog 6d | HD-SAL-01 | Salvage/destruction/contents handling **RULED** (Option A: salvage-to-owner with provenance continuity; contents sub-rule selection deferred to BAL-001; INV-SAL-01 approved); backlog 6e(a) closed; backlog 6e(b) remains open |
 
 **No status was promoted beyond what these rulings state.** No numeric value was
 introduced. No TBD was closed by inference. Sections §30, §31, and §36 were
