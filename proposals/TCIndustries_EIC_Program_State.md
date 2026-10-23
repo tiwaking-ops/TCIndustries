@@ -23,8 +23,9 @@ archived_author_note: "Author LLM Unknown (filed 2026-09-12 as unadjudicated pro
 
 > **Architecture C — the leading candidate for the Economic Interdependence Core — is RETIRED.**
 > No EIC architecture currently holds leading-hypothesis status.
-> No further EIC architectural work is authorised until the human supplies a specific structural-boundary statement.
-> *(HD-EIC-05, HD-EIC-07)*
+> The HD-EIC-07 structural-boundary gate is **CLOSED** (HD-EIC-10, 2026-10-23 — boundaries supplied).
+> No further EIC architectural work may *begin* until the human issues a **separate** authorisation initiating the bounded search. Ruling boundaries removes the gate; it does not start work.
+> *(HD-EIC-05, HD-EIC-07, HD-EIC-10)*
 
 ## What Is Settled (HUMAN-LOCKED)
 
@@ -43,16 +44,26 @@ archived_author_note: "Author LLM Unknown (filed 2026-09-12 as unadjudicated pro
 | Numeric balance tuning of any kind | **NOT AUTHORISED** |
 | Provenance & Reputation Engine design | **DEFERRED** |
 | Master GDD rewrite/consolidation | **NOT AUTHORISED** |
-| Any new EIC architectural search of any kind | **BLOCKED** until the item below is resolved |
+| Any new EIC architectural search of any kind | **BLOCKED** until the owner issues a **separate** authorisation act — the HD-EIC-07 gate itself is now CLOSED (HD-EIC-10, 2026-10-23), but ruling boundaries does not start work |
 
-## The Single Outstanding Gate
+## The Structural Boundary Statement — RESOLVED 2026-10-23
 
-**HD-EIC-07 requires the human to state which structural source(s) of economic comparative advantage the project is willing to make a durable design commitment to**, before any bounded new architectural shaping can begin. Examples of the *form* such a statement might take (illustrative only, not proposals — taken directly from the ruling document):
-- Explicit acceptance that certain forms of scarcity, information asymmetry, or demand differentiation will be treated as durable design commitments.
-- Explicit rejection of pure soft-residual approaches that organisations can fully internalise.
-- Any other human-defined constraint that bounds the next search.
+**HD-EIC-07 required the human to state which structural source(s) of economic comparative advantage the project is willing to make a durable design commitment to.** That statement was supplied and filed 2026-10-23 as **HD-EIC-10** (register Section E). The gate is **CLOSED**.
 
-**Until this statement exists, the programme remains at the post-falsification gate.** The human may also choose to pause indefinitely and supply boundaries later; that is an equally valid outcome under HD-EIC-07 and does not require further action.
+**What was ruled (summary):**
+
+| Slot | Ruling |
+|---|---|
+| Gloss of HD-EIC-09's "trivially eliminates" | **G2 — "literal effortlessness"**: elimination counts only where achievable with effectively zero effort. **γ′ reopens** (γ′-1/γ′-2 failed only at costly organisational effort) |
+| Structural commitments adopted | **C1** non-internalisable scarcity; **C2** persistent information/discovery asymmetry; **C4** non-economic institutional/social constraint |
+| Structural commitment deferred | **C3** demand differentiation that survives capability rise |
+| Exclusions | Soft-residual advantage acquirable by capital, alt-count, staffing, or facility ownership — **excluded by category** (α, β, γ′-1, γ′-2) |
+
+**Scope:** boundaries only. No mechanism, architecture, residual channel, numeric value, or implementation is authorised. Per-adopted-category mechanisms remain PROPOSED/TBD.
+
+**Still required before any work begins:** a **separate owner authorisation act** initiating the bounded search (or authorising a γ′ re-test under G2). Ruling the boundaries removed the gate; it did not start the search.
+
+**Now workable but not resolved:** OQ-001 (specialisation budget), OQ-004 (crafting experimentation), OQ-005 (manufacturing/automation), T-03 (Specialisation-Budget Shape Study), T-06 (Automation-Drift Test Brief) — each remains EIC-coupled pending that separate authorisation.
 
 ## Evidence Chain (for reference only — do not re-read unless the task requires "why")
 

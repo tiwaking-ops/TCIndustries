@@ -1,8 +1,8 @@
 ---
 doc_id: HUMAN-RULINGS-REGISTER
 title: TCIndustries — Human Rulings Register
-version: "1.4"
-date: 2026-09-28
+version: "1.5"
+date: 2026-10-23
 status: active
 authority_class: A
 human_approved: true
@@ -18,7 +18,7 @@ merges:
 superseded_by: null
 controlling_documents: []
 reading_priority: mandatory
-change_note: "v1.4 — Filed Section E (HD-ECO-01 OQ-009 currency structure + INV-009a faucet-exceeds-sink mandate; HD-PROF-03 OQ-011 acquisition trainer-gated). Both PARTIAL: scope confirmations, INV-009b, and INV-011c remain open. Master GDD non-canonical list entry "Single unified currency as the default" PROMOTED to canonical by HD-ECO-01. v1.3 — Filed Section D (HD-ITM-01, HD-PROF-01, HD-BLD-02, HD-PROF-02, HD-ITM-02, HD-BLD-03): six owner rulings of 2026-09-19/20 transcribed verbatim from their decision records at the owner's instruction on 2026-09-28; Full Cumulative State table brought current from 2026-08-25. v1.2 — Added Section C (HD-RET-01, HD-BLD-01, HD-SCOPE-01), the first three autonomous-loop production rulings (2026-09-19), pasted verbatim from their decision records at the owner's explicit filing instruction. v1.1 — Added Section B (HD-GDD-01), the re-review and re-confirmation of the 5 GDD authority-review-queue items, recovered from prior chat history and formally recorded here for the first time."
+change_note: "v1.5 — Filed Section E (HD-EIC-10, EIC Structural Boundary Statement), completing the HD-EIC-07 gate: G2 \"literal effortlessness\" gloss of HD-EIC-09's \"trivially eliminates\" (γ′ re-test eligibility reopened, execution still a separate act); durable structural commitments adopted for C1 non-internalisable scarcity, C2 persistent information/discovery asymmetry, C4 non-economic institutional/social constraint; C3 demand differentiation DEFERRED; soft-residual exclusions adopted by category. Boundaries only — no mechanism, architecture, residual channel, or numeric value authorised; the bounded EIC search remains separately unauthorised to begin. Full Cumulative State updated (bounded-shaping and next-action rows). v1.4 — Filed Section E (HD-ECO-01 OQ-009 currency structure + INV-009a faucet-exceeds-sink mandate; HD-PROF-03 OQ-011 acquisition trainer-gated). Both PARTIAL: scope confirmations, INV-009b, and INV-011c remain open. Master GDD non-canonical list entry "Single unified currency as the default" PROMOTED to canonical by HD-ECO-01. v1.3 — Filed Section D (HD-ITM-01, HD-PROF-01, HD-BLD-02, HD-PROF-02, HD-ITM-02, HD-BLD-03): six owner rulings of 2026-09-19/20 transcribed verbatim from their decision records at the owner's instruction on 2026-09-28; Full Cumulative State table brought current from 2026-08-25. v1.2 — Added Section C (HD-RET-01, HD-BLD-01, HD-SCOPE-01), the first three autonomous-loop production rulings (2026-09-19), pasted verbatim from their decision records at the owner's explicit filing instruction. v1.1 — Added Section B (HD-GDD-01), the re-review and re-confirmation of the 5 GDD authority-review-queue items, recovered from prior chat history and formally recorded here for the first time."
 ---
 
 # TCIndustries — Human Rulings Register
@@ -87,7 +87,7 @@ The canonical requirement remains binding: *"Important professions should depend
 ### HD-EIC-07 — Authorise What Kind of Next Search
 **Decision: A — BOUNDED NEW SHAPING, with human-defined structural boundaries.**
 A new architecture may be explored. **Automatic generation of an "Architecture D" is not authorised.** Any new shaping effort is permitted only within structural boundaries that the human explicitly defines. **Until those boundaries are stated, no new architectural search or residual-channel invention is authorised.**
-**Status:** HUMAN-LOCKED (authorisation + constraint). **Implementation status:** Bounded new shaping is authorised in principle; the bounding structural commitments must still be supplied by the human before work begins. **⚠ This is the current outstanding gate — see the Open Questions Register.**
+**Status:** HUMAN-LOCKED (authorisation + constraint). **Implementation status:** Bounded new shaping is authorised in principle; the bounding structural commitments must still be supplied by the human before work begins. **COMPLETED 2026-10-23 by HD-EIC-10** — the structural boundaries were supplied (G2 gloss; C1/C2/C4 committed, C3 deferred; soft-residual exclusions adopted). The gate is CLOSED; bounded new shaping remains separately unauthorised to begin.
 
 ### HD-EIC-08 — Confirm Governance Boundary
 **Decision: GOVERNANCE BOUNDARIES CONFIRMED.**
@@ -604,6 +604,87 @@ work.
 
 ---
 
+# Section E — EIC Structural Boundary Statement (HD-EIC-10, completes HD-EIC-07)
+
+## HD-EIC-10 — EIC Structural Boundary Statement (completes HD-EIC-07)
+
+**Source:** Owner ruling session, 2026-10-23, on the filled draft
+(`proposals/TCIndustries_EIC_Structural_Boundary_Statement_Draft_HD-EIC-07_2026-09-28.md`,
+owner decisions recorded 2026-10-23). Filed at the owner's explicit authorisation.
+
+**Status:** HUMAN-LOCKED (structural boundaries only). Completes HD-EIC-07; does
+not amend HD-EIC-01 through HD-EIC-06 or HD-EIC-08, all of which remain in force.
+Does not amend HD-EIC-09 except via decision 1's gloss adoption. Supersedes nothing.
+
+### Decision
+
+1. **GLOSS — "trivially eliminates":** Adopted reading **G2 — "literal effortlessness"**:
+   internalisation counts as eliminating comparative advantage only where elimination
+   is achievable with *effectively zero effort*. HD-EIC-09's "trivially" is therefore
+   read as literal effortlessness, not as "absence of durable resistance" (the
+   reconciliation's G1 reading). **This reopens γ′:** γ′-1 and γ′-2 were eliminated
+   only at *costly* organisational effort (siting facilities, staffing discovery
+   agents, maintaining updaters), so their Phase-6 failures do not satisfy the G2 bar.
+   The reopening is recorded here; any γ′ **re-test** itself remains a **separate future
+   authorisation** — this ruling does not execute it.
+
+2. **STRUCTURAL COMMITMENTS — the project makes a durable design commitment to the
+   following source(s) of economic comparative advantage:**
+   - **C1 — Non-internalisable scarcity** of some production factor: a production
+     input scarce in a way capital, alt-count, and organisational pooling cannot
+     cover. (Adopted despite all tested scarcity being ultimately purchasable — the
+     commitment is to the category, not to any previously-tested mechanism.)
+   - **C2 — Persistent information/discovery asymmetry** that scale does not cheaply
+     erase: a knowledge advantage that survives an organisation fielding its own
+     discovery and knowledge-maintenance apparatus.
+   - **C4 — Non-economic institutional/social constraints** on full internalisation:
+     governance, obligation, contract, reputation consequence, or social pressure
+     that prevents full economic internalisation without being reducible to cost.
+   - **C3 — Demand differentiation that survives capability rise: DEFERRED.** Not
+     adopted as a commitment in this ruling; remains a candidate. Under G2 γ′ is live
+     again, but the owner has not committed to C3 and has not ruled on how it
+     interacts with a γ′ re-test.
+   - **What remains undecided per adopted category:** no specific resource, placement
+     rule, access mechanism, knowledge format, codification mechanism, governance
+     instrument, or social mechanism is authorised. Each adopted category bounds a
+     *search space*; the mechanisms within it remain PROPOSED/TBD.
+
+3. **EXPLICIT EXCLUSIONS — the following are ruled out as a basis for durable
+   comparative advantage:** comparative advantage resting **solely** on soft residuals
+   that a multi-account unit or organisation can acquire through capital, additional
+   characters, staffing, or facility ownership is **excluded**, by category. This
+   excludes α (soft pressure), β (character-layer cap), γ′-1 (maintainable scarcity
+   via facility ownership), and γ′-2 (maintainable locality via staffing). Excluding by
+   category is the stronger stance and forecloses more than leaving individual
+   channels open.
+
+4. **SCOPE — boundaries only:** no mechanism, architecture, residual channel, numeric
+   value, or implementation is authorised by this statement. The bounded new shaping
+   permitted by HD-EIC-07 remains unauthorised to begin until the owner separately
+   authorises it. Ruling this statement removes the HD-EIC-07 gate; it does not start
+   the work.
+
+5. **UNCHANGED:** HD-EIC-01 through HD-EIC-06, HD-EIC-08, and all boundaries in
+   HD-EIC-08 remain in force. PIL-003 remains HUMAN-LOCKED. No hard factory-quality
+   ceiling. No account-level restriction.
+
+**Explicitly does not authorise:** any architecture or Architecture D; any
+residual-channel invention; any numeric balance value; provenance or reputation
+engine work (DEFERRED); GDD consolidation (NOT AUTHORISED); initiation of the
+bounded EIC search; any change to OQ-001, OQ-004, or OQ-005, which become
+*workable* but are not resolved.
+
+### Traceability
+| Item | Source |
+|---|---|
+| Gate completed | HD-EIC-07 (`governance/TCIndustries_Human_Rulings_Register.md`) — Option A ruled 2026-08-25; the boundaries were left outstanding |
+| Filled draft | `proposals/TCIndustries_EIC_Structural_Boundary_Statement_Draft_HD-EIC-07_2026-09-28.md` (owner decisions recorded 2026-10-23) |
+| Category wording source | `governance/eic/TCIndustries_EIC_Human_Validation_Gate_Architecture_C_Falsification_v0.1.md` §5 — observation, not proposals |
+| Gloss provenance | `investigations/eic/TCIndustries_EIC_HD-EIC-09_Reconciliation_2026-09-12.md` §6.2 |
+| Prior rulings affected | HD-EIC-07 gate status (now completed by this ruling); HD-EIC-05/γ′ status note (G2 reopens γ′ re-test eligibility, separate act required) |
+
+---
+
 # Full Cumulative State (All Sections Combined) — Current as of 2026-09-28
 
 | Item | Current Status |
@@ -617,8 +698,8 @@ work.
 | Provenance & Reputation Engine | **Deferred** |
 | Architecture D (automatic) | **Not authorised** |
 | New residual-channel invention without human boundaries | **Not authorised** |
-| Bounded new architectural shaping | Authorised in principle; **blocked pending** human structural-boundary statement (HD-EIC-07) |
-| Next required human action | Supply the structural boundaries referenced in HD-EIC-07 — *"What structural source(s) of economic comparative advantage is the project actually willing to make a durable design commitment to?"* |
+| Bounded new architectural shaping | Authorised in principle; structural boundaries **supplied 2026-10-23 (HD-EIC-10)** — G2 gloss, C1/C2/C4 committed, C3 deferred, soft-residual exclusions adopted. **Remains separately unauthorised to begin** until the owner issues a distinct authorisation act |
+| Next required human action | **HD-EIC-07 gate CLOSED (HD-EIC-10, 2026-10-23).** Next: a **separate** owner authorisation to begin the bounded EIC search (or a γ′ re-test under G2, also a separate act); or OQ-012 multi-account/exploit implementation ruling (sole live queue item) |
 | WRLD-001 (Persistent shared world) | **HUMAN-LOCKED** (HD-GDD-01) |
 | PLR-001 (Persistent character identity) | **HUMAN-LOCKED** (HD-GDD-01) |
 | PLR-003 (Persistent meaningful ownership) | **HUMAN-LOCKED, principle only** — implementation open (HD-GDD-01) |
@@ -635,7 +716,7 @@ work.
 | BLD-004 building abandonment | **HUMAN-LOCKED** (HD-BLD-02 + HD-BLD-03) — zero maintenance credit → removal; upkeep lapses after 24h at zero credit; **contents removed with structure** (no salvage/recovery/restitution); placement/lots/density remain TBD; backlog 6e(b) settlement dissolution OPEN |
 | Invariants approved to date | INV-016a, INV-016b, INV-007a, INV-015, INV-010 (conditional), INV-011a, INV-BLD-004b |
 | Invariants explicitly **not** approved | INV-007b, INV-011b, INV-011c, INV-BLD-004a (each remains a candidate; per-invariant granularity — no batch approval) |
-| Open questions still awaiting ruling | Multi-account & exploit implementation policy (OQ-012 / SAFE-002, INV-012) — the only item still in the live queue; plus unclosed slots on already-ruled items: HD-ECO-01 scope confirmation + INV-009b, HD-PROF-03 scope confirmation + INV-011c; backlog 6c early-game on-ramp; backlog 6e(b) settlement dissolution; HD-EIC-07 structural boundaries (blocks OQ-001/OQ-004/OQ-005, T-03, T-06) |
+| Open questions still awaiting ruling | Multi-account & exploit implementation policy (OQ-012 / SAFE-002, INV-012) — the only item still in the live queue; plus unclosed slots on already-ruled items: HD-ECO-01 scope confirmation + INV-009b, HD-PROF-03 scope confirmation + INV-011c; backlog 6c early-game on-ramp; backlog 6e(b) settlement dissolution. **HD-EIC-07 structural boundaries RESOLVED 2026-10-23 (HD-EIC-10)** — OQ-001/OQ-004/OQ-005, T-03, T-06 are now *workable* but not resolved (still EIC-coupled pending a separate search-authorisation act) |
 | Post-Phase-10 testbed direction | **NOT DECIDED — no default exists**; all testbed work stays closed pending the owner's answer (`proposals/SWG_Post_Phase10_Program_Proposal_v0.1.md` §9 item 1) |
 
 *End of Human Rulings Register.*
