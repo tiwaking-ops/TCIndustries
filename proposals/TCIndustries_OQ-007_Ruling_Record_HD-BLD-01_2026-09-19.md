@@ -16,6 +16,15 @@ per-invariant). Execution record:
 GDD status line and `project_memory` event line remain reserved owner acts
 (not executed by the drafter).
 **Author:** Buffy — Codebuff agent (Freebuff), ruling-session recorder, Cycle 6.
+
+**Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
+name or version, and on that basis does not satisfy GR-007.3 on its face. The attribution
+stands as originally authored and has been assessed as correct by the human owner
+(ruling 2026-10-18). This note does not alter the attribution, does not re-attribute the
+document, and confers no authority. No reason for the absence of model disclosure is
+recorded here.
+**Assessor (llm):** HY4 Preview (`orcarouter/tencent/hy4-preview-free`) — 2026-10-18, per
+explicit owner authorization.
 **Date:** 2026-09-19
 **Gives effect to:** `proposals/TCIndustries_OQ-007_City_Formation_Governance_Proposal_Drafter_v1_2026-09-19.md` (retained unaltered as provenance, except the Cycle-6 INV-007b quote-fidelity correction noted in its session).
 **Ruling ID:** **HD-BLD-01** — assigned by the register's HD-<Area>-<NN>

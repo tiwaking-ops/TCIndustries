@@ -6,6 +6,15 @@ LOCKED, and no element of this proposal changes any GDD status. No effort
 estimates and no calendar commitments (Gap Analysis v0.1 §6.3 pattern — OQ-015
 is a scope definition, not a schedule).
 **Author:** Buffy — Codebuff agent (Freebuff), autonomous-loop drafter, Cycle 1.
+
+**Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
+name or version, and on that basis does not satisfy GR-007.3 on its face. The attribution
+stands as originally authored and has been assessed as correct by the human owner
+(ruling 2026-10-18). This note does not alter the attribution, does not re-attribute the
+document, and confers no authority. No reason for the absence of model disclosure is
+recorded here.
+**Assessor (llm):** HY4 Preview (`orcarouter/tencent/hy4-preview-free`) — 2026-10-18, per
+explicit owner authorization.
 **Assessor:** None — single-session authoring; no independent review pass (per GR-004, recorded as such rather than guessed).
 **Date:** 2026-09-19
 **Queue position:** 5 of 5 (see `proposals/TCIndustries_Continuous_Queue_Tracker.md`)

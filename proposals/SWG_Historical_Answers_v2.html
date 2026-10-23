@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SWG Historical Accuracy v2 — Targeted Re-Ask</title>
+<style>
+  :root { --bg:#0b0c10; --panel:#1f2833; --text:#c5c6c7; --accent:#66fcf1; --muted:#45a29e; --border:#2b3442; --input-bg:#0b0c10; }
+  * { box-sizing:border-box; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); margin:0; padding:24px; line-height:1.5; }
+  .container { max-width:1200px; margin:0 auto; }
+  header { border-bottom:2px solid var(--border); padding-bottom:16px; margin-bottom:20px; }
+  h1 { font-size:1.5rem; margin:0 0 8px 0; color:var(--accent); }
+  .subtitle { font-size:0.9rem; color:var(--muted); margin-bottom:14px; }
+  .rules { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; font-size:0.85rem; margin-bottom:18px; }
+  .rules h3 { margin-top:0; color:var(--accent); font-size:1rem; }
+  .rules ul { margin:8px 0 0 0; padding-left:20px; }
+  .rules li { margin-bottom:4px; }
+  .meta { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; margin-bottom:18px; }
+  .meta label { font-size:0.78rem; color:var(--muted); display:flex; flex-direction:column; gap:4px; }
+  .meta input { background:var(--input-bg); border:1px solid var(--border); color:var(--text); border-radius:4px; padding:6px 9px; font-size:0.85rem; min-width:210px; }
+  .progress { font-size:0.8rem; color:var(--muted); background:var(--panel); border:1px solid var(--border); padding:6px 10px; border-radius:4px; margin-left:auto; }
+  .cat { margin-bottom:34px; }
+  .cat h2 { font-size:1.15rem; color:var(--accent); border-bottom:2px solid var(--border); padding-bottom:6px; margin-bottom:10px; }
+  .cat-note { font-size:0.8rem; color:var(--muted); margin-bottom:14px; font-style:italic; border-left:3px solid var(--border); padding-left:10px; }
+  .q-block { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-bottom:12px; position:relative; }
+  .q-num { position:absolute; top:14px; right:14px; font-size:0.8rem; color:var(--muted); font-weight:bold; }
+  .q-text { font-size:0.98rem; margin-bottom:11px; color:var(--text); padding-right:52px; }
+  .q-text code { background:var(--input-bg); padding:1px 5px; border-radius:3px; font-size:0.9em; }
+  .answer-area { display:flex; gap:12px; flex-wrap:wrap; align-items:flex-start; }
+  textarea { flex:1 1 340px; min-height:76px; background:var(--input-bg); border:1px solid var(--border); color:var(--text); border-radius:6px; padding:10px; resize:vertical; font-family:inherit; font-size:0.95rem; }
+  textarea:focus, input:focus, select:focus { outline:none; border-color:var(--accent); }
+  .side { flex:0 1 260px; display:flex; flex-direction:column; gap:7px; }
+  .conf { font-size:0.78rem; color:var(--muted); display:flex; align-items:center; gap:6px; }
+  .conf-select, .notes { background:var(--input-bg); border:1px solid var(--border); color:var(--text); border-radius:4px; padding:4px 8px; font-size:0.8rem; font-family:inherit; }
+  .notes { flex:1; min-width:120px; }
+  .quick-btns { display:flex; gap:6px; flex-wrap:wrap; }
+  .quick-btn { background:var(--panel); border:1px solid var(--border); color:var(--text); padding:4px 10px; border-radius:4px; cursor:pointer; font-size:0.78rem; }
+  .quick-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .quick-btn.used { background:var(--muted); color:#000; border-color:var(--muted); }
+  footer { border-top:1px solid var(--border); margin-top:30px; padding-top:16px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  .big-btn { background:var(--accent); color:#000; border:none; padding:12px 24px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:1rem; }
+  .big-btn:hover { opacity:0.9; }
+  .big-btn.secondary { background:var(--panel); color:var(--text); border:1px solid var(--border); }
+  .big-btn.secondary:hover { border-color:var(--accent); }
+  #output { display:none; background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; margin-top:16px; font-family:'Courier New',Courier,monospace; font-size:0.85rem; white-space:pre-wrap; max-height:700px; overflow:auto; }
+  #copy { margin-top:10px; background:var(--muted); color:#000; border:none; padding:8px 16px; border-radius:4px; cursor:pointer; font-weight:bold; }
+  #copy:hover { opacity:0.9; }
+  .saveinfo { font-size:0.75rem; color:var(--muted); margin-top:8px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>SWG Historical Accuracy v2 — Targeted Re-Ask</h1>
+    <div class="subtitle">Second-pass instrument, 56 questions. Your answers are EVIDENCE only — they never become canon, and they close no open question.</div>
+  </header>
+  <div class="rules">
+    <h3>Answering rules</h3>
+    <ul>
+      <li>Answer <b>from recollection only</b>. If you are unsure, write <b>TBD</b> / <b>unknown</b> / <b>I don't remember</b> — never guess a number.</li>
+      <li>Distinguish "I remember it worked like X" from "I think it was probably X". Mark the second as <b>inference</b> in the confidence dropdown.</li>
+      <li>Numbers are <b>recollected magnitudes</b> only. They are never tuning targets and are never proposed as values.</li>
+      <li>If you never used a system, write <b>N/A — never used</b>. Do not describe a system you have no experience of.</li>
+      <li><b>TBD and "I don't remember" are better than a plausible-sounding wrong answer.</b> A missing answer costs the project nothing; a wrong number costs it something.</li>
+      <li>Anything you want to add that no question asked for goes in <b>Notes</b>.</li>
+    </ul>
+  </div>
+  <div class="meta">
+    <label>Responder handle <input id="responder" type="text" placeholder="e.g. Tiwa Pene" value="Tiwa Pene"></label>
+    <label>Date <input id="respdate" type="text" placeholder="YYYY-MM-DD"></label>
+    <div class="progress" id="progress">0 / 56 answered &middot; 0 confidence set</div>
+  </div>
+  <div class="saveinfo" id="saveinfo">Answers autosave to this browser as you type. Nothing leaves your machine.</div>
+  <div class="cat">
+    <h2>A. The one question still open from the report — service XP</h2>
+    <div class="cat-note">Carried from <code>investigations/TCIndustries_SWG_Historical_Recollection_Report_Tiwa_Pene_2026-10-21.md</code> §8.2 (Q-C7b). Your answer to A1 closes the only open item in the v1 record. The record already holds your Q91 answer — that service XP scaled with severity, and your stated preference was flat with a scaled bonus — so A1–A4 are about the parts Q91 did not reach.</div>
+    <div class="q-block" data-q="1" data-stem="You said the Vendor skill tree paid XP per day for each Vendor a merchant had. Did the other service professions — Medic, Doctor, Entertainer — earn XP only when they performed a service for someone, or did they also earn a standing amount each day for the people and equipment they had set up? In other words: was service XP in SWG earned by doing things, or by having things?">
+      <div class="q-num">Q1</div>
+      <div class="q-text">You said the Vendor skill tree paid XP per day for each Vendor a merchant had. Did the other service professions — Medic, Doctor, Entertainer — earn XP only when they performed a service for someone, or did they also earn a standing amount each day for the people and equipment they had set up? In other words: was service XP in SWG earned by doing things, or by having things?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="2" data-stem="Was the Vendor tree's daily XP the same amount as the XP other service professions earned, or a different rate? And was it paid for every Vendor a merchant had, or only for Vendors that actually sold something?">
+      <div class="q-num">Q2</div>
+      <div class="q-text">Was the Vendor tree's daily XP the same amount as the XP other service professions earned, or a different rate? And was it paid for every Vendor a merchant had, or only for Vendors that actually sold something?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="3" data-stem="Knowing that the Vendor skill tree &quot;severely gates the time it takes to become a Master Merchant&quot; — did service XP feel like a fair way to earn a living as a service profession? Could you make it as a career on its own, or did you need another way to earn while you levelled?">
+      <div class="q-num">Q3</div>
+      <div class="q-text">Knowing that the Vendor skill tree "severely gates the time it takes to become a Master Merchant" — did service XP feel like a fair way to earn a living as a service profession? Could you make it as a career on its own, or did you need another way to earn while you levelled?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="4" data-stem="Was service XP the main way service professionals levelled, or was it something extra on top of XP from missions or from selling? For a merchant specifically, which was the bigger source of XP?">
+      <div class="q-num">Q4</div>
+      <div class="q-text">Was service XP the main way service professionals levelled, or was it something extra on top of XP from missions or from selling? For a merchant specifically, which was the bigger source of XP?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat">
+    <h2>B. Durability, decay and repair</h2>
+    <div class="cat-note">For OQ-010, which is a named-open structural question: universal decay with player repair (A), decay only for identity-bearing crafted items (B), or no baseline decay with demand coming from destruction and obsolescence instead (C). In the v1 record you said armour did not decay and that weapons needed repair. These questions establish the shape of what was actually there, not which option the project should take.</div>
+    <div class="q-block" data-q="5" data-stem="In SWG Pre-CU, did things wear out from use? Which kinds of items wore out, and which did not?">
+      <div class="q-num">Q5</div>
+      <div class="q-text">In SWG Pre-CU, did things wear out from use? Which kinds of items wore out, and which did not?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="6" data-stem="When a weapon or piece of equipment wore out, what happened to it? Did it stop working, did it get weaker, or did it just need to be fixed by someone?">
+      <div class="q-num">Q6</div>
+      <div class="q-text">When a weapon or piece of equipment wore out, what happened to it? Did it stop working, did it get weaker, or did it just need to be fixed by someone?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="7" data-stem="Who fixed items, and what did that involve — skill, materials, credits, time, or a combination?">
+      <div class="q-num">Q7</div>
+      <div class="q-text">Who fixed items, and what did that involve — skill, materials, credits, time, or a combination?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="8" data-stem="Was there a steady stream of people needing repairs? If so, who made a living from it, and was that a good living?">
+      <div class="q-num">Q8</div>
+      <div class="q-text">Was there a steady stream of people needing repairs? If so, who made a living from it, and was that a good living?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="9" data-stem="Was there ever anything in the game that was permanently destroyed or could no longer be used? If so, what was it and how did that happen?">
+      <div class="q-num">Q9</div>
+      <div class="q-text">Was there ever anything in the game that was permanently destroyed or could no longer be used? If so, what was it and how did that happen?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat">
+    <h2>C. Respecialisation and unlearning skills</h2>
+    <div class="cat-note">For OQ-011, which is a named-open structural question: economic cost (A), retraining time (B), or capability decay / surrender (C). In the v1 record you said players could remove skills from the skill tree. These questions establish what that actually cost and what it enabled.</div>
+    <div class="q-block" data-q="10" data-stem="You said players could remove a skill from the skill tree. Was doing so free, immediate, and repeatable as many times as you liked — or did it cost something, such as credits, materials, or time?">
+      <div class="q-num">Q10</div>
+      <div class="q-text">You said players could remove a skill from the skill tree. Was doing so free, immediate, and repeatable as many times as you liked — or did it cost something, such as credits, materials, or time?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="11" data-stem="If a player had already put experience into a skill and then removed it, did they get that experience back, or was it gone?">
+      <div class="q-num">Q11</div>
+      <div class="q-text">If a player had already put experience into a skill and then removed it, did they get that experience back, or was it gone?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="12" data-stem="Were there limits — a limit per day, a limit in total, a limit on which skills, a cooldown, or a cost per removal?">
+      <div class="q-num">Q12</div>
+      <div class="q-text">Were there limits — a limit per day, a limit in total, a limit on which skills, a cooldown, or a cost per removal?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="13" data-stem="How often did people actually do this, and what were the reasons? Was it mostly changing career, filling a temporary need, correcting a mistake, or something else?">
+      <div class="q-num">Q13</div>
+      <div class="q-text">How often did people actually do this, and what were the reasons? Was it mostly changing career, filling a temporary need, correcting a mistake, or something else?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat">
+    <h2>D. Vendors and how things were sold</h2>
+    <div class="cat-note">For OQ-016 (vendor and retail structure) and OQ-009 (pricing mechanics, RET-002). In the v1 record you described two tiers — Master Merchants could place vendors without fees or caps, while ordinary traders could only use the bazaar, capped in price and in how much they could list, and were charged fees.</div>
+    <div class="q-block" data-q="14" data-stem="Who could place a vendor, and was that tied to a skill or a profession? Were there different levels of vendor, and who could get which?">
+      <div class="q-num">Q14</div>
+      <div class="q-text">Who could place a vendor, and was that tied to a skill or a profession? Were there different levels of vendor, and who could get which?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="15" data-stem="What did it cost to keep a vendor running, and what happened if you stopped paying for it?">
+      <div class="q-num">Q15</div>
+      <div class="q-text">What did it cost to keep a vendor running, and what happened if you stopped paying for it?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="16" data-stem="Was there a limit on how many vendors a single person could run, or on how much they could stock or sell through them? What determined the limit?">
+      <div class="q-num">Q16</div>
+      <div class="q-text">Was there a limit on how many vendors a single person could run, or on how much they could stock or sell through them? What determined the limit?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="17" data-stem="What were the ways you could sell something, and which did you use and why?">
+      <div class="q-num">Q17</div>
+      <div class="q-text">What were the ways you could sell something, and which did you use and why?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="18" data-stem="Were there price limits, quantity limits, or fees on some ways of selling but not others? Which ways, and who was exempt from them?">
+      <div class="q-num">Q18</div>
+      <div class="q-text">Were there price limits, quantity limits, or fees on some ways of selling but not others? Which ways, and who was exempt from them?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="19" data-stem="When you dealt in the market, what made it work as a real market rather than a dump? What broke it, if anything?">
+      <div class="q-num">Q19</div>
+      <div class="q-text">When you dealt in the market, what made it work as a real market rather than a dump? What broke it, if anything?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat">
+    <h2>E. Money sinks, money faucets, and the duplication episode</h2>
+    <div class="cat-note">For OQ-009 — whose sink instrument classes are named-open, each to be adopted by its own future ruling — and for OQ-012 / SAFE-002 (the multi-account and exploit implementation policy). In the v1 record you said the only real money sinks were housing and buildings, that harvesters and factories earned more than they consumed, that travel and training were cheap, that prices were pinned to mission income, and that a duplication glitch caused inflation which hoarding behaviour then absorbed.</div>
+    <div class="q-block" data-q="20" data-stem="Which things in the game regularly took money out of a player's hands — for an ordinary player, not for the wealthy?">
+      <div class="q-num">Q20</div>
+      <div class="q-text">Which things in the game regularly took money out of a player's hands — for an ordinary player, not for the wealthy?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="21" data-stem="Which things took money out of a player's hands only if they were already established or wealthy?">
+      <div class="q-num">Q21</div>
+      <div class="q-text">Which things took money out of a player's hands only if they were already established or wealthy?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="22" data-stem="You said a duplication glitch that some people exploited caused inflation. What happened to the economy afterwards? Did prices rise, and if they rose, did they ever come back down?">
+      <div class="q-num">Q22</div>
+      <div class="q-text">You said a duplication glitch that some people exploited caused inflation. What happened to the economy afterwards? Did prices rise, and if they rose, did they ever come back down?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="23" data-stem="Did the developers do anything about it? Did the player base notice, and did people care?">
+      <div class="q-num">Q23</div>
+      <div class="q-text">Did the developers do anything about it? Did the player base notice, and did people care?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="24" data-stem="You said players hoarded money and that merchants acted as money sinks. In practice, what did hoarding look like — what did people hold on to, and why?">
+      <div class="q-num">Q24</div>
+      <div class="q-text">You said players hoarded money and that merchants acted as money sinks. In practice, what did hoarding look like — what did people hold on to, and why?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="25" data-stem="What was the most reliable way for a new player to earn money, and what was the most reliable way for an established player? Were those the same income?">
+      <div class="q-num">Q25</div>
+      <div class="q-text">What was the most reliable way for a new player to earn money, and what was the most reliable way for an established player? Were those the same income?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat">
+    <h2>F. Creatures and the world they lived in</h2>
+    <div class="cat-note">For the creature and ecology domain, which the v1 instrument failed to cover because its stems were generic rather than SWG-specific. You mastered the Bio Engineer career, and creature handling was a notable class.</div>
+    <div class="q-block" data-q="26" data-stem="How did creatures behave around each other? Did they hunt as a group, fight one at a time, or run away?">
+      <div class="q-num">Q26</div>
+      <div class="q-text">How did creatures behave around each other? Did they hunt as a group, fight one at a time, or run away?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="27" data-stem="Before you committed to a fight, how did you know whether a creature was dangerous for you? What information was available, and what was not?">
+      <div class="q-num">Q27</div>
+      <div class="q-text">Before you committed to a fight, how did you know whether a creature was dangerous for you? What information was available, and what was not?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="28" data-stem="Tell me about a creature you remember vividly. What made it stick in your memory — and what did it actually do when you met it?">
+      <div class="q-num">Q28</div>
+      <div class="q-text">Tell me about a creature you remember vividly. What made it stick in your memory — and what did it actually do when you met it?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="29" data-stem="What did you do with creatures you did not want to fight? Was there a way to tame them, harvest from them, avoid them, or drive them off?">
+      <div class="q-num">Q29</div>
+      <div class="q-text">What did you do with creatures you did not want to fight? Was there a way to tame them, harvest from them, avoid them, or drive them off?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="30" data-stem="In a place you knew well, how did the creatures there change over time? Did they come back, move away, or thin out?">
+      <div class="q-num">Q30</div>
+      <div class="q-text">In a place you knew well, how did the creatures there change over time? Did they come back, move away, or thin out?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat">
+    <h2>G. Items and gear</h2>
+    <div class="cat-note">For the item and equipment domain, again uncovered by v1 because its stems assumed mechanics SWG did not have. You mastered Weaponsmithing and Armoursmithing, so this is asking the person who made the things.</div>
+    <div class="q-block" data-q="31" data-stem="As someone who made weapons and armour, what made an item you made worth having to someone else, rather than just being another item?">
+      <div class="q-num">Q31</div>
+      <div class="q-text">As someone who made weapons and armour, what made an item you made worth having to someone else, rather than just being another item?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="32" data-stem="Did you ever make something for another player? How did that work — whose materials did you use, and how were you paid?">
+      <div class="q-num">Q32</div>
+      <div class="q-text">Did you ever make something for another player? How did that work — whose materials did you use, and how were you paid?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="33" data-stem="When you crafted, what part of the result could you not control? How did you feel about that, and did players talk about it the way people talk about a machine's dice?">
+      <div class="q-num">Q33</div>
+      <div class="q-text">When you crafted, what part of the result could you not control? How did you feel about that, and did players talk about it the way people talk about a machine's dice?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="34" data-stem="How did quality actually work in practice — what were the ranges you saw, and what did players chase?">
+      <div class="q-num">Q34</div>
+      <div class="q-text">How did quality actually work in practice — what were the ranges you saw, and what did players chase?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat">
+    <h2>H. Player cities and civic life</h2>
+    <div class="cat-note">For OQ-007 and BLD-004. The v1 instrument asked this category in generic terms and got one-word answers from a respondent who has played the system.</div>
+    <div class="q-block" data-q="35" data-stem="What did founding a player city actually involve, step by step?">
+      <div class="q-num">Q35</div>
+      <div class="q-text">What did founding a player city actually involve, step by step?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="36" data-stem="Who paid for the city, and who was allowed to spend its money?">
+      <div class="q-num">Q36</div>
+      <div class="q-text">Who paid for the city, and who was allowed to spend its money?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="37" data-stem="What happened to a city when the people running it stopped playing?">
+      <div class="q-num">Q37</div>
+      <div class="q-text">What happened to a city when the people running it stopped playing?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="38" data-stem="What did a city need in order to be worth living in, and what made a good one?">
+      <div class="q-num">Q38</div>
+      <div class="q-text">What did a city need in order to be worth living in, and what made a good one?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat">
+    <h2>I. Death, cloning, and playing more than one character</h2>
+    <div class="cat-note">For the death and cloning domain, and for OQ-012 / SAFE-002. The v1 stems for this category asserted mechanics SWG did not have, so they produced rejections rather than descriptions.</div>
+    <div class="q-block" data-q="39" data-stem="What actually happened to your character when you died in ordinary PvE, and how was that different from dying in PvP?">
+      <div class="q-num">Q39</div>
+      <div class="q-text">What actually happened to your character when you died in ordinary PvE, and how was that different from dying in PvP?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="40" data-stem="Was there a cost to dying at all? If there was, what form did that cost take?">
+      <div class="q-num">Q40</div>
+      <div class="q-text">Was there a cost to dying at all? If there was, what form did that cost take?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="41" data-stem="Did you ever play more than one character at once? If so, did you use them together or separately, and what for?">
+      <div class="q-num">Q41</div>
+      <div class="q-text">Did you ever play more than one character at once? If so, did you use them together or separately, and what for?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="42" data-stem="Were there rules about multiple characters, and did people follow them?">
+      <div class="q-num">Q42</div>
+      <div class="q-text">Were there rules about multiple characters, and did people follow them?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat">
+    <h2>J. Elite professions</h2>
+    <div class="cat-note">For the elite-profession domain, and because a respondent who mastered every class has a comparative view of which elites worked and why. In the v1 record you said some elites were "completely broken and never worked correctly".</div>
+    <div class="q-block" data-q="43" data-stem="Of the elite careers, which one do you think was genuinely well designed, and what made it work?">
+      <div class="q-num">Q43</div>
+      <div class="q-text">Of the elite careers, which one do you think was genuinely well designed, and what made it work?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="44" data-stem="Which one was broken, and what specifically was the failure? Was the problem in the numbers, in the skills, in the group requirement, or in the tools?">
+      <div class="q-num">Q44</div>
+      <div class="q-text">Which one was broken, and what specifically was the failure? Was the problem in the numbers, in the skills, in the group requirement, or in the tools?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="45" data-stem="What did an elite career need that an ordinary career did not?">
+      <div class="q-num">Q45</div>
+      <div class="q-text">What did an elite career need that an ordinary career did not?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="46" data-stem="Did people play elites differently, or did most people just level them because they were on the way?">
+      <div class="q-num">Q46</div>
+      <div class="q-text">Did people play elites differently, or did most people just level them because they were on the way?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat">
+    <h2>K. Social structure and guilds</h2>
+    <div class="cat-note">For the social domain, which produced no usable evidence in v1.</div>
+    <div class="q-block" data-q="47" data-stem="Why did people join a guild? What was actually in it for them?">
+      <div class="q-num">Q47</div>
+      <div class="q-text">Why did people join a guild? What was actually in it for them?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="48" data-stem="Did a guild do anything besides give people a chat channel? Did it enforce anything, and did that work?">
+      <div class="q-num">Q48</div>
+      <div class="q-text">Did a guild do anything besides give people a chat channel? Did it enforce anything, and did that work?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="49" data-stem="Was there a strong culture of helping new players, and what did that look like in practice?">
+      <div class="q-num">Q49</div>
+      <div class="q-text">Was there a strong culture of helping new players, and what did that look like in practice?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat">
+    <h2>L. The client and how you played</h2>
+    <div class="cat-note">For the client domain, which produced no usable evidence in v1.</div>
+    <div class="q-block" data-q="50" data-stem="How did the client handle the amount of information you had to keep track of during a fight?">
+      <div class="q-num">Q50</div>
+      <div class="q-text">How did the client handle the amount of information you had to keep track of during a fight?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="51" data-stem="What was hard to use, and what did you work around instead?">
+      <div class="q-num">Q51</div>
+      <div class="q-text">What was hard to use, and what did you work around instead?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="52" data-stem="Did you ever use add-ons, macros, or third-party tools? What did you use them for?">
+      <div class="q-num">Q52</div>
+      <div class="q-text">Did you ever use add-ons, macros, or third-party tools? What did you use them for?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat">
+    <h2>M. Design judgement</h2>
+    <div class="cat-note">Open-ended. These are not instrument questions with a right answer; they are the respondent's own judgement, recorded as evidence of opinion and explicitly not as design instruction.</div>
+    <div class="q-block" data-q="53" data-stem="If you could change one thing about SWG to make it better today, what would it be?">
+      <div class="q-num">Q53</div>
+      <div class="q-text">If you could change one thing about SWG to make it better today, what would it be?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="54" data-stem="If you were building a new MMO and wanted SWG's strengths, what would you copy — and what would you deliberately leave behind?">
+      <div class="q-num">Q54</div>
+      <div class="q-text">If you were building a new MMO and wanted SWG's strengths, what would you copy — and what would you deliberately leave behind?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="55" data-stem="What surprised you most about how the game actually played, compared to how you expected it to?">
+      <div class="q-num">Q55</div>
+      <div class="q-text">What surprised you most about how the game actually played, compared to how you expected it to?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-block" data-q="56" data-stem="What do you wish the developers had understood about how players actually used the game?">
+      <div class="q-num">Q56</div>
+      <div class="q-text">What do you wish the developers had understood about how players actually used the game?</div>
+      <div class="answer-area">
+        <textarea class="ans" placeholder="Your recollection… or TBD / unknown / N/A — never used"></textarea>
+        <div class="side">
+          <label class="conf">Confidence <select class="conf-select"><option value="">(not set)</option><option value="high">high</option><option value="medium">medium</option><option value="low">low</option><option value="inference">inference</option></select></label>
+          <label class="conf">Notes <input class="notes" type="text" placeholder="optional"></label>
+          <div class="quick-btns"><button class="quick-btn" type="button">TBD</button><button class="quick-btn" type="button">unknown</button><button class="quick-btn" type="button">N/A — never used</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <button class="big-btn secondary" id="clearBtn" type="button">Clear all answers</button>
+    <button class="big-btn" id="exportBtn" type="button">Export answers for pasting</button>
+  </footer>
+  <div id="output"></div>
+  <button id="copy" type="button" style="display:none;">Copy to clipboard</button>
+</div>
+<script>
+var KEY = 'swg_v2_answers';
+var blocks = Array.prototype.slice.call(document.querySelectorAll('.q-block'));
+
+function qid(b) { return b.getAttribute('data-q'); }
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; }
+}
+
+function saveState() {
+  var s = {};
+  blocks.forEach(function (b) {
+    var q = qid(b);
+    var a = b.querySelector('textarea.ans').value;
+    var c = b.querySelector('select.conf-select').value;
+    var n = b.querySelector('input.notes').value;
+    if (a || c || n) s[q] = { a: a, c: c, n: n };
+  });
+  try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
+}
+
+function hydrate() {
+  var s = loadState();
+  blocks.forEach(function (b) {
+    var v = s[qid(b)];
+    if (!v) return;
+    if (v.a) b.querySelector('textarea.ans').value = v.a;
+    if (v.c) b.querySelector('select.conf-select').value = v.c;
+    if (v.n) b.querySelector('input.notes').value = v.n;
+  });
+  var d = document.getElementById('respdate');
+  if (!d.value) {
+    var t = new Date();
+    d.value = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+  }
+}
+
+function updateProgress() {
+  var answered = 0, conf = 0;
+  blocks.forEach(function (b) {
+    if (b.querySelector('textarea.ans').value.trim()) answered++;
+    if (b.querySelector('select.conf-select').value) conf++;
+  });
+  document.getElementById('progress').textContent =
+    answered + ' / ' + blocks.length + ' answered \u00b7 ' + conf + ' confidence set';
+}
+
+blocks.forEach(function (b) {
+  var ta = b.querySelector('textarea.ans');
+  var sel = b.querySelector('select.conf-select');
+  var nt = b.querySelector('input.notes');
+  ta.addEventListener('input', function () { saveState(); updateProgress(); });
+  sel.addEventListener('change', function () { saveState(); updateProgress(); });
+  nt.addEventListener('input', function () { saveState(); });
+  b.querySelectorAll('.quick-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      ta.value = btn.textContent;
+      b.querySelectorAll('.quick-btn').forEach(function (x) { x.classList.remove('used'); });
+      btn.classList.add('used');
+      saveState(); updateProgress();
+      ta.focus();
+    });
+  });
+});
+
+document.getElementById('responder').addEventListener('input', saveState);
+document.getElementById('respdate').addEventListener('input', saveState);
+
+document.getElementById('exportBtn').addEventListener('click', function () {
+  var responder = document.getElementById('responder').value.trim() || '<handle>';
+  var date = document.getElementById('respdate').value.trim() || 'YYYY-MM-DD';
+  var lines = [];
+  blocks.forEach(function (b) {
+    var q = qid(b);
+    var stem = b.getAttribute('data-stem');
+    var a = b.querySelector('textarea.ans').value.trim() || '(unanswered)';
+    var c = b.querySelector('select.conf-select').value || '(not set)';
+    var n = b.querySelector('input.notes').value.trim() || '<optional>';
+    lines.push('### Q' + q + ' \u2014 ' + stem);
+    lines.push('- Responder: ' + responder);
+    lines.push('- Date: ' + date);
+    lines.push('- Answer: ' + a);
+    lines.push('- Confidence: ' + c);
+    lines.push('- Notes: ' + n);
+    lines.push('');
+  });
+  var out = document.getElementById('output');
+  out.textContent = lines.join('\n');
+  out.style.display = 'block';
+  document.getElementById('copy').style.display = 'inline-block';
+  out.scrollIntoView({ behavior: 'smooth' });
+});
+
+function fallbackCopy(txt, done) {
+  var ta = document.createElement('textarea');
+  ta.value = txt;
+  ta.style.position = 'fixed';
+  ta.style.top = '-1000px';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); done(); }
+  catch (e) { alert('Copy failed \u2014 please select the text manually and press Ctrl+C.'); }
+  document.body.removeChild(ta);
+}
+
+document.getElementById('copy').addEventListener('click', function () {
+  var txt = document.getElementById('output').textContent;
+  var done = function () {
+    document.getElementById('copy').textContent = 'Copied!';
+    setTimeout(function () { document.getElementById('copy').textContent = 'Copy to clipboard'; }, 1200);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+    navigator.clipboard.writeText(txt).then(done, function () { fallbackCopy(txt, done); });
+  } else {
+    fallbackCopy(txt, done);
+  }
+});
+
+document.getElementById('clearBtn').addEventListener('click', function () {
+  if (!confirm('Clear all answers? This also erases the autosave.')) return;
+  try { localStorage.removeItem(KEY); } catch (e) {}
+  blocks.forEach(function (b) {
+    b.querySelector('textarea.ans').value = '';
+    b.querySelector('select.conf-select').value = '';
+    b.querySelector('input.notes').value = '';
+    b.querySelectorAll('.quick-btn').forEach(function (x) { x.classList.remove('used'); });
+  });
+  updateProgress();
+  document.getElementById('output').style.display = 'none';
+});
+
+hydrate();
+updateProgress();
+
+</script>
+</body>
+</html>

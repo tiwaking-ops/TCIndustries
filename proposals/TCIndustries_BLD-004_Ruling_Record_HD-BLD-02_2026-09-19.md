@@ -6,6 +6,15 @@ ruling, and this record preserves it verbatim for filing.
 **Filing state:** decision record filed in `proposals/` by the drafter (hard
 boundary: no `governance/` writes). Ready-to-file register entry in §3.
 **Author:** Buffy — Codebuff agent (Freebuff), ruling-session recorder, Cycle 12.
+
+**Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
+name or version, and on that basis does not satisfy GR-007.3 on its face. The attribution
+stands as originally authored and has been assessed as correct by the human owner
+(ruling 2026-10-18). This note does not alter the attribution, does not re-attribute the
+document, and confers no authority. No reason for the absence of model disclosure is
+recorded here.
+**Assessor (llm):** HY4 Preview (`orcarouter/tencent/hy4-preview-free`) — 2026-10-18, per
+explicit owner authorization.
 **Date:** 2026-09-19
 **Gives effect to:** `proposals/TCIndustries_BLD-004_Abandonment_Placement_Proposal_Drafter_v1_2026-09-19.md` (retained as provenance; the owner's ruling **amends** it — see §1.1).
 **Ruling ID:** **HD-BLD-02** — register's HD-<Area>-<NN> pattern (area: BLD; second of area).

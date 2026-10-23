@@ -5,6 +5,15 @@ order; the owner may rule in any order and any sequence is lawful. It adds no
 design content, opens no gate, and changes no status.
 
 **Author:** Buffy — Codebuff agent (Freebuff), autonomous-loop drafter, Cycle 3.
+
+**Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
+name or version, and on that basis does not satisfy GR-007.3 on its face. The attribution
+stands as originally authored and has been assessed as correct by the human owner
+(ruling 2026-10-18). This note does not alter the attribution, does not re-attribute the
+document, and confers no authority. No reason for the absence of model disclosure is
+recorded here.
+**Assessor (llm):** HY4 Preview (`orcarouter/tencent/hy4-preview-free`) — 2026-10-18, per
+explicit owner authorization.
 **Assessor:** None — single-session authoring; no independent review pass (per GR-004, recorded as such rather than guessed).
 **Date:** 2026-09-19
 **Pre-flight:** grep of `proposals/` + `investigations/` for ruling-order/dependency analysis returned zero prior artifacts (verified 2026-09-19). Gap Analysis §7.1 sequences the T-01–T-09 *tasks*; the Multi-LLM Plan §5 scopes *gaps* — neither maps proposal-to-proposal ruling dependencies. No duplicate pass.

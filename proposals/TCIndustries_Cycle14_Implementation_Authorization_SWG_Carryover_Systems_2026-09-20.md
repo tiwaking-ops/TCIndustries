@@ -2,6 +2,15 @@
 
 **Status:** HUMAN AUTHORIZATION (implementation gate opened by owner ruling, 2026-09-20). This document records that the owner has authorised implementation of three design surfaces as SWG carryover systems, within the bounds stated below. It is **not** a design ruling (the design rulings are the HD-ITM-02, HD-BLD-03, HD-PROF-02 records this session, plus the already-filed HD-ITM-01 and HD-BLD-02); it is the implementation gate that the project's standing rules require before any code work begins.
 **Author:** Buffy — Codebuff agent (Freebuff), Cycle 14.
+
+**Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
+name or version, and on that basis does not satisfy GR-007.3 on its face. The attribution
+stands as originally authored and has been assessed as correct by the human owner
+(ruling 2026-10-18). This note does not alter the attribution, does not re-attribute the
+document, and confers no authority. No reason for the absence of model disclosure is
+recorded here.
+**Assessor (llm):** HY4 Preview (`orcarouter/tencent/hy4-preview-free`) — 2026-10-18, per
+explicit owner authorization.
 **Date:** 2026-09-20
 **Assessor:** None — single-session authoring; no independent review pass (per GR-004, recorded as such rather than guessed).
 **Controlling references:** owner's in-session rulings of 2026-09-20 (re-stated in the HD-ITM-02, HD-BLD-03, and HD-PROF-02 decision records this session); `governance/TCIndustries_Human_Rulings_Register.md`; `canonical/gdd/TCIndustries_Master_GDD_v1.1.1_Status_Patch.md`; `proposals/TCIndustries_Open_Questions_Register.md`; `proposals/TCIndustries_Invariant_Register_v0.1.md`; `investigations/TCIndustries_Design_Evidence_Register_v0.1.md`; `governance/eic/...HD-EIC-07...` (in force); HD-TST-01 (testbed reuse, patterns-only); AGENTS.md.

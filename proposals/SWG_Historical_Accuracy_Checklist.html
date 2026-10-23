@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SWG Historical Accuracy — Core-Loop Comparison Checklist</title>
+<style>
+  :root { --bg:#0b0c10; --panel:#1f2833; --panel2:#232d3a; --text:#c5c6c7; --accent:#66fcf1; --muted:#45a29e; --border:#2b3442; --input-bg:#0b0c10; --warn:#ffcc66; --diverge:#ff6b6b; --thin:#ffcc66; --absent:#888; }
+  * { box-sizing:border-box; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); margin:0; padding:24px; line-height:1.5; }
+  .container { max-width:1280px; margin:0 auto; }
+  header { border-bottom:2px solid var(--border); padding-bottom:16px; margin-bottom:20px; }
+  h1 { font-size:1.5rem; margin:0 0 8px 0; color:var(--accent); }
+  .subtitle { font-size:0.9rem; color:var(--muted); margin-bottom:14px; }
+  .authority { background:#2a1f14; border:1px solid var(--warn); border-radius:8px; padding:14px 16px; font-size:0.85rem; margin-bottom:18px; }
+  .authority h3 { margin:0 0 8px 0; color:var(--warn); font-size:0.95rem; }
+  .authority p { margin:6px 0; }
+  .rules { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; font-size:0.85rem; margin-bottom:18px; }
+  .rules h3 { margin-top:0; color:var(--accent); font-size:1rem; }
+  .rules ul { margin:8px 0 0 0; padding-left:20px; }
+  .rules li { margin-bottom:5px; }
+  .meta { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:14px; }
+  .meta label { font-size:0.76rem; color:var(--muted); display:flex; flex-direction:column; gap:4px; }
+  .meta input, .meta textarea { background:var(--input-bg); border:1px solid var(--border); color:var(--text); border-radius:4px; padding:6px 9px; font-size:0.85rem; font-family:inherit; }
+  .meta textarea { min-height:58px; resize:vertical; }
+  .meta input:focus, .meta textarea:focus { outline:none; border-color:var(--accent); }
+  .meta .wide { grid-column:1 / -1; }
+  .toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:12px 16px; margin-bottom:18px; }
+  .toolbar label { font-size:0.76rem; color:var(--muted); display:flex; align-items:center; gap:6px; }
+  .toolbar select { background:var(--input-bg); border:1px solid var(--border); color:var(--text); border-radius:4px; padding:5px 8px; font-size:0.8rem; }
+  .progress { margin-left:auto; font-size:0.78rem; color:var(--muted); }
+  .tally { font-size:0.72rem; color:var(--muted); margin-top:3px; }
+  .tally b { color:var(--text); font-weight:normal; }
+  .tally .n { color:var(--accent); }
+  .cat { margin-bottom:34px; }
+  .cat h2 { font-size:1.1rem; color:var(--accent); border-bottom:2px solid var(--border); padding-bottom:6px; margin-bottom:10px; }
+  .cat-note { font-size:0.8rem; color:var(--muted); margin-bottom:14px; font-style:italic; border-left:3px solid var(--border); padding-left:10px; }
+  .row { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-bottom:12px; }
+  .row.hidden { display:none; }
+  .row-head { display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; margin-bottom:10px; }
+  .rowid { font-weight:bold; color:var(--accent); font-size:0.9rem; min-width:52px; }
+  .rowloop { font-size:0.98rem; color:var(--text); }
+  .badges { margin-left:auto; display:flex; gap:6px; flex-wrap:wrap; }
+  .badge { font-size:0.66rem; letter-spacing:0.04em; padding:2px 7px; border-radius:3px; border:1px solid var(--border); color:var(--muted); text-transform:uppercase; white-space:nowrap; }
+  .badge.attested { color:#7ee787; border-color:#2d5a3d; }
+  .badge.thin { color:var(--thin); border-color:#5a4a2d; }
+  .badge.absent { color:var(--absent); border-color:#3a3a3a; }
+  .badge.ruled { color:#8ab4f8; border-color:#2b4a7a; }
+  .badge.divcand { color:var(--diverge); border-color:#7a2b2b; }
+  .ref { background:var(--panel2); border:1px solid var(--border); border-radius:6px; padding:10px 12px; margin-bottom:12px; }
+  .ref-label { font-size:0.66rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); margin:6px 0 3px 0; }
+  .ref-label:first-child { margin-top:0; }
+  .ref-text { font-size:0.88rem; color:var(--text); }
+  .ref-text code { background:var(--input-bg); padding:1px 5px; border-radius:3px; font-size:0.88em; }
+  .entry-top { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; margin-bottom:9px; }
+  .fl { font-size:0.74rem; color:var(--muted); display:flex; flex-direction:column; gap:4px; }
+  .fl select, .fl input { background:var(--input-bg); border:1px solid var(--border); color:var(--text); border-radius:4px; padding:5px 8px; font-size:0.82rem; font-family:inherit; }
+  .modes { flex-direction:row; align-items:center; gap:12px; }
+  .cb { display:inline-flex; align-items:center; gap:4px; color:var(--text); font-size:0.8rem; }
+  textarea.obs { width:100%; min-height:78px; background:var(--input-bg); border:1px solid var(--border); color:var(--text); border-radius:6px; padding:10px; resize:vertical; font-family:inherit; font-size:0.9rem; }
+  .entry-bot { display:flex; gap:14px; flex-wrap:wrap; margin-top:9px; }
+  .entry-bot .fl { flex:1 1 240px; }
+  textarea:focus, input:focus, select:focus { outline:none; border-color:var(--accent); }
+  .v-MATCH { color:#7ee787; }
+  .v-DIVERGES { color:var(--diverge); font-weight:bold; }
+  footer { border-top:2px solid var(--border); margin-top:30px; padding-top:16px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  .big-btn { background:var(--accent); color:#000; border:none; padding:12px 24px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:1rem; }
+  .big-btn:hover { opacity:0.9; }
+  .big-btn.secondary { background:var(--panel); color:var(--text); border:1px solid var(--border); }
+  .big-btn.secondary:hover { border-color:var(--accent); }
+  #output { display:none; background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; margin-top:16px; font-family:'Courier New',Courier,monospace; font-size:0.82rem; white-space:pre-wrap; max-height:760px; overflow:auto; }
+  #copy { margin-top:10px; background:var(--muted); color:#000; border:none; padding:8px 16px; border-radius:4px; cursor:pointer; font-weight:bold; }
+  #copy:hover { opacity:0.9; }
+  .saveinfo { font-size:0.75rem; color:var(--muted); margin-top:8px; }
+  .hint { font-size:0.74rem; color:var(--muted); margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>SWG Historical Accuracy — Core-Loop Comparison Checklist</h1>
+    <div class="subtitle">47-row playtesting sheet · instrument <code>proposals/SWG_Historical_Accuracy_Checklist_v0.2.md</code> (PROPOSED, unadopted) · §1.3 test 5, Historical Accuracy — human pass only</div>
+  </header>
+
+  <div class="authority">
+    <h3>Authority and non-authority — read before recording anything</h3>
+    <p><b>This page is a local transport tool. It carries no project authority of any kind.</b> It is a fill-and-export sheet, not a decision record, not a ruling, and not a source of status.</p>
+    <p><b>Every verdict on this page is yours.</b> Nothing here is pre-filled, and this tool will not compute one for you. A blank row stays blank in the export — it is never written as a match.</p>
+    <p><b>A completed run produces EVIDENCE, not decisions.</b> It closes no open question, changes no status, authorises no tuning, and sets no target. Per BAL-001 and HD-TST-01, no numeric change and no mechanism change may follow from it without separate authorisation.</p>
+    <p><b>No composite score.</b> The tally shown below is a count of recorded outcomes. It must not be converted into a score, a percentage, or a pass mark.</p>
+    <p><b>Observe, never steer.</b> A divergence is recorded as a finding. Fixes are not proposed here — they require a separate, authorised proposal.</p>
+  </div>
+
+  <div class="rules">
+    <h3>Execution rules (instrument §2)</h3>
+    <ul>
+      <li><b>Every unfilled row stays unfilled.</b> <code>INSUFFICIENT EVIDENCE</code> and <code>NOT OBSERVABLE HERE</code> are correct, valuable answers.</li>
+      <li><b>INSUFFICIENT EVIDENCE is not a soft MATCH.</b> An affirmative one-word answer is weak evidence of satisfaction and near-zero evidence of mechanism (record §7 item 6).</li>
+      <li><b>NOT OBSERVABLE HERE is not the same thing.</b> It means the account is fine and the arena is not — e.g. a mechanic not built, or no live cohort.</li>
+      <li><b>Record raw counts beside every percentage.</b> A 40/42 cohort is 95%, not a verdict.</li>
+      <li><b>Recollected magnitudes are never targets.</b> Any figure in the Pre-CU column is a recalled magnitude, quoted as such and nothing else.</li>
+      <li><b>Mode C (live cohort) is where Part 2 actually lives.</b> Modes A and B do not clear it. On a small cohort, a Mode B DIVERGES may be a cohort artefact — record the cohort.</li>
+      <li><b>THIN and ABSENT rows are marked.</b> On a THIN row a MATCH is near-meaningless; on an ABSENT row, INSUFFICIENT EVIDENCE is the expected verdict.</li>
+      <li><b>RULED SURFACE rows are marked.</b> A DIVERGES there is a <b>re-opening question for the owner</b>, not a status change. The ruling stands until the owner moves it.</li>
+      <li><b>Do not edit the Pre-CU column.</b> It is a quotation of a filed record. If it is wrong, that is a finding about the record, filed separately.</li>
+    </ul>
+  </div>
+
+  <div class="meta">
+    <label>Run ID <input id="runid" type="text" placeholder="HA-RUN-____"></label>
+    <label>Date <input id="rundate" type="text" placeholder="YYYY-MM-DD"></label>
+    <label>Executor (human) <input id="executor" type="text" placeholder="who is filling this sheet"></label>
+    <label>Mode(s) exercised <input id="modes" type="text" placeholder="A design / B fork / C cohort"></label>
+    <label>Cohort (size, composition, duration) <input id="cohort" type="text" placeholder="e.g. 3 chars, 40 min, single session"></label>
+    <label>Fork build / commit <input id="forkbuild" type="text" placeholder="commit sha or build id"></label>
+    <label>Observation surfaces used <input id="surfaces" type="text" placeholder="e.g. /api/phase10/telemetry, anomalies"></label>
+    <label>Telemetry taken_at <input id="takenat" type="text" placeholder="from the telemetry payload"></label>
+    <label class="wide">Reason for unfilled rows <textarea id="unfilledreason" placeholder="why the remaining rows were not exercised — e.g. mechanic not built; no live cohort; run out of session time"></textarea></label>
+    <label class="wide">Questions for the owner (ruling required, not a recommendation) <textarea id="ownerquestions" placeholder="one per line — e.g. does the removal-vs-damage divergence on HA-29 warrant re-opening HD-BLD-02?"></textarea></label>
+  </div>
+
+  <div class="toolbar">
+    <label>Domain <select id="fdom"><option value="ALL">All domains</option>
+      <option value="A">Domain A &mdash; Resource discovery & harvesting</option>
+      <option value="B">Domain B &mdash; Acquisition & processing</option>
+      <option value="C">Domain C &mdash; Crafting & item creation</option>
+      <option value="D">Domain D &mdash; Services & the service economy</option>
+      <option value="E">Domain E &mdash; Specialisation & progression</option>
+      <option value="F">Domain F &mdash; Reputation & social standing</option>
+      <option value="G">Domain G &mdash; Trade, market & the player economy</option>
+      <option value="H">Domain H &mdash; Society, civic structure & cities</option>
+      <option value="I">Domain I &mdash; Death, wounds & recovery</option>
+      <option value="J">Domain J &mdash; World, travel & the client</option>
+      <option value="K">Domain K &mdash; Combat & threat</option>
+      <option value="L">Domain L &mdash; Exploit & integrity surface</option>
+      <option value="X">GDD anti-goal cross-check</option>
+    </select></label>
+    <label>Show <select id="ffilt">
+      <option value="ALL">All rows</option>
+      <option value="UNFILLED">Unfilled only</option>
+      <option value="DIVERGES">DIVERGES only</option>
+      <option value="RULED">Ruled surfaces only</option>
+      <option value="THINABSENT">Thin / absent account only</option>
+    </select></label>
+    <div class="progress" id="progress"></div>
+  </div>
+  <div class="saveinfo">Verdicts, observations and notes autosave to this browser as you type. Nothing leaves your machine. The form has no network calls.</div>
+
+  <div class="cat" id="dom-A">
+    <h2>Domain A &mdash; Resource discovery & harvesting</h2>
+    <div class="row" data-id="HA-01" data-strength="attested" data-domain="A">
+      <div class="row-head">
+        <span class="rowid">HA-01</span>
+        <span class="rowloop">Discover resources — survey, sample, depletion</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Surveying was exploration or a chore (Q69); resource spawns were dynamic and interesting vs predictable (Q70); &quot;shift&quot; changes in resource stats were meaningful gameplay (Q71); sampling was engaging or repetitive (Q72); quality mattered enough to seek specific spawns (Q73); depletion felt fair or frustrating (Q74); good resources were scarce and valuable (Q75). R§5.4, R§3.1 cat. E (8/9 substantive).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: resource tree, spawn tables, depletion rules. Fork: <code>profession_distribution</code> and <code>price_volatility</code> rows; per-resource spawn counts.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-02" data-strength="attested" data-domain="A">
+      <div class="row-head">
+        <span class="rowid">HA-02</span>
+        <span class="rowloop">Harvesting as an economy, not a chore</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Creature products and fishing were a <strong>separate resource path</strong> from gear loot — SWG had <strong>no gear in creature loot at all</strong>; loot was junk worth ~20 credits (Q-C6, F-6, R§5.4). Materials and gear were distinct economies.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: does any gear enter inventories without a schematic? <code>crafted_share.with_schematic</code> vs <code>total</code> — the 95% crafted-share proxy is exactly this question, read as counts not percentage.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-03" data-strength="thin" data-domain="A">
+      <div class="row-head">
+        <span class="rowid">HA-03</span>
+        <span class="rowloop">Creature ecology &amp; spawn governance</span>
+        <span class="badges"><span class="badge thin">THIN</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Spawns were <strong>mission-based or random</strong>; apparent thinning is mission spawns appearing or disappearing; long-term thinning or migration <strong>is not documented and did not happen</strong> (Q30, F-33, R§7 item 15). Creature behaviour: hunt as a group, fight one at a time, or flee (Q26).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">THIN (Q26 substantive; Q30 is a negative attestation)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: <code>mission_outcomes</code> mix read against spawn visibility. Design: spawn lifecycle vs mission spawns.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-04" data-strength="thin" data-domain="A">
+      <div class="row-head">
+        <span class="rowid">HA-04</span>
+        <span class="rowloop">Threat legibility before combat</span>
+        <span class="badges"><span class="badge thin">THIN</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Threat was legible <strong>before</strong> combat via a colour classification — and that legibility could mislead (Q130, F-21, R§5.1). What information was available about a creature, and what was not (Q27).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">THIN (first pass, one-word heavy)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: con/colour system, any pre-combat threat indicator.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+  <div class="cat" id="dom-B">
+    <h2>Domain B &mdash; Acquisition & processing</h2>
+    <div class="row" data-id="HA-05" data-strength="attested" data-domain="B">
+      <div class="row-head">
+        <span class="rowid">HA-05</span>
+        <span class="rowloop">Material acquisition feeding production</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Resources were hoarded and this affected markets (Q76); crafting inputs were specific and finite (C-Q32: 85 Iron, 40 Ferrous metal, 28 Inert petrochemical — RECALLED magnitudes, not targets).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: <code>price_volatility</code> for resource rows; resource consumption vs availability.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-06" data-strength="thin" data-domain="B">
+      <div class="row-head">
+        <span class="rowid">HA-06</span>
+        <span class="rowloop">Player-to-player trade of materials</span>
+        <span class="badges"><span class="badge thin">THIN</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Resource hoarding was a <strong>market-shaping</strong> behaviour, not just hoarding (Q76) — a player behaviour, not a designed sink.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">THIN (Q76 is one-word; the market-shaping *reading* is R§3.1 cat. C inference)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Mode C only: did players hoard, and did it move prices?</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+  <div class="cat" id="dom-C">
+    <h2>Domain C &mdash; Crafting & item creation</h2>
+    <div class="row" data-id="HA-07" data-strength="attested" data-domain="C">
+      <div class="row-head">
+        <span class="rowid">HA-07</span>
+        <span class="rowloop">Crafting as a *process* with partial determinism</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text"><strong>Materials set the weights, the experiment set the roll</strong> (F-22, C-Q33/C-Q34) — partial, not full, determinism. Quality varied; a good roll mattered; players chased perfect rolls; generic taxonomy (frame/grip) did or did not make sense; assembly was a real process or a formality (Q55–Q64).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: the fork's RNG split between material and experimentation stages — the F-22 shape. Fork: distribution of crafted output quality across repeated runs of the same schematic.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-08" data-strength="attested" data-domain="C">
+      <div class="row-head">
+        <span class="rowid">HA-08</span>
+        <span class="rowloop">Crafting as a *market* activity</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Crafted items must be <strong>meaningfully better than NPC/looted items</strong> (Q65) — a design premise the GDD also carries. Factories were a meaningful endgame (Q66) or AFK (Q67); factory spam was a problem (Q68). Craft commissions had <strong>no trust mechanism</strong> (F-22).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: <code>crafted_share</code> (proxy 3) as counts; <code>price_volatility</code> for crafted vs non-crafted.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-09" data-strength="attested" data-domain="C">
+      <div class="row-head">
+        <span class="rowid">HA-09</span>
+        <span class="rowloop">Durability / decay / repair</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span><span class="badge ruled">RULED SURFACE</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text"><strong>Decay existed in the manual and in the code and did nothing in play</strong> — &quot;intermittent and buggy and mainly didnt work or was too slow to do anything&quot;; <strong>there was no repair economy</strong> (F-15, F-16, C-Q5/C-Q6, R§6.4). The two decay systems that did operate were the <strong>death penalty</strong> and the <strong>civic maintenance obligation</strong>. An item at zero condition became a <strong>1/1 item that could not be destroyed</strong>, by an early bug (F-16, F-31).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: the fork's durability model — <strong>OQ-010 is RULED</strong> (HD-ITM-01 Option C, no baseline decay; HD-ITM-02 death-damage/repair/destruction behaviour; numerics TBD under BAL-001). Fork: repair/consumption events per item if instrumented.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-10" data-strength="attested" data-domain="C">
+      <div class="row-head">
+        <span class="rowid">HA-10</span>
+        <span class="rowloop">What is *not* reproduced from Pre-CU</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span><span class="badge ruled">RULED SURFACE</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Explicit negative result: *&quot;For a new game starting without decay would be the correct choice and it can be implemented later.&quot;* (C-Q5 note, R§6.4) — the respondent's own design opinion. <strong>Not authority</strong>; recorded because it is a named negative result, not a recommendation for TCIndustries.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED, opinion)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: <strong>OQ-010 is RULED — no baseline decay.</strong> The row therefore observes whether the build honours the ruling, and whether it reproduces the historical decay/damage pattern the record attests. <strong>The respondent's preference is not authority and does not re-open the ruling.</strong></div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+  <div class="cat" id="dom-D">
+    <h2>Domain D &mdash; Services & the service economy</h2>
+    <div class="row" data-id="HA-11" data-strength="attested" data-domain="D">
+      <div class="row-head">
+        <span class="rowid">HA-11</span>
+        <span class="rowloop">Providing services as an economic role</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text"><strong>Service XP was act-based for every profession except the Merchant</strong> (F-12, C-Q1). The Merchant's yield was a fixed <strong>50 XP per active vendor-hour</strong>, paid <strong>regardless of sales</strong>, with interaction XP capped once per 15 minutes (F-11, C-Q1/C-Q2).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: <code>interdependence</code> covered/total (proxy 1) with raw counts; per-service-type event counts.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-12" data-strength="attested" data-domain="D">
+      <div class="row-head">
+        <span class="rowid">HA-12</span>
+        <span class="rowloop">Whether services can be a *career*</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Service professions were <strong>weak earners</strong>; players migrated to combat professions for money; <strong>Doctor buffs were the one income exception</strong> (F-12, C-Q3). Separate XP pools per activity meant a thin service economy <strong>could not be rescued by mission XP</strong> (F-13).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: <code>profession_distribution</code> — is the service cohort populated or empty? Mode C: do players *choose* service professions?</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-13" data-strength="attested" data-domain="D">
+      <div class="row-head">
+        <span class="rowid">HA-13</span>
+        <span class="rowloop">Buffs &amp; the social economy of the buff tier</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">The top tier of the buff economy was a <strong>social/guild privilege, not a purchasable service</strong> (F-7, Q-C5). Buff duration ~4 h (or ~2 h for normal buffs) — RECALLED. <strong>Buff begging</strong> was a social problem (Q92).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED; buff-begging is one-word)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: buff HAM magnitudes vs the §2.3 band — read with §3.4's unit caution. Mode C: social tiering of buffs.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-14" data-strength="thin" data-domain="D">
+      <div class="row-head">
+        <span class="rowid">HA-14</span>
+        <span class="rowloop">Medical / wound services</span>
+        <span class="badges"><span class="badge thin">THIN</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Wounds were a post-combat consequence (Q93); wound healing was accessible or scarce (Q94); wound rot / neglect was a real risk (Q95). Entertainers <strong>healed the mind-wound and fatigue residue in cantinas</strong> — a systemic penalty creating demand for a non-combat service profession (F-24).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">THIN (cat. G mixed, 3/6 substantive)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: heal events in <code>interdependence</code>; entertainer-service events specifically.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+  <div class="cat" id="dom-E">
+    <h2>Domain E &mdash; Specialisation & progression</h2>
+    <div class="row" data-id="HA-15" data-strength="attested" data-domain="E">
+      <div class="row-head">
+        <span class="rowid">HA-15</span>
+        <span class="rowloop">Progression pace by path</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text"><strong>240 h</strong> unassisted from scratch vs <strong>~24 h</strong> assisted (F-2a, Q-C1) — RECALLED magnitudes for elite paths, <strong>scope-limited</strong>. Paths diverged for identifiable reasons: Bounty Hunter XP arithmetic against a 300,000–500,000 XP tree at ~30 min/mission on foot; Commando heavy weapons' HAM cost fighting its own XP loop; Master Carbineer/Pikeman poorly balanced; Smuggler slicing slow (F-2a).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: the fork's progression projection method (Phase 10 §2.3 / §6.3) against §3.3's band caveats.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-16" data-strength="attested" data-domain="E">
+      <div class="row-head">
+        <span class="rowid">HA-16</span>
+        <span class="rowloop">Respecialisation and the retraining market</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span><span class="badge ruled">RULED SURFACE</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Respec was <strong>free, unlimited, no per-day limit, no total limit, no cooldown, no cost per removal</strong>; the <strong>experience was not refunded</strong> (the skill points were) (F-14, C-Q10/C-Q11/C-Q12). Because it was free and XP-destructive, a <strong>paid retraining market formed</strong> — 1,000 credits per skill on the author's server.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: <strong>OQ-011 is RULED</strong> (HD-PROF-01/02/03 — cost instrument free-drop, acquisition trainer-gated; magnitudes TBD under BAL-001; INV-011c and scope confirmation still open). Fork: respec events, XP-not-refunded behaviour, and whether a retraining service market emerges.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-17" data-strength="attested" data-domain="E">
+      <div class="row-head">
+        <span class="rowid">HA-17</span>
+        <span class="rowloop">Separate vs shared progression pools</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">A service profession levelled on <strong>its own XP type</strong>, not on mission XP (F-13, C-Q4).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: XP pool separation in the fork.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-18" data-strength="attested" data-domain="E">
+      <div class="row-head">
+        <span class="rowid">HA-18</span>
+        <span class="rowloop">An elite that taxes the group</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text"><strong>F-26 — the most generalisable finding in the record:</strong> an elite that gates XP on group content <strong>while its group skills do nothing</strong> becomes <strong>a tax on the group, not a benefit to it</strong>. Squad Commander is the worked instance: required a group to use group skills and to earn XP, the skills never worked, and the class was never repaired (F-26, Q-C1, R§6.4).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: any group-gated progression path in the fork whose group skills are unbuilt. <strong>This row is checkable against the build today</strong> — Phase 10 v0.2 §2.3 notes *&quot;specials unbuilt in fork — ability-system residual, Phase 9 §5/§10.&quot;*</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+  <div class="cat" id="dom-F">
+    <h2>Domain F &mdash; Reputation & social standing</h2>
+    <div class="row" data-id="HA-19" data-strength="attested" data-domain="F">
+      <div class="row-head">
+        <span class="rowid">HA-19</span>
+        <span class="rowloop">Reputation earned through visible work</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Social standing in Pre-CU was carried by <strong>rank, titles and recognised work</strong> rather than by a numeric reputation system: an item's worth to a buyer came from *whose* work it was (<strong>C-Q31</strong> — what made an item you made worth having to someone else rather than just being another item); the top tier of the buff economy was a <strong>social/guild privilege</strong> rather than a purchasable service (<strong>F-7</strong>); and social structure was <strong>tooling, ranks and titles</strong> (<strong>F-27</strong>).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: TCIndustries' reputation surface. <strong>Note:</strong> the project has *deferred* provenance and formal reputation systems (project <code>AGENTS.md</code>, governance boundaries) — this row therefore observes an <strong>authored absence</strong>, not a gap to fill.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-20" data-strength="attested" data-domain="F">
+      <div class="row-head">
+        <span class="rowid">HA-20</span>
+        <span class="rowloop">Mastery vs grind as the reward</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">*&quot;Mastery. Grind was also rewarded, but mastery made the game much faster.&quot;* (Q219, R§6.3) — RECALLED opinion.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED, opinion)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: horizontal-progression band.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-21" data-strength="absent" data-domain="F">
+      <div class="row-head">
+        <span class="rowid">HA-21</span>
+        <span class="rowloop">Guild structure and whether it enforced anything</span>
+        <span class="badges"><span class="badge absent">ABSENT</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Guilds were <strong>tooling, ranks and titles</strong>; whether they enforced anything is <strong>unknown</strong>; a Community Advisor programme existed (F-27, C-Q47/C-Q48, R§7 item 14).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text"><strong>ABSENT</strong> on the enforcement question (explicitly unknown)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Mode C only. Fork: guild objects exist in the build, but enforcement behaviour is not attributable to them.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+  <div class="cat" id="dom-G">
+    <h2>Domain G &mdash; Trade, market & the player economy</h2>
+    <div class="row" data-id="HA-22" data-strength="attested" data-domain="G">
+      <div class="row-head">
+        <span class="rowid">HA-22</span>
+        <span class="rowloop">Vendors as granted, not crafted</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span><span class="badge ruled">RULED SURFACE</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Vendors were <strong>granted by skill, not crafted</strong>: Terminal at Business III (3,000 XP), Robot at Business IV (6,000 XP), a second vendor via Novice Merchant (5,000 Merchant XP, 6,000 credits), 5 vendors at Master Merchant, <strong>4,000 items per vendor</strong> (F-17, §5.2 OQ-016, C-Q14/C-Q16).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: <strong>OQ-016 is RULED</strong> (HD-RET-01 Option A — identity-anchored player vendors; INV-016a + INV-016b approved; numerics TBD under BAL-001).</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-23" data-strength="attested" data-domain="G">
+      <div class="row-head">
+        <span class="rowid">HA-23</span>
+        <span class="rowloop">Five selling routes, capped per route and per skill tier</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Direct trade, Bazaar instant sale, Bazaar auction, player vendors, Merchant-only premium auctions. Caps: <strong>25-item Bazaar limit</strong>; per-item credit cap <strong>6,000 (possibly 4,000)</strong>; listing fee <strong>20 → 100 credits</strong> (F-18, C-Q17/C-Q18, Q18).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: <code>anomalies</code> — <code>wash_trade_pair</code>, <code>balance_churn</code>, <code>placement_burst</code>, <code>price_outlier</code>, ranked, <strong>no thresholds</strong> (Phase 10 v0.2 §6 item 2, option (i)).</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-24" data-strength="thin" data-domain="G">
+      <div class="row-head">
+        <span class="rowid">HA-24</span>
+        <span class="rowloop">What the market felt like</span>
+        <span class="badges"><span class="badge thin">THIN</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Bazaar felt like a <strong>real market or a dumping ground</strong> (Q52); undercutting and price wars were common and how sellers felt about it (Q53); cartels were <strong>rare and short-lived on the author's server</strong> (Q54).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">THIN (cat. R returned 0/7 substantive in pass 1; the above is pass-2 + Addendum A only)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: <code>price_volatility</code>; <code>wealth.gini</code> as <strong>diagnostic only, never target-capped</strong> (Phase 10 v0.2 §5.4). Mode C for the felt-quality question.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-25" data-strength="attested" data-domain="G">
+      <div class="row-head">
+        <span class="rowid">HA-25</span>
+        <span class="rowloop">Money sinks that actually operated</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span><span class="badge ruled">RULED SURFACE</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">The sink classes that operated for an ordinary player: <strong>housing maintenance, vehicle maintenance, player cities, insurance</strong>. Wealthy-only: <strong>city maintenance and specialisations</strong> (one specialisation added 20,000 credits/week) (F-20, C-Q20/C-Q21). Vendor fees were negligible and bypassable; the operative sink was vendor <strong>maintenance</strong> (F-17).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: <strong>OQ-009 is RULED</strong> (HD-ECO-01 — Structure A, single unified currency; INV-009a approved; faucet-exceeds-sink mandate; numerics TBD). Fork: sink events if instrumented.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-26" data-strength="attested" data-domain="G">
+      <div class="row-head">
+        <span class="rowid">HA-26</span>
+        <span class="rowloop">Exploit-driven inflation and its remediation</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">A duplication glitch caused inflation; remediation was <strong>mass bans, confiscation from holders and middlemen, and a deliberately run economy-wide deficit</strong>, with <strong>75% of duped credits removed</strong> (F-19, C-Q22/C-Q23). The account is developer-level and general, <strong>not server-local</strong> — the author's server was less affected (R§7 item 17).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED, general)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: <strong>OQ-012 remains TBD at the implementation layer</strong>; the validation stance (in-scope, no account-level restriction) is settled per HD-EIC-03. Mode C: does exploit behaviour appear in a live cohort?</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-27" data-strength="absent" data-domain="G">
+      <div class="row-head">
+        <span class="rowid">HA-27</span>
+        <span class="rowloop">Multi-character rules</span>
+        <span class="badges"><span class="badge absent">ABSENT</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text"><strong>One character per server per account</strong>, with the second slot unlocked by an in-game trait; <strong>no other rules</strong> — a character-level unlock, not an account-structure rule (F-25, C-Q41/C-Q42). The author <strong>never played more than one character</strong>, so the record carries <strong>no self-report evidence on multi-account behaviour at all</strong> (R§5.2 OQ-012 row; R§7 item 12).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text"><strong>ABSENT</strong> on multi-account behaviour (&quot;No&quot; is an absence of evidence, not evidence of absence)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: the fork's account/character model as built.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+  <div class="cat" id="dom-H">
+    <h2>Domain H &mdash; Society, civic structure & cities</h2>
+    <div class="row" data-id="HA-28" data-strength="attested" data-domain="H">
+      <div class="row-head">
+        <span class="rowid">HA-28</span>
+        <span class="rowloop">City formation, placement &amp; dissolution</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span><span class="badge ruled">RULED SURFACE</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">A <strong>City Hall deed</strong>, placed once and <strong>never re-deeded</strong>; civic structures placed by the mayor, citizens placing their own; a <strong>minimum distance from other cities</strong>; <strong>rank grew with citizens</strong> and gated civic structures (cantina rank 2, hospital rank 3, theatre rank 4); <strong>unpaid maintenance damaged structures</strong>; destruction of the City Hall <strong>disbanded the whole city</strong> — dissolution, not abandonment; the <strong>mayor could withdraw from the treasury</strong> (F-23, C-Q35/C-Q36, §5.2 OQ-007/BLD-004).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: <strong>OQ-007 is RULED</strong> (HD-BLD-01 Option A, free-claim formation; basic governance instruments only, <strong>civic depth TBD</strong>) and <strong>BLD-004 abandonment is RULED</strong> (HD-BLD-02/03, zero-credit removal). Fork: city objects, maintenance events, dissolution path.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-29" data-strength="attested" data-domain="H">
+      <div class="row-head">
+        <span class="rowid">HA-29</span>
+        <span class="rowloop">City abandonment vs dissolution — the distinction</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span><span class="badge ruled">RULED SURFACE</span><span class="badge divcand">KNOWN DIVERGENCE CANDIDATE</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">The record distinguishes these: dissolution (City Hall destroyed) from abandonment. Maintenance lapse was <strong>670 hours</strong> (F-34), superseding the earlier &quot;about four weeks&quot; estimate.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: <strong>BLD-004 abandonment is RULED</strong> (HD-BLD-02: at zero maintenance credit the structure is removed from the world; HD-BLD-03: contents removed with the structure). Placement / lots / density remain <strong>TBD</strong>. <strong>⚠ Live DIVERGES candidate: the ruling chose *removal*; the historical account records *damage-at-lapse* plus *dissolution-on-City-Hall-destruction*.</strong> §3.6.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-30" data-strength="absent" data-domain="H">
+      <div class="row-head">
+        <span class="rowid">HA-30</span>
+        <span class="rowloop">Whether cities felt like living communities or ghost towns</span>
+        <span class="badges"><span class="badge absent">ABSENT</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Q153.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text"><strong>ABSENT</strong> (one-word answer; cat. M returned 0/8 substantive in pass 1)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Mode C only. This is the <strong>thinnest civic row</strong> and it is the one a live cohort would most directly speak to.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+  <div class="cat" id="dom-I">
+    <h2>Domain I &mdash; Death, wounds & recovery</h2>
+    <div class="row" data-id="HA-31" data-strength="attested" data-domain="I">
+      <div class="row-head">
+        <span class="rowid">HA-31</span>
+        <span class="rowloop">The four-part cost of death</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Death cost <strong>cloning credits, wounds, battle fatigue, and item decay</strong> (5% uninsured, 1% insured) (F-24, C-Q39/C-Q40).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: the fork's death-cost model. Fork: death events and their components, if instrumented.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-32" data-strength="absent" data-domain="I">
+      <div class="row-head">
+        <span class="rowid">HA-32</span>
+        <span class="rowloop">How PvP death differed</span>
+        <span class="badges"><span class="badge absent">ABSENT</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text"><strong>Not documented.</strong> *&quot;I have no retrieved source describing how PvP death differed for ordinary characters.&quot;* (Q39, R§7 item 13) — unanswered by <strong>either</strong> instrument, against the thin first-pass PvP category.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text"><strong>ABSENT</strong></div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Nothing to compare against. A fork observation here has no account comparand.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+  <div class="cat" id="dom-J">
+    <h2>Domain J &mdash; World, travel & the client</h2>
+    <div class="row" data-id="HA-33" data-strength="thin" data-domain="J">
+      <div class="row-head">
+        <span class="rowid">HA-33</span>
+        <span class="rowloop">World persistence &amp; aliveness</span>
+        <span class="badges"><span class="badge thin">THIN</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Did the world feel alive — dynamic spawns, events (Q209); did the galaxy feel vast and explorable (Q192); did different planets feel distinct (Q194).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">THIN (cat. V mixed 1/4 substantive; cats. S and W thin)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Mode C only.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-34" data-strength="attested" data-domain="J">
+      <div class="row-head">
+        <span class="rowid">HA-34</span>
+        <span class="rowloop">The client and information load</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text"><strong>A negative result in the other direction:</strong> *&quot;Nothing was hard to use as everything was customizable&quot;*; the author used <strong>only the in-game macro system</strong> (F-28, C-Q50/C-Q51, R§6.4). <strong>Nothing was hard to use</strong> — and the author used only in-game tooling, so third-party-tool reliance did not occur.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Mode C only. Note the double-sided reading: the client was *not* a problem, and no third-party tool dependence arose.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-35" data-strength="attested" data-domain="J">
+      <div class="row-head">
+        <span class="rowid">HA-35</span>
+        <span class="rowloop">Macros and third-party tooling</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">The author used only in-game macros; no add-ons (C-Q52). The game <strong>required third-party information</strong> (a source the author named as a failure: *&quot;there also needed to be an official source of game information instead of all of the third party sites&quot;*, Q223).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design/fork: does the fork require external information to play?</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+  <div class="cat" id="dom-K">
+    <h2>Domain K &mdash; Combat & threat</h2>
+    <div class="row" data-id="HA-36" data-strength="attested" data-domain="K">
+      <div class="row-head">
+        <span class="rowid">HA-36</span>
+        <span class="rowloop">Combat as a resource-managed loop</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">The three pools (health/Action/mental) were distinct and meaningful (Q20); <strong>HAM was the gate</strong> for high-level combat (Q15); specials were <strong>availability-capped</strong> and <strong>HAM-cost-capped</strong> — ~<strong>12 casts per 1v1</strong> because *&quot;players would run out of HAM&quot;* (Q14/Q-C4); buffs were a meaningful combat lever (Q23). Buffed vs unbuffed, TTK collapses from 10–20 min to 1–5 min or a one-hit kill (F-5).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: the combat TTK spot-check (proxy 2) and the ability/HAM system. <strong>Note:</strong> specials are unbuilt in the fork (Phase 10 v0.2 §2.3) — HAM-cost gating cannot be observed until they are built.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-37" data-strength="thin" data-domain="K">
+      <div class="row-head">
+        <span class="rowid">HA-37</span>
+        <span class="rowloop">Incapacitation, wounds &amp; the bleed-out loop</span>
+        <span class="badges"><span class="badge thin">THIN</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Incapacitation, revive, deathblows, the incap→revive→death loop in group vs solo combat (Q25–Q28); <strong>deliberate 3-incap griefing</strong> was part of the game (Q26).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">THIN (cat. A is 22/28 substantive, but these specific items are mixed)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: the heal-evidence gap (post-phase10 item 3) exercises this surface.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+  <div class="cat" id="dom-L">
+    <h2>Domain L &mdash; Exploit & integrity surface</h2>
+    <div class="row" data-id="HA-38" data-strength="attested" data-domain="L">
+      <div class="row-head">
+        <span class="rowid">HA-38</span>
+        <span class="rowloop">The 0-credit vendor fee exploit</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">A vendor was at once <strong>free storage, an XP faucet and a sales channel</strong> because the fee could be driven to zero (F-30, D-Q15).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: does the fork's vendor/fee structure admit a zero-cost path? Mode C: do players find it?</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-39" data-strength="attested" data-domain="L">
+      <div class="row-head">
+        <span class="rowid">HA-39</span>
+        <span class="rowloop">Broken-systems pattern (general)</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text"><strong>F-35 — a skill that claims an effect it does not deliver can only be a belief.</strong> Several aggro-removal skills existed and <strong>none functioned</strong> (F-35, D-Q29). Contrast F-32: vendor interactions were <strong>documented as functional and were not</strong>; *&quot;the numbers never made sense or added up.&quot;*</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: documented-vs-actual behaviour audit of the fork's own mechanics — a <strong>documentation-integrity</strong> check, not a balance check.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+  <div class="cat">
+    <h2>GDD anti-goal cross-check rows</h2>
+    <div class="cat-note">Each anti-goal in Master GDD v1.1.1 §2 is a testable claim about core-loop shape, and each has a Pre-CU comparand in the record. The fork side is usually already settled by the GDD, so the observation is narrow: does the <b>build</b> drift from the stated anti-goal?</div>
+    <div class="row" data-id="HA-40" data-strength="thin" data-domain="X">
+      <div class="row-head">
+        <span class="rowid">HA-40</span>
+        <span class="rowloop">Not an automation-first industrial game</span>
+        <span class="badges"><span class="badge thin">THIN</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">SWG's factories were a meaningful endgame (Q66) or AFK (Q67) with <strong>factory spam</strong> a real problem (Q68).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">THIN</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: is there a factory/automation loop, and is it the dominant progression?</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-41" data-strength="attested" data-domain="X">
+      <div class="row-head">
+        <span class="rowid">HA-41</span>
+        <span class="rowloop">Not a conventional class-based MMO</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Pre-CU had <strong>no levels</strong> — gear-driven (Q179). Mastery and skill trees, not character levels, were the progression.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: does the fork have character levels?</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-42" data-strength="thin" data-domain="X">
+      <div class="row-head">
+        <span class="rowid">HA-42</span>
+        <span class="rowloop">Not a quest-driven theme park</span>
+        <span class="badges"><span class="badge thin">THIN</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Mission terminals were a <strong>&quot;go do something&quot; entry point</strong> (Q103) but <strong>missions dominated the economy as a faucet</strong> and that felt inflationary (Q111). Mission payouts were the <strong>specific weak spot of the record</strong> (R§7 item 5) — the Merchant's income came from selling, so mission payouts were not salient.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">THIN, and the mission-payout figures are the <strong>weakest numbers in the file</strong> (R§7 item 5)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: <code>mission_outcomes</code> mix vs <code>interdependence</code> — is the mission faucet dominant?</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-43" data-strength="attested" data-domain="X">
+      <div class="row-head">
+        <span class="rowid">HA-43</span>
+        <span class="rowloop">Not a single-player crafting game with multiplayer features</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Crafting was a <strong>social</strong> activity: what made an item worth having to someone else (C-Q31); craft commissions had <strong>no trust mechanism</strong> (F-22); making something for another player raised whose materials and how payment worked (C-Q32).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: <code>interdependence</code> covered/total (proxy 1) with raw counts.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-44" data-strength="attested" data-domain="X">
+      <div class="row-head">
+        <span class="rowid">HA-44</span>
+        <span class="rowloop">Not a pure market spreadsheet simulator</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Bazaar limits, per-item credit caps, and per-route fees restricted ordinary traders; the author's own complaint was *&quot;the Bazaar nonsense… limited what could be bought by normal people without travelling&quot;* (Q223, R§6.1). Market access was <strong>skill-graded per route</strong> (F-18).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: market access rules; <code>anomalies</code> <code>price_outlier</code> and <code>wash_trade_pair</code> lists.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-45" data-strength="attested" data-domain="X">
+      <div class="row-head">
+        <span class="rowid">HA-45</span>
+        <span class="rowloop">Not a combat-only MMO</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Service professions were weak earners and players migrated to combat professions for money (F-12); <strong>separate XP pools</strong> meant a thin service economy could not be rescued by mission XP (F-13).</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Fork: <code>profession_distribution</code> — is the non-combat cohort populated?</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-46" data-strength="attested" data-domain="X">
+      <div class="row-head">
+        <span class="rowid">HA-46</span>
+        <span class="rowloop">Not a world where NPCs make meaningful player economic roles irrelevant</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text">Vendors were <strong>granted by skill</strong> and were the lynchpin of the small-scale economy — but their fees were inert and bypassable, and the *operative* trade was direct negotiation (F-17, F-30). NPCs did not displace the player economy; they <strong>served</strong> it, and served it badly.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design: NPC vendor role vs player vendor role in the fork.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row" data-id="HA-47" data-strength="attested" data-domain="X">
+      <div class="row-head">
+        <span class="rowid">HA-47</span>
+        <span class="rowloop">Not a system where one character can perform every economically important role</span>
+        <span class="badges"><span class="badge attested">ATTESTED</span></span>
+      </div>
+      <div class="ref">
+        <div class="ref-label">Pre-CU account (read-only &mdash; from the recollection record)</div>
+        <div class="ref-text"><strong>Separate XP pools per activity</strong> (F-13) and separate service professions with distinct acts (F-12) meant one character could not cover every economic role.</div>
+        <div class="ref-label">Account strength</div>
+        <div class="ref-text">ATTESTED (RECALLED)</div>
+        <div class="ref-label">Fork observation point (read-only)</div>
+        <div class="ref-text">Design/fork: can one character perform every economic role?</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <label class="fl">Verdict <select class="verdict"><option value="">(&mdash; not yet recorded &mdash;)</option><option value="MATCH">MATCH</option><option value="DIVERGES">DIVERGES</option><option value="INSUFFICIENT EVIDENCE">INSUFFICIENT EVIDENCE</option><option value="NOT OBSERVABLE HERE">NOT OBSERVABLE HERE</option><option value="NOT APPLICABLE">NOT APPLICABLE</option></select></label>
+          <label class="fl">Evidence class <select class="evclass"><option value="">(&mdash; not set &mdash;)</option><option value="MEASURED">MEASURED</option><option value="DOCUMENTED">DOCUMENTED</option><option value="RECALLED">RECALLED</option><option value="INFERRED">INFERRED</option></select></label>
+          <span class="fl modes">Mode(s) exercised: <label class="cb"><input type="checkbox" class="mode" value="A"> A design</label><label class="cb"><input type="checkbox" class="mode" value="B"> B fork</label><label class="cb"><input type="checkbox" class="mode" value="C"> C cohort</label></span>
+        </div>
+        <textarea class="obs" placeholder="What was observed in the fork / cohort? Quote counts and raw figures beside any percentage. Do not propose a fix here &mdash; a divergence produces a finding, not a change."></textarea>
+        <div class="entry-bot">
+          <label class="fl">Observation-log ref <input type="text" class="logref" placeholder="optional &mdash; e.g. OBS-2026-10-22-03 (event, date, witnesses)"></label>
+          <label class="fl">Notes <input type="text" class="notes" placeholder="optional"></label>
+        </div>
+      </div>
+    </div>
+
+
+  <footer>
+    <button class="big-btn" id="exportBtn" type="button">Export run record (Markdown)</button>
+    <button class="big-btn secondary" id="clearBtn" type="button">Clear all</button>
+  </footer>
+  <div id="output"></div>
+  <button id="copy" type="button" style="display:none;">Copy to clipboard</button>
+</div>
+<script>
+var KEY = 'swg_ha_checklist_v0_2';
+var VERDICTS = ['MATCH','DIVERGES','INSUFFICIENT EVIDENCE','NOT OBSERVABLE HERE','NOT APPLICABLE'];
+var rowEls = Array.prototype.slice.call(document.querySelectorAll('.row'));
+var metaIds = ['runid','executor','rundate','modes','cohort','forkbuild','surfaces','takenat','unfilledreason','ownerquestions'];
+
+function rid(r) { return r.getAttribute('data-id'); }
+function el(id) { return document.getElementById(id); }
+function loadState() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } }
+function saveState() {
+  var s = { meta: {} };
+  metaIds.forEach(function (id) { var e = el(id); if (e) s.meta[id] = e.value; });
+  s.rows = {};
+  rowEls.forEach(function (r) {
+    var modes = Array.prototype.slice.call(r.querySelectorAll('input.mode:checked')).map(function (m) { return m.value; });
+    var o = { v: r.querySelector('select.verdict').value, e: r.querySelector('select.evclass').value, o: r.querySelector('textarea.obs').value, l: r.querySelector('input.logref').value, n: r.querySelector('input.notes').value, m: modes };
+    if (o.v || o.e || o.o || o.l || o.n || modes.length) s.rows[rid(r)] = o;
+  });
+  try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
+}
+function hydrate() {
+  var s = loadState();
+  if (s.meta) metaIds.forEach(function (id) { var e = el(id); if (e && s.meta[id]) e.value = s.meta[id]; });
+  if (s.rows) rowEls.forEach(function (r) {
+    var v = s.rows[rid(r)];
+    if (!v) return;
+    if (v.v) r.querySelector('select.verdict').value = v.v;
+    if (v.e) r.querySelector('select.evclass').value = v.e;
+    if (v.o) r.querySelector('textarea.obs').value = v.o;
+    if (v.l) r.querySelector('input.logref').value = v.l;
+    if (v.n) r.querySelector('input.notes').value = v.n;
+    if (v.m) r.querySelectorAll('input.mode').forEach(function (m) { m.checked = v.m.indexOf(m.value) !== -1; });
+  });
+  if (!el('rundate').value) {
+    var t = new Date();
+    el('rundate').value = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+  }
+}
+function updateProgress() {
+  var attempted = 0, unfilled = 0, counts = {};
+  VERDICTS.forEach(function (v) { counts[v] = 0; });
+  rowEls.forEach(function (r) {
+    var v = r.querySelector('select.verdict').value;
+    if (v) { attempted++; counts[v]++; } else { unfilled++; }
+  });
+  var parts = [];
+  VERDICTS.forEach(function (v) { parts.push('<b>' + v + '</b> ' + counts[v]); });
+  el('progress').innerHTML = '<span class="n">' + attempted + ' / ' + rowEls.length + '</span> rows recorded &middot; ' + unfilled + ' unfilled<br>' + parts.join(' &middot; ') + '<br><span style="color:var(--warn)">Counts of recorded outcomes &mdash; NOT a score. Do not convert this into one.</span>';
+}
+function applyFilter() {
+  var dom = el('fdom').value, filt = el('ffilt').value;
+  rowEls.forEach(function (r) {
+    var show = true;
+    if (dom !== 'ALL' && r.getAttribute('data-domain') !== dom) show = false;
+    if (show && filt !== 'ALL') {
+      var v = r.querySelector('select.verdict').value;
+      if (filt === 'UNFILLED') { if (v) show = false; }
+      else if (filt === 'DIVERGES') { if (v !== 'DIVERGES') show = false; }
+      else if (filt === 'RULED') { if (r.querySelector('.badge.ruled') === null) show = false; }
+      else if (filt === 'THINABSENT') { var s = r.getAttribute('data-strength'); if (s === 'attested') show = false; }
+    }
+    r.classList.toggle('hidden', !show);
+  });
+}
+function buildExport() {
+  var L = [];
+  var bar = '----------------------------------------------------------------------';
+  function meta(id, label) { var v = el(id).value.trim(); return label + ': ' + (v || 'UNRECORDED'); }
+  L.push('=== HISTORICAL ACCURACY CHECKLIST RUN ===');
+  L.push(meta('runid', 'Run ID'));
+  L.push(meta('rundate', 'Date'));
+  L.push(meta('executor', 'Executor (human)'));
+  L.push(meta('modes', 'Mode(s) exercised'));
+  L.push(meta('cohort', 'Cohort (size, composition, duration)'));
+  L.push(meta('forkbuild', 'Fork build / commit'));
+  L.push(meta('surfaces', 'Observation surfaces used'));
+  L.push(meta('takenat', 'Telemetry taken_at'));
+  L.push(bar);
+  var counts = {}, attempted = 0, unfilled = [];
+  VERDICTS.forEach(function (v) { counts[v] = 0; });
+  rowEls.forEach(function (r) {
+    var v = r.querySelector('select.verdict').value;
+    if (v) { attempted++; counts[v]++; } else { unfilled.push(rid(r)); }
+  });
+  L.push('Rows attempted:            ' + attempted + ' / ' + rowEls.length);
+  L.push('Verdict tally:             MATCH ' + counts['MATCH'] + ' | DIVERGES ' + counts['DIVERGES']);
+  L.push('                           INSUFFICIENT EVIDENCE ' + counts['INSUFFICIENT EVIDENCE'] + ' | NOT OBSERVABLE HERE ' + counts['NOT OBSERVABLE HERE']);
+  L.push('                           NOT APPLICABLE ' + counts['NOT APPLICABLE']);
+  L.push('Rows left unfilled:        ' + unfilled.length + (unfilled.length ? ' (' + unfilled.join(', ') + ')' : ''));
+  var ur = el('unfilledreason').value.trim();
+  L.push('Reason for unfilled rows:  ' + (ur || 'UNRECORDED'));
+  L.push('Tally note:                This is a count of recorded outcomes, NOT a score. It must not be');
+  L.push('                           converted into one, and no composite figure may be derived from it.');
+  L.push(bar);
+  L.push('FINDINGS (DIVERGES only, one line each -- no fixes proposed here):');
+  var anyD = false;
+  rowEls.forEach(function (r) {
+    if (r.querySelector('select.verdict').value !== 'DIVERGES') return;
+    anyD = true;
+    var obs = r.querySelector('textarea.obs').value.trim();
+    var oq = el('ownerquestions').value.trim();
+    L.push('  ' + rid(r) + ' : ' + (obs || 'OBSERVATION NOT RECORDED'));
+  });
+  if (!anyD) L.push('  (none recorded)');
+  L.push(bar);
+  L.push('QUESTIONS FOR THE OWNER (ruling required, not a recommendation):');
+  var oq = el('ownerquestions').value.trim();
+  if (oq) { oq.split('\n').forEach(function (line) { if (line.trim()) L.push('  ' + line.trim()); }); }
+  else L.push('  (none recorded)');
+  L.push(bar);
+  L.push('NOTE: This run produced EVIDENCE. It closed no open question, changed');
+  L.push('no status, authorised no tuning, and set no target.');
+  L.push('A DIVERGES on a RULED SURFACE is a re-opening question for the owner,');
+  L.push('not a status change. The ruling stands until the owner moves it.');
+  L.push('');
+  L.push('--- PER-ROW RECORD ---');
+  L.push('');
+  rowEls.forEach(function (r) {
+    var v = r.querySelector('select.verdict').value;
+    var modes = Array.prototype.slice.call(r.querySelectorAll('input.mode:checked')).map(function (m) { return m.value; });
+    var ev = r.querySelector('select.evclass').value;
+    var obs = r.querySelector('textarea.obs').value.trim();
+    var lref = r.querySelector('input.logref').value.trim();
+    var notes = r.querySelector('input.notes').value.trim();
+    var badges = Array.prototype.slice.call(r.querySelectorAll('.badge')).map(function (b) { return b.textContent; }).join(', ');
+    L.push('### ' + rid(r) + ' -- ' + r.querySelector('.rowloop').textContent.trim());
+    L.push('- Account strength / flags: ' + (badges || 'none'));
+    L.push('- Verdict: ' + (v || 'UNFILLED'));
+    L.push('- Mode(s) exercised: ' + (modes.length ? modes.join(', ') : 'not recorded'));
+    L.push('- Evidence class: ' + (ev || 'not set'));
+    L.push('- Observation: ' + (obs || 'not recorded'));
+    L.push('- Observation-log ref: ' + (lref || 'none'));
+    L.push('- Notes: ' + (notes || 'none'));
+    L.push('');
+  });
+  L.push('--- END OF RUN RECORD ---');
+  return L.join('\n');
+}
+rowEls.forEach(function (r) {
+  r.querySelector('select.verdict').addEventListener('change', function () { saveState(); updateProgress(); applyFilter(); });
+  r.querySelector('select.evclass').addEventListener('change', function () { saveState(); });
+  r.querySelector('textarea.obs').addEventListener('input', function () { saveState(); });
+  r.querySelector('input.logref').addEventListener('input', function () { saveState(); });
+  r.querySelector('input.notes').addEventListener('input', function () { saveState(); });
+  r.querySelectorAll('input.mode').forEach(function (m) { m.addEventListener('change', function () { saveState(); }); });
+});
+metaIds.forEach(function (id) { var e = el(id); if (e) e.addEventListener('input', saveState); });
+el('fdom').addEventListener('change', applyFilter);
+el('ffilt').addEventListener('change', applyFilter);
+el('exportBtn').addEventListener('click', function () {
+  var out = el('output');
+  out.textContent = buildExport();
+  out.style.display = 'block';
+  el('copy').style.display = 'inline-block';
+  out.scrollIntoView({ behavior: 'smooth' });
+});
+function fallbackCopy(txt, done) {
+  var ta = document.createElement('textarea');
+  ta.value = txt; ta.style.position = 'fixed'; ta.style.top = '-1000px'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); done(); } catch (e) { alert('Copy failed -- please select the text manually and press Ctrl+C.'); }
+  document.body.removeChild(ta);
+}
+el('copy').addEventListener('click', function () {
+  var txt = el('output').textContent;
+  var done = function () { el('copy').textContent = 'Copied!'; setTimeout(function () { el('copy').textContent = 'Copy to clipboard'; }, 1200); };
+  if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+    navigator.clipboard.writeText(txt).then(done, function () { fallbackCopy(txt, done); });
+  } else { fallbackCopy(txt, done); }
+});
+el('clearBtn').addEventListener('click', function () {
+  if (!confirm('Clear every recorded verdict, observation and note? This also erases the autosave.')) return;
+  try { localStorage.removeItem(KEY); } catch (e) {}
+  rowEls.forEach(function (r) {
+    r.querySelector('select.verdict').value = ''; r.querySelector('select.evclass').value = '';
+    r.querySelector('textarea.obs').value = ''; r.querySelector('input.logref').value = ''; r.querySelector('input.notes').value = '';
+    r.querySelectorAll('input.mode').forEach(function (m) { m.checked = false; });
+  });
+  metaIds.forEach(function (id) { var e = el(id); if (e && id !== 'rundate') e.value = ''; });
+  hydrate(); saveState(); updateProgress(); applyFilter();
+});
+hydrate(); saveState(); updateProgress(); applyFilter();
+</script>
+</body>
+</html>

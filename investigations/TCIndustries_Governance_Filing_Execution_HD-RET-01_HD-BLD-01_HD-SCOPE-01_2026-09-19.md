@@ -7,6 +7,15 @@ each ruling is the owner's decision as recorded in its decision record §1 and
 now in `governance/TCIndustries_Human_Rulings_Register.md` Section C — not this
 record.
 **Author:** Buffy — Codebuff agent (Freebuff), autonomous-loop drafter, Cycle 14.
+
+**Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
+name or version, and on that basis does not satisfy GR-007.3 on its face. The attribution
+stands as originally authored and has been assessed as correct by the human owner
+(ruling 2026-10-18). This note does not alter the attribution, does not re-attribute the
+document, and confers no authority. No reason for the absence of model disclosure is
+recorded here.
+**Assessor (llm):** HY4 Preview (`orcarouter/tencent/hy4-preview-free`) — 2026-10-18, per
+explicit owner authorization.
 **Assessor:** None — single-session execution; no independent review pass (per
 GR-004, recorded as such rather than guessed).
 **Date:** 2026-09-19

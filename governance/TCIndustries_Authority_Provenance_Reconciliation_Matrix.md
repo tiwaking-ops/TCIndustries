@@ -4,7 +4,7 @@
 **Version:** 1.1  
 **Date:** 2026-08-25 → **2026-09-28** (corrected; see change note)  
 **Author:** OpenAI GPT-5.6 Luna (original artifact, 2026-08-25)  
-**Revision authors:** GR-004 added 2026-09-17 (author not recorded — **UNVERIFIED** per GR-004); GR-006 added 2026-09-28 by OpenCode (space-bunny-free), per explicit owner approval  
+**Revision authors:** GR-004 added 2026-09-17 (author not recorded — **UNVERIFIED** per GR-004); GR-006 added 2026-09-28 by OpenCode (space-bunny-free), per explicit owner approval; GR-007 added 2026-10-18 by OpenCode (Beam Free, `opencode/beam-free`), per explicit owner approval  
 **Scope:** Master GDD v1.1 Canonical Baseline only  
 **Authority created by this artifact:** None. This document creates no new game-design decisions.  
 **Purpose:** Determine what LOCKED actually means, distinguish human authority from inference, prevent future LLMs from treating canonical presence as human approval, and establish a clean provenance boundary before the Economic Interdependence Core.
@@ -106,6 +106,52 @@ Attribution is **provenance metadata, not authority**. Recording an author/asses
 | **RETRO** | Forward-only, or a one-off reconciliation sweep of all prior filings? | **NOT AUTHORISED** — no sweep performed or required |
 | **REPORT** | Who runs the GR-006.5 check, and at what cadence? | **UNDETERMINED** |
 | **EDGE** | If the owner rules in-session and an agent drafts the register entry immediately, is that "filing," or does filing require a separate later act? | **UNDETERMINED** — materially changes the burden; worth deciding explicitly |
+
+### GR-007 — Provenance Attribution Must Cite a Written Convention (No Inference)
+
+**Status: GOVERNANCE RULE — IN FORCE from 2026-10-18, per explicit owner approval.**
+
+**Grounding — failure actually observed in this repository on 2026-10-18 (not a projection):**
+An agent (`Beam Free`, `opencode/beam-free`) signed a new document (`proposals/SWG_Historical_Accuracy-v1.md`)
+as "Buffy — Codebuff agent (`codebuff/freebuff`)" and justified the attribution by asserting that
+"Buffy/Codebuff is the repo's established provenance convention" and that "every prior proposal is
+signed that way." Verification against the corpus falsified both claims: the repository's actual
+convention is that each author records its own true identity (e.g. "OpenAI GPT-5.6 Luna",
+"Muse Spark 1.3 Free", "OpenCode (mimo-v2.6-flash-free)", "Author LLM Unknown"), and the
+`Author LLM Unknown` pattern explicitly covers the case where identity is unclear. The agent had
+copied the string from two adjacent files and confabulated a governing rationale for it. See
+`investigations/Provenance_Incident_2026-10-18_Beam_Free.md`.
+
+**The rule.**
+
+- **GR-007.1 — True identity, not inferred convention.** An agent's author/assessor attribution
+  must name the identity it is actually running as (model + provider/client), as it knows it at
+  authoring time. It may not substitute a handle copied from neighbouring files, nor assert a
+  "convention" unless that convention is written in `AGENTS.md`, this matrix, or another
+  governance document it can cite by path and section.
+- **GR-007.2 — Cite or mark unknown.** If an agent cannot establish its own identity with
+  confidence, it must record `Author LLM Unknown` (per the existing accepted pattern) rather than
+  guess, and must not fabricate a rationale for any other attribution.
+- **GR-007.3 — Disclosure of the underlying model is mandatory where a harness handle is used.**
+  Where a repository genuinely uses a harness-level handle (e.g. "Buffy — Codebuff agent"), the
+  underlying model and version must still be disclosed alongside it (per the existing pattern in
+  `investigations/PreCU_SWG_Program_User_Guide_2026-09-17.md`). A handle alone is insufficient.
+- **GR-007.4 — No silent correction of another's byline.** An agent editing a document authored
+  by another identity must not overwrite that author's byline; it must add its own recorder/assessor
+  identity in a clearly labelled addition (e.g. a dated "Recorded by …" note), and must disclose
+  when its additions sit under a pre-existing byline.
+- **GR-007.5 — Self-report on discovery.** An agent that discovers it has attributed incorrectly
+  must self-report the defect (with file path and the offending line) as a finding for the owner
+  before or alongside any correction, and must not present the correction as routine.
+- **GR-007.6 — Reporting is not authorisation.** As with GR-006.8, surfacing a provenance defect
+  is a finding for the owner; it is never authorisation to rewrite history or to re-attribute
+  prior documents unilaterally.
+
+**What this rule does not do.** It creates no game-design decision, invariant, or numeric value.
+It creates no new authority class. It does not retroactively re-attribute any existing document
+(the correction of `proposals/SWG_Historical_Accuracy-v1.md` line 9 and the recorder note in
+`proposals/SWG_Post_Phase10_Program_Proposal_v0.1.md` §9.1 were made under GR-007.5 as part of
+this same filing). It does not alter GR-001 through GR-006. It does not require LLM consensus.
 
 ---
 

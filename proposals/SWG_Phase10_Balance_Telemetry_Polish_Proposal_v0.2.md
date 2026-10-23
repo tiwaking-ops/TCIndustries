@@ -4,6 +4,15 @@
 No design decision. Human approval required before any implementation, and separately
 before any numeric value is treated as tuned.
 **Author / Assessor:** Buffy — Codebuff agent (`codebuff/freebuff`) via Freebuff, **Proposal v0.2**, 2026-09-17 —
+
+**Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
+name or version, and on that basis does not satisfy GR-007.3 on its face. The attribution
+stands as originally authored and has been assessed as correct by the human owner
+(ruling 2026-10-18). This note does not alter the attribution, does not re-attribute the
+document, and confers no authority. No reason for the absence of model disclosure is
+recorded here.
+**Assessor (llm):** HY4 Preview (`orcarouter/tencent/hy4-preview-free`) — 2026-10-18, per
+explicit owner authorization.
 research, verification, and planning only; all authority decisions remain human.
 **Relationship to prior version:** revises and extends
 `SWG_Phase10_Balance_Telemetry_Polish_Proposal_v0.1.md` (Muse Spark, 2026-09-16, PROPOSED,

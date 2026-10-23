@@ -48,4 +48,17 @@ The project owner authorises reuse of the SWG Pre-CU server codebase (`sources/s
 
 ---
 
-*End of HD-TST-01 Ruling Record*
+## Filing note — final approval text (2026-10-18)
+
+Filed at the project owner's direction via the SWG Post-Phase-10 Program Proposal
+(`proposals/SWG_Post_Phase10_Program_Proposal_v0.1.md` §9 item 9, answered 2026-10-18:
+"Yes — use today (2026-10-18)"). This is a **mechanical filing act only**; it adds no
+new ruling, no new scope, and no design content to HD-TST-01. The ruling's decision,
+preconditions, and traceability are unchanged. The approval text recorded is the
+owner's confirmation that the HD-TST-01 patterns-only reuse ruling (path (b), adopted
+2026-09-14) stands as filed, with final approval text filed in `governance/` on
+2026-10-18. Preconditions (due-diligence steps 1–4, de-SWG fork, human review gate)
+remain as recorded in the Traceability table ("Pending") until separately executed
+and evidenced; this filing does not assert their execution.
+
+*End of HD-TST-01 Ruling Record* (filing note appended 2026-10-18).

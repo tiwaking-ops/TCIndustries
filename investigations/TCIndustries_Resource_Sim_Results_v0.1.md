@@ -6,6 +6,15 @@ parameters come from `TCIndustries_Resource_Sim_Spec_v0.1.md` §3 and carry no
 design authority (BAL-001).
 
 **Author:** Buffy — Codebuff agent (Freebuff), T-04 deliverable, 2026-09-17.
+
+**Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
+name or version, and on that basis does not satisfy GR-007.3 on its face. The attribution
+stands as originally authored and has been assessed as correct by the human owner
+(ruling 2026-10-18). This note does not alter the attribution, does not re-attribute the
+document, and confers no authority. No reason for the absence of model disclosure is
+recorded here.
+**Assessor (llm):** HY4 Preview (`orcarouter/tencent/hy4-preview-free`) — 2026-10-18, per
+explicit owner authorization.
 **Task authorization:** owner approval of T-04 (Gap-Analysis proposal §9,
 recorded 2026-09-17).
 **Invariant under test:** INV-002 (decomposed R1a–d, R2, R3, R4) from

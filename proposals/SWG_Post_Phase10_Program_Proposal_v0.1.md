@@ -4,6 +4,15 @@
 decisions are answered by the project owner.
 
 **Author / Assessor:** Buffy — Codebuff agent (`codebuff/freebuff`) via Freebuff,
+
+**Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
+name or version, and on that basis does not satisfy GR-007.3 on its face. The attribution
+stands as originally authored and has been assessed as correct by the human owner
+(ruling 2026-10-18). This note does not alter the attribution, does not re-attribute the
+document, and confers no authority. No reason for the absence of model disclosure is
+recorded here.
+**Assessor (llm):** HY4 Preview (`orcarouter/tencent/hy4-preview-free`) — 2026-10-18, per
+explicit owner authorization.
 **Proposal v0.1**, 2026-09-17 — research, planning, and decision structuring only;
 all authority decisions remain human. Prepared from an owner interview (decision
 menu + numeric asks included + multi-phase roadmap with first phase detailed).
@@ -55,7 +64,7 @@ split: ~30% direct / ~50% adaptable / ~20% not usable).
    report): the B4 service-XP options paper (adopt / decline / defer — default:
    flat `[PROVISIONAL]` rates stand), and the OUT-OF-BAND combat-scale finding
    (fork unarmed 5–15 vs HISTORICAL §9.7 band 50–150 — recorded, no fix sought).
-6. **Human-pass items open:** Proxy 4 artifact review; Historical Accuracy proxy
+6. **Human-pass items:** Proxy 4 artifact review — **DEFERRED** (2026-10-18); Historical Accuracy proxy — **formal questionnaire authored** (`proposals/SWG_Historical_Accuracy-v1.md` v1.0), pending human answers
    (§6.4 human-pass-only); HD-TST-01 draft traceability table still reads
    "Owner approval: PENDING."
 7. **Reusability assessment exists** (OpenCode report 2026-09-17): testbed is a
@@ -223,16 +232,51 @@ Whichever option(s) the owner selects, the resulting work is accepted only with:
 | 5 | **Mission-row retention** | Authorize / accept row-level mix | Accept mix |
 | 6 | **B4 options paper** | Adopt / Decline / Defer | Defer |
 | 7 | **OUT-OF-BAND finding** | Record-only / investigate / defer | Record-only |
-| 8 | **Proxy 4 artifact review + Historical Accuracy proxy** | Owner review (no agent action possible) | Open |
+| 8 | **Proxy 4 artifact review + Historical Accuracy proxy** | Owner review (split decision recorded 2026-10-18) | Proxy 4 = DEFERRED; Historical Accuracy = formal questionnaire authored (`SWG_Historical_Accuracy-v1.md` v1.0), pending human answers |
 | 9 | **File HD-TST-01 final approval text** in `governance/` | Yes (provide date/text) / defer | Defer |
 | 10 | **If C:** authorize evidence-register drafting as the first artifact | Yes / No | No |
 
+## 9.1 Recorded owner answers (2026-10-18)
+
+Owner answers recorded against §9 above (per the proposal's own enactment rule:
+answers are recorded here and in the relevant documents before any work begins).
+Recorded by OpenCode (agent: Beam Free, `opencode/beam-free`) at the owner's direction;
+these are the owner's decisions, not agent recommendations. The original author
+byline of this file (line 6, "Buffy — Codebuff agent") predates these 2026-10-18
+additions and is not altered by this recording act.
+
+| # | Decision | Chosen option | Note |
+|---|---|---|---|
+| 1 | Post-Phase-10 direction | **A — Consolidate** | Ordered combination not selected; B/C/D not selected. Recommendation (A→C) partially adopted (A only). |
+| 2 | Adopt ~65 pre-existing paths into git | **Yes** | Provenance-honest, per-file review; honest commit messages. |
+| 3 | Close heal-evidence gap | **Yes** | New incap→revive scenario asserting a real `heal` event. |
+| 4 | Port overrides for phase 1–9 clients | **Yes** | Remove port-8080 dependency. |
+| 5 | Mission-row retention | **Accept row-level mix** | No retention authorization; aggregate mix reporting stands. |
+| 6 | B4 service-XP options paper | **Defer** | Provisional rates stand for now. |
+| 7 | OUT-OF-BAND combat-scale finding | **Record-only** | Fork unarmed 5–15 vs HISTORICAL 50–150 recorded as accepted evidence; no change. |
+| 8 | Proxy 4 artifact review + Historical Accuracy proxy | **Split decision (2026-10-18)** | **Proxy 4 — DEFERRED** (emergent player-organized play requires players; no live cohort). **Historical Accuracy — Human-approved formal proposal authored:** `proposals/SWG_Historical_Accuracy-v1.md` (v1.0) created as the comprehensive human-recollection questionnaire; owner to answer from recollection; answers are EVIDENCE only. |
+| 9 | File HD-TST-01 final approval text in `governance/` | **Yes** | Filed 2026-10-18 in `governance/TCIndustries_Testbed_Reuse_Human_Ruling_HD-TST-01_2026-09-14.md` (filing note appended; mechanical act only; preconditions remain Pending). |
+| 10 | If C: authorize evidence-register drafting | **Yes (moot)** | Direction is A, not C, so no C work is authorized by this answer; recorded as given. |
+
+**Consequences (A-only):** consolidation work (Option A) is now authorized to begin once
+the §7 acceptance criteria are met: per-package verification with real pasted output,
+one commit per verified step, provenance-honest commit inventory, heal-event receipt
+observed live in telemetry, and chain runs passing with no port-8080 dependency.
+B, C and D remain unselected and are not authorized. No code, tests, or commits are
+performed by this recording act.
+
 ## 10. Implementation status
 
-**NOT STARTED.** This is a planning document. Zero code, tests, or commits are
-authorized or performed under it. Phase 10 remains the last executed phase.
+**IN PROGRESS (Option A authorized 2026-10-18).** Owner answers recorded in §9.1.
+Option A (Consolidate) is authorized to begin; B/C/D remain unselected and una-
+uthorized. Phase 10 remains the last executed phase until A's verification gates
+pass. Items 5 (defer) and 7 (record-only) carry no code work. Item 8 split: Proxy 4 deferred (no code work); Historical Accuracy resolved by authoring `proposals/SWG_Historical_Accuracy-v1.md` (v1.0) — documentation act only, no code, no design authority.
+Item 9 filed 2026-10-18 (date/text supplied by owner).
 
 ---
 
-*End of proposal v0.1. To enact: owner answers §9 (amendments welcome); answers
-are recorded here and in the relevant documents before any work begins.*
+*End of proposal v0.1. Owner answers recorded 2026-10-18 in §9.1; Option A authorized
+to begin. B/C/D remain unselected. Item 8 split decision recorded: Proxy 4 deferred;
+Historical Accuracy questionnaire authored as `proposals/SWG_Historical_Accuracy-v1.md`
+(v1.0) — pending human answers. Item 9 filed 2026-10-18. Implementation proceeds
+per §7 acceptance criteria.*

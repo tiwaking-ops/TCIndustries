@@ -1,0 +1,2294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SWG Historical Accuracy — Answer Form</title>
+<style>
+  :root { --bg:#0b0c10; --panel:#1f2833; --text:#c5c6c7; --accent:#66fcf1; --muted:#45a29e; --border:#2b3442; --input-bg:#0b0c10; }
+  * { box-sizing:border-box; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); margin:0; padding:24px; line-height:1.5; }
+  .container { max-width:1200px; margin:0 auto; }
+  header { border-bottom:2px solid var(--border); padding-bottom:16px; margin-bottom:24px; }
+  h1 { font-size:1.5rem; margin:0 0 8px 0; color:var(--accent); }
+  .subtitle { font-size:0.9rem; color:var(--muted); margin-bottom:16px; }
+  .rules { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; font-size:0.85rem; margin-bottom:24px; }
+  .rules h3 { margin-top:0; color:var(--accent); font-size:1rem; }
+  .rules ul { margin:8px 0 0 0; padding-left:20px; }
+  .rules li { margin-bottom:4px; }
+  .progress { font-size:0.8rem; color:var(--muted); background:var(--panel); border:1px solid var(--border); padding:6px 10px; border-radius:4px; margin-bottom:20px; }
+  .cat { margin-bottom:34px; }
+  .cat h2 { font-size:1.15rem; color:var(--accent); border-bottom:2px solid var(--border); padding-bottom:6px; margin-bottom:14px; }
+  .sub { font-size:0.95rem; color:var(--muted); margin:14px 0 8px 0; padding-left:4px; border-left:3px solid var(--accent); }
+  .q-block { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-bottom:12px; position:relative; }
+  .q-num { position:absolute; top:14px; right:14px; font-size:0.8rem; color:var(--muted); font-weight:bold; }
+  .q-text { font-size:0.98rem; margin-bottom:11px; color:var(--text); }
+  .answer-area { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+  textarea { flex:1 1 300px; min-height:72px; background:var(--input-bg); border:1px solid var(--border); color:var(--text); border-radius:6px; padding:10px; resize:vertical; font-family:inherit; font-size:0.95rem; }
+  textarea:focus { outline:none; border-color:var(--accent); }
+  label.conf { font-size:0.78rem; color:var(--muted); display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+  .conf-select { background:var(--input-bg); border:1px solid var(--border); color:var(--text); border-radius:4px; padding:4px 8px; font-size:0.78rem; }
+  .quick-btns { display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+  .quick-btn { background:var(--panel); border:1px solid var(--border); color:var(--text); padding:4px 10px; border-radius:4px; cursor:pointer; font-size:0.78rem; }
+  .quick-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .quick-btn.used { background:var(--muted); color:#000; border-color:var(--muted); }
+  .notes { margin-top:8px; font-size:0.78rem; color:var(--muted); }
+  footer { border-top:1px solid var(--border); margin-top:30px; padding-top:16px; display:flex; gap:12px; flex-wrap:wrap; }
+  .big-btn { background:var(--accent); color:#000; border:none; padding:12px 24px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:1rem; }
+  .big-btn:hover { opacity:0.9; }
+  .big-btn.secondary { background:var(--panel); color:var(--text); border:1px solid var(--border); }
+  .big-btn.secondary:hover { border-color:var(--accent); }
+  #output { display:none; background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; margin-top:16px; font-family:'Courier New',Courier,monospace; font-size:0.85rem; white-space:pre-wrap; max-height:700px; overflow:auto; }
+  #copy { margin-top:10px; background:var(--muted); color:#000; border:none; padding:8px 16px; border-radius:4px; cursor:pointer; font-weight:bold; }
+  #copy:hover { opacity:0.9; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>SWG Historical Accuracy — Human Recollection Questionnaire</h1>
+    <div class="subtitle">Star Wars Galaxies Pre-CU recollection instrument. v1.0 — Answers are EVIDENCE only, never canon.</div>
+  </header>
+  <div class="rules">
+    <h3>Answering rules</h3>
+    <ul>
+      <li>Answer from recollection only. If unsure, write <b>TBD</b> / <b>I don't remember</b> / <b>unknown</b> — never guess a number.</li>
+      <li>Distinguish "I remember it worked like X" (recollection) from "I think it was probably X" (inference). Mark inference explicitly.</li>
+      <li>Numbers are recollected magnitudes only — never tuning targets.</li>
+      <li>If you never used a system, mark <b>N/A — never used</b>.</li>
+    </ul>
+  </div>
+  <div class="progress" id="progress">Ready — answer any questions you remember, then click Export.</div>
+  <div id="questions">
+  <div class="cat">
+    <h2>A. Combat</h2>
+    <div class="sub">A.1 Melee / unarmed</div>
+    <div class="q-block">
+      <div class="q-num">Q1</div>
+      <div class="q-text">How did melee combat *feel* in terms of speed — fast and twitchy, or slow and deliberate? Did it feel like a "dance" or a slugfest?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q2</div>
+      <div class="q-text">Was unarmed (brawler) viable as a primary combat path, or always a stepping stone? How did it compare to armed melee at the same skill tier?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q3</div>
+      <div class="q-text">Did melee weapons have meaningful reach/range differences that changed positioning, or did everyone fight at the same distance?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q4</div>
+      <div class="q-text">How important was facing/direction — could you "backstab" or did flanking matter?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q5</div>
+      <div class="q-text">Did melee combat require active management (stance, combos) or was it largely auto-attack with occasional specials?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q6</div>
+      <div class="q-text">What was the typical time-to-kill for a same-tier 1v1 melee duel? (recollected seconds)</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q7</div>
+      <div class="q-text">Did damage feel "spiky" (big hits) or steady? Were there visible hit reactions?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">A.2 Ranged</div>
+    <div class="q-block">
+      <div class="q-num">Q8</div>
+      <div class="q-text">How did ranged combat handle movement — could you shoot while moving, or did you have to stop?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q9</div>
+      <div class="q-text">Did range bands (point-blank / optimal / max) matter in practice, or did everyone fight at one distance?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q10</div>
+      <div class="q-text">How did cover/line-of-sight work — was it meaningful or ignored?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q11</div>
+      <div class="q-text">Did ranged feel dominant over melee, balanced, or weaker? Did the meta shift over time?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q12</div>
+      <div class="q-text">What was typical TTK for ranged 1v1 at equivalent gear?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q13</div>
+      <div class="q-text">Did ammunition matter (consumable, weight, crafting) or was it effectively free?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">A.3 Specials / abilities</div>
+    <div class="q-block">
+      <div class="q-num">Q14</div>
+      <div class="q-text">How were combat specials triggered — hotbar, radial menu, macros? How many were practical to use in a fight?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q15</div>
+      <div class="q-text">Did specials have cooldowns, resource costs (HAM), or both? Which gated more?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q16</div>
+      <div class="q-text">Were there "combos" or chains that required sequencing, or were specials independent?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q17</div>
+      <div class="q-text">Did specials feel impactful (visible, decisive) or like minor modifiers?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q18</div>
+      <div class="q-text">Were there defensive specials (dodge, block, parry) that players actually used?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q19</div>
+      <div class="q-text">How did crowd control (stun, blind, dizzy, knockdown) feel — frequent and decisive, or rare?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">A.4 HAM (Health/Action/Mind)</div>
+    <div class="q-block">
+      <div class="q-num">Q20</div>
+      <div class="q-text">Did the three pools feel distinct and meaningful, or did everyone just watch health?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q21</div>
+      <div class="q-text">Which pool was most commonly targeted by attacks? Did "mind" attacks (intimidate, etc.) ever matter?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q22</div>
+      <div class="q-text">Did HAM damage feel like a resource to manage during a fight, or just a death timer?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q23</div>
+      <div class="q-text">How did buffs interact with HAM — did buffs feel like a meaningful combat lever?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q24</div>
+      <div class="q-text">Did "wounds" (post-combat HAM loss) feel like a real penalty or a minor inconvenience?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">A.5 Incapacitation &amp; death in combat</div>
+    <div class="q-block">
+      <div class="q-num">Q25</div>
+      <div class="q-text">What happened when you were incapacitated — how long, what could you do, could allies help?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q26</div>
+      <div class="q-text">Did incapacitation feel fair or frustrating? Was there a "bleed out" timer?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q27</div>
+      <div class="q-text">Could you be finished off while incapacitated, and did that feel common?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q28</div>
+      <div class="q-text">How did the incap→revive→death loop feel in group combat vs solo?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>B. Progression &amp; skill trees</h2>
+    <div class="sub">B.1 XP and skill acquisition</div>
+    <div class="q-block">
+      <div class="q-num">Q29</div>
+      <div class="q-text">How did XP gain feel — fast and rewarding early, slow later? Did it feel grindy?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q30</div>
+      <div class="q-text">Were there "XP debt" or "XP loss on death" mechanics, and how did they feel?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q31</div>
+      <div class="q-text">Did training a skill feel like a meaningful choice or a formality once XP was earned?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q32</div>
+      <div class="q-text">Were trainers located sensibly (in cities) and did finding them feel like part of the game?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q33</div>
+      <div class="q-text">Could you "unlearn" or respec skills, and did players want to?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q34</div>
+      <div class="q-text">How long did basic mastery feel (recollected hours)? Elite mastery? Full cap?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">B.2 Skill trees / boxes</div>
+    <div class="q-block">
+      <div class="q-num">Q35</div>
+      <div class="q-text">Did the skill tree feel deep and branching, or linear?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q36</div>
+      <div class="q-text">Were there "must-have" boxes everyone took, or genuine build diversity?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q37</div>
+      <div class="q-text">Did hybrid builds feel viable, or did specialization dominate?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q38</div>
+      <div class="q-text">How did the 250 skill-point cap feel — restrictive, generous, or just right?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q39</div>
+      <div class="q-text">Were there "dead" skills nobody used? Which ones?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">B.3 Certification / equipment gating</div>
+    <div class="q-block">
+      <div class="q-num">Q40</div>
+      <div class="q-text">Did certification gating (weapon/armor use requires skill) feel like a meaningful progression gate or an annoyance?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q41</div>
+      <div class="q-text">Did you ever feel "locked out" of content by certification requirements?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>C. Economy &amp; currency</h2>
+    <div class="sub">C.1 Credits &amp; money flow</div>
+    <div class="q-block">
+      <div class="q-num">Q42</div>
+      <div class="q-text">Did credits feel scarce or abundant at novice level? At master level?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q43</div>
+      <div class="q-text">Did the economy feel inflationary over time? Did prices rise?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q44</div>
+      <div class="q-text">Were there meaningful "money sinks" (maintenance, travel, training) that shaped play?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q45</div>
+      <div class="q-text">Did starting credits feel sufficient to begin?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q46</div>
+      <div class="q-text">How did tithing/taxes (city, guild) feel?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">C.2 Income sources</div>
+    <div class="q-block">
+      <div class="q-num">Q47</div>
+      <div class="q-text">What were the main income sources for a novice? For a master?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q48</div>
+      <div class="q-text">Did combat pay (loot, mission rewards) feel comparable to crafting income?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q49</div>
+      <div class="q-text">Did the "novice crafter ≈ novice combatant income" balance feel true in practice?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q50</div>
+      <div class="q-text">Were there "get rich quick" paths that distorted the economy?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">C.3 Market dynamics</div>
+    <div class="q-block">
+      <div class="q-num">Q51</div>
+      <div class="q-text">Did prices feel stable or volatile week to week?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q52</div>
+      <div class="q-text">Did bazaar/auction feel like a real market or a dumping ground?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q53</div>
+      <div class="q-text">Did " undercutting" and price wars feel common? How did sellers feel about it?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q54</div>
+      <div class="q-text">Were there cartels/monopolies, and how did the community view them?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>D. Crafting</h2>
+    <div class="sub">D.1 Crafting loop</div>
+    <div class="q-block">
+      <div class="q-num">Q55</div>
+      <div class="q-text">Did crafting feel engaging (mini-game, choices) or tedious (click-through)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q56</div>
+      <div class="q-text">Did experimentation feel meaningful — did tweaking properties produce visibly different items?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q57</div>
+      <div class="q-text">Did assembly feel like a real process or a formality?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q58</div>
+      <div class="q-text">How long did a typical craft session feel?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q59</div>
+      <div class="q-text">Did failed crafts feel punishing or acceptable?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">D.2 Schematics &amp; progression</div>
+    <div class="q-block">
+      <div class="q-num">Q60</div>
+      <div class="q-text">Did learning schematics feel like progression?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q61</div>
+      <div class="q-text">Were schematics gated by skill level sensibly?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q62</div>
+      <div class="q-text">Did the "generic taxonomy" (frame/grip/etc.) make sense to players?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">D.3 Quality &amp; item variance</div>
+    <div class="q-block">
+      <div class="q-num">Q63</div>
+      <div class="q-text">Did item quality vary enough that "a good roll" mattered?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q64</div>
+      <div class="q-text">Did players chase perfect rolls, and how did that feel (fun grind vs toxic)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q65</div>
+      <div class="q-text">Did crafted items feel meaningfully better than looted/NPC items?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">D.4 Factories &amp; mass production</div>
+    <div class="q-block">
+      <div class="q-num">Q66</div>
+      <div class="q-text">Did factories feel like a meaningful endgame for crafters?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q67</div>
+      <div class="q-text">Did factory runs feel satisfying or like AFK time?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q68</div>
+      <div class="q-text">Were there "factory spam" problems (too many identical items)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>E. Resources &amp; harvesting</h2>
+    <div class="sub">E.1 Surveying</div>
+    <div class="q-block">
+      <div class="q-num">Q69</div>
+      <div class="q-text">Did surveying feel like exploration or a chore?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q70</div>
+      <div class="q-text">Did resource spawns feel dynamic and interesting, or predictable?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q71</div>
+      <div class="q-text">Did "shift" changes (resource stats changing) create meaningful gameplay?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">E.2 Sampling</div>
+    <div class="q-block">
+      <div class="q-num">Q72</div>
+      <div class="q-text">Did sampling feel engaging or repetitive?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q73</div>
+      <div class="q-text">Did resource quality (stats) matter enough to seek specific spawns?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q74</div>
+      <div class="q-text">How did resource depletion feel — fair or frustrating?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">E.3 Resource economy</div>
+    <div class="q-block">
+      <div class="q-num">Q75</div>
+      <div class="q-text">Did "good" resources feel scarce and valuable?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q76</div>
+      <div class="q-text">Did players hoard resources, and how did that affect markets?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q77</div>
+      <div class="q-text">Did the 10×CLMax drop cap (creature loot) feel right?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>F. Professions &amp; service providers</h2>
+    <div class="sub">F.1 Medic</div>
+    <div class="q-block">
+      <div class="q-num">Q78</div>
+      <div class="q-text">Did healing feel responsive and meaningful in combat?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q79</div>
+      <div class="q-text">Did wound treatment feel like a real service or a formality?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q80</div>
+      <div class="q-text">Did medics feel valued and needed, or underused?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q81</div>
+      <div class="q-text">Did stimpacks feel like a crutch that reduced medic value?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">F.2 Entertainer / buffs</div>
+    <div class="q-block">
+      <div class="q-num">Q82</div>
+      <div class="q-text">Did buffs feel impactful (noticeable stat changes)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q83</div>
+      <div class="q-text">Did watching entertainers feel like a social activity or a tax?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q84</div>
+      <div class="q-text">Did the "buff cycle" (travel to cantina, wait, get buffed) feel good or tedious?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q85</div>
+      <div class="q-text">Did Mind-buffing / action-buffing feel as important as health?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">F.3 Other service professions</div>
+    <div class="q-block">
+      <div class="q-num">Q86</div>
+      <div class="q-text">Did image designers feel used? Did appearance changes matter to players?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q87</div>
+      <div class="q-text">Did smugglers feel like a real profession with a role?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q88</div>
+      <div class="q-text">Did scouts/rangers feel useful (camping, tracking)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q89</div>
+      <div class="q-text">Did merchants feel distinct from regular traders?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">F.4 Service XP</div>
+    <div class="q-block">
+      <div class="q-num">Q90</div>
+      <div class="q-text">Did service XP gain feel fair for the time invested?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q91</div>
+      <div class="q-text">Did flat XP awards (per heal/buff) feel right, or should they scale with amount healed/buffed?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q92</div>
+      <div class="q-text">Did "buff begging" (players asking for free buffs) feel like a social problem?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>G. Medical, wounds &amp; incapacitation</h2>
+    <div class="sub">G.1 Wounds</div>
+    <div class="q-block">
+      <div class="q-num">Q93</div>
+      <div class="q-text">Did wounds feel like a meaningful post-combat consequence?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q94</div>
+      <div class="q-text">Did wound healing feel accessible (enough medics) or scarce?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q95</div>
+      <div class="q-text">Did "wound rot" or neglect feel like a real risk?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">G.2 States (stun, blind, dizzy, knockdown, etc.)</div>
+    <div class="q-block">
+      <div class="q-num">Q96</div>
+      <div class="q-text">Which states felt most impactful? Which were ignored?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q97</div>
+      <div class="q-text">Did state-stacking feel fair or frustrating?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q98</div>
+      <div class="q-text">Did states create memorable moments or just annoyance?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>H. Entertainment &amp; buffs (extended)</h2>
+    <div class="sub"></div>
+    <div class="q-block">
+      <div class="q-num">Q99</div>
+      <div class="q-text">Did the entertainer profession feel like a "real" profession or a buff vending machine?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q100</div>
+      <div class="q-text">Did music/dance feel like gameplay or decoration?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q101</div>
+      <div class="q-text">Did group buffs (camp buffs) feel meaningful?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q102</div>
+      <div class="q-text">Did "buff duration" feel right — too short, too long?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>I. Missions &amp; terminals</h2>
+    <div class="sub">I.1 Mission terminals</div>
+    <div class="q-block">
+      <div class="q-num">Q103</div>
+      <div class="q-text">Did mission terminals feel like a good "go do something" entry point?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q104</div>
+      <div class="q-text">Did mission variety feel sufficient or repetitive?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q105</div>
+      <div class="q-text">Did mission difficulty scaling feel right?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q106</div>
+      <div class="q-text">Did mission rewards feel worth the time?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">I.2 Mission types</div>
+    <div class="q-block">
+      <div class="q-num">Q107</div>
+      <div class="q-text">Which mission types were most/least popular? Why?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q108</div>
+      <div class="q-text">Did delivery/escort missions feel fun or tedious?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q109</div>
+      <div class="q-text">Did bounty missions feel fair to targets?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q110</div>
+      <div class="q-text">Did crafting missions feel meaningful?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">I.3 Mission economy</div>
+    <div class="q-block">
+      <div class="q-num">Q111</div>
+      <div class="q-text">Did missions dominate the economy (faucet), and did that feel inflationary?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q112</div>
+      <div class="q-text">Did mission-running feel like "work" or "play"?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>J. Faction &amp; PvP (GCW)</h2>
+    <div class="sub">J.1 Faction choice</div>
+    <div class="q-block">
+      <div class="q-num">Q113</div>
+      <div class="q-text">Did choosing Imperial/Rebel feel meaningful and permanent?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q114</div>
+      <div class="q-text">Did faction identity matter in daily play, or only in PvP zones?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">J.2 Overt/covert flagging</div>
+    <div class="q-block">
+      <div class="q-num">Q115</div>
+      <div class="q-text">Did the flagging system (overt/covert) feel intuitive?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q116</div>
+      <div class="q-text">Did "going overt" feel like a real commitment with real risk?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q117</div>
+      <div class="q-text">Did covert players feel like they had a distinct role?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">J.3 PvP combat</div>
+    <div class="q-block">
+      <div class="q-num">Q118</div>
+      <div class="q-text">Did PvP feel balanced between professions, or were there dominant builds?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q119</div>
+      <div class="q-text">Did TTK in PvP feel right (30–60s)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q120</div>
+      <div class="q-text">Did "zerg" (group) PvP dominate over 1v1?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q121</div>
+      <div class="q-text">Did PvP feel fun or frustrating overall?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">J.4 Death penalties in PvP</div>
+    <div class="q-block">
+      <div class="q-num">Q122</div>
+      <div class="q-text">Did losing to another player feel fair? What was lost?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q123</div>
+      <div class="q-text">Did "deathblows" (finishing incapacitated players) feel like a problem?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q124</div>
+      <div class="q-text">Did insurance/cloning mitigate loss enough?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">J.5 Bases &amp; GCW</div>
+    <div class="q-block">
+      <div class="q-num">Q125</div>
+      <div class="q-text">Did faction bases feel like meaningful objectives?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q126</div>
+      <div class="q-text">Did base assaults feel epic or tedious?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q127</div>
+      <div class="q-text">Did GCW feel like a living war or a background system?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>K. Creatures, spawns &amp; ecology</h2>
+    <div class="sub">K.1 Creatures</div>
+    <div class="q-block">
+      <div class="q-num">Q128</div>
+      <div class="q-text">Did creatures feel dangerous enough at appropriate levels?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q129</div>
+      <div class="q-text">Did creature variety feel sufficient?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q130</div>
+      <div class="q-text">Did "con" (difficulty) colors feel accurate?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q131</div>
+      <div class="q-text">Did named/boss creatures feel special?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">K.2 Lairs &amp; spawns</div>
+    <div class="q-block">
+      <div class="q-num">Q132</div>
+      <div class="q-text">Did lairs feel like a good PvE activity?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q133</div>
+      <div class="q-text">Did spawn density feel right — too many, too few?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q134</div>
+      <div class="q-text">Did creatures feel like they "lived" in the world (ecology) or just popped in?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">K.3 Tamable pets (creature handler)</div>
+    <div class="q-block">
+      <div class="q-num">Q135</div>
+      <div class="q-text">Did taming feel engaging?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q136</div>
+      <div class="q-text">Did pets feel useful in combat?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q137</div>
+      <div class="q-text">Did the pet ownership/cap feel right?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>L. Social, groups, guilds</h2>
+    <div class="sub">L.1 Grouping</div>
+    <div class="q-block">
+      <div class="q-num">Q138</div>
+      <div class="q-text">Did grouping feel necessary or optional?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q139</div>
+      <div class="q-text">Did group XP sharing feel fair?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q140</div>
+      <div class="q-text">Did "group roles" (tank/healer/dps) exist, or was everyone self-sufficient?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q141</div>
+      <div class="q-text">Did groups feel cohesive or just a party of solo players?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">L.2 Guilds</div>
+    <div class="q-block">
+      <div class="q-num">Q142</div>
+      <div class="q-text">Did guilds feel meaningful beyond a chat channel?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q143</div>
+      <div class="q-text">Did guild size limits feel right?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q144</div>
+      <div class="q-text">Did guild politics feel like emergent gameplay?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">L.3 Chat &amp; communication</div>
+    <div class="q-block">
+      <div class="q-num">Q145</div>
+      <div class="q-text">Did chat channels (spatial, guild, group, OOC) feel sufficient?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q146</div>
+      <div class="q-text">Did the community feel healthy/toxic over time?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q147</div>
+      <div class="q-text">Did spatial chat (range-limited) create immersion?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>M. Player cities &amp; civic</h2>
+    <div class="sub">M.1 City founding</div>
+    <div class="q-block">
+      <div class="q-num">Q148</div>
+      <div class="q-text">Did founding a city feel achievable and meaningful?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q149</div>
+      <div class="q-text">Did city placement feel strategic?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q150</div>
+      <div class="q-text">Did the "mayor" role feel like real governance?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">M.2 City management</div>
+    <div class="q-block">
+      <div class="q-num">Q151</div>
+      <div class="q-text">Did maintenance costs feel sustainable?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q152</div>
+      <div class="q-text">Did city structures (walls, defenses) matter?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q153</div>
+      <div class="q-text">Did cities feel like living communities or ghost towns?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q154</div>
+      <div class="q-text">Did city specialization (crafting city, combat city) emerge?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">M.3 Civic structures</div>
+    <div class="q-block">
+      <div class="q-num">Q155</div>
+      <div class="q-text">Did civic structures (cloning, shuttles, vendors) feel like meaningful infrastructure?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>N. Housing &amp; structures</h2>
+    <div class="sub">N.1 Placement &amp; decoration</div>
+    <div class="q-block">
+      <div class="q-num">Q156</div>
+      <div class="q-text">Did housing feel like a meaningful personal space?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q157</div>
+      <div class="q-text">Did decoration feel deep or limited?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q158</div>
+      <div class="q-text">Did structure placement feel strategic (buffs, maintenance)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">N.2 Maintenance &amp; upkeep</div>
+    <div class="q-block">
+      <div class="q-num">Q159</div>
+      <div class="q-text">Did maintenance feel like a fair ongoing cost or a punishment?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q160</div>
+      <div class="q-text">Did structures decay/destroy feel fair?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>O. Death, cloning &amp; respawn</h2>
+    <div class="sub">O.1 Cloning</div>
+    <div class="q-block">
+      <div class="q-num">Q161</div>
+      <div class="q-text">Did cloning feel like a meaningful preparation (choosing a clone point)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q162</div>
+      <div class="q-text">Did "no clone nearby" feel like a real risk?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q163</div>
+      <div class="q-text">Did cloning costs feel fair?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">O.2 Death penalties</div>
+    <div class="q-block">
+      <div class="q-num">Q164</div>
+      <div class="q-text">Did death feel punishing enough to matter but not rage-inducing?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q165</div>
+      <div class="q-text">Did "deathblow" / item loss feel fair?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q166</div>
+      <div class="q-text">Did insurance (item insurance) feel worth it?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q167</div>
+      <div class="q-text">Did the "corpse run" feel like an adventure or a chore?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">O.3 Respawn experience</div>
+    <div class="q-block">
+      <div class="q-num">Q168</div>
+      <div class="q-text">Did respawning feel disorienting or smooth?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q169</div>
+      <div class="q-text">Did you lose "progress" (buffs, states) on death in a way that felt right?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>P. Items, gear &amp; equipment</h2>
+    <div class="sub">P.1 Weapons</div>
+    <div class="q-block">
+      <div class="q-num">Q170</div>
+      <div class="q-text">Did weapon variety feel sufficient? Were there "best" weapons everyone used?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q171</div>
+      <div class="q-text">Did weapon stats (speed, damage, range) create meaningful trade-offs?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q172</div>
+      <div class="q-text">Did looted weapons ever compete with crafted?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">P.2 Armor</div>
+    <div class="q-block">
+      <div class="q-num">Q173</div>
+      <div class="q-text">Did armor feel like a real protection system?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q174</div>
+      <div class="q-text">Did armor sets/bonuses exist and matter?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q175</div>
+      <div class="q-text">Did "armor decay" feel fair?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">P.3 Consumables</div>
+    <div class="q-block">
+      <div class="q-num">Q176</div>
+      <div class="q-text">Did food/drink buffs feel meaningful?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q177</div>
+      <div class="q-text">Did stims feel like a combat necessity or an optional boost?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q178</div>
+      <div class="q-text">Did consumable crafting feel integrated with the economy?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">P.4 Itemization overall</div>
+    <div class="q-block">
+      <div class="q-num">Q179</div>
+      <div class="q-text">Did the "no levels, gear-driven" philosophy feel right compared to level-based MMOs?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q180</div>
+      <div class="q-text">Did item binding/trading feel right (tradeable vs no-trade)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>Q. Character creation &amp; appearance</h2>
+    <div class="sub"></div>
+    <div class="q-block">
+      <div class="q-num">Q181</div>
+      <div class="q-text">Did species choice feel meaningful (stats, abilities) or cosmetic?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q182</div>
+      <div class="q-text">Did appearance customization feel deep enough?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q183</div>
+      <div class="q-text">Did "image designer" respecs feel like a real service?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q184</div>
+      <div class="q-text">Did starting gear feel appropriate?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>R. Vendors, bazaars &amp; trade</h2>
+    <div class="sub">R.1 Vendors</div>
+    <div class="q-block">
+      <div class="q-num">Q185</div>
+      <div class="q-text">Did placing a vendor feel like a real business?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q186</div>
+      <div class="q-text">Did vendor maintenance (funding) feel fair?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q187</div>
+      <div class="q-text">Did "vendor search" (bazaar) feel adequate?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">R.2 Direct trade</div>
+    <div class="q-block">
+      <div class="q-num">Q188</div>
+      <div class="q-text">Did direct player trading feel safe and convenient?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q189</div>
+      <div class="q-text">Were there scam risks, and how did the community handle them?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">R.3 Marketplaces</div>
+    <div class="q-block">
+      <div class="q-num">Q190</div>
+      <div class="q-text">Did the bazaar/auction feel like the "real" market?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q191</div>
+      <div class="q-text">Did listing fees/commissions feel right (4–6%)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>S. Travel &amp; world</h2>
+    <div class="sub">S.1 Planets &amp; zones</div>
+    <div class="q-block">
+      <div class="q-num">Q192</div>
+      <div class="q-text">Did the galaxy feel vast and explorable?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q193</div>
+      <div class="q-text">Did travel time feel like a feature (immersion) or a tax?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q194</div>
+      <div class="q-text">Did different planets feel distinct?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">S.2 Shuttles &amp; ports</div>
+    <div class="q-block">
+      <div class="q-num">Q195</div>
+      <div class="q-text">Did shuttle schedules feel immersive or annoying?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q196</div>
+      <div class="q-text">Did shuttle costs feel fair?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="sub">S.3 Vehicles &amp; mounts</div>
+    <div class="q-block">
+      <div class="q-num">Q197</div>
+      <div class="q-text">Did vehicles feel necessary and fun?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q198</div>
+      <div class="q-text">Did mount speed feel right?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>T. Elite professions &amp; advanced systems</h2>
+    <div class="sub"></div>
+    <div class="q-block">
+      <div class="q-num">Q199</div>
+      <div class="q-text">Did elite professions (Commando, Bounty Hunter, etc.) feel worth the grind?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q200</div>
+      <div class="q-text">Did "multi-prereq elite" feel like a real achievement (150–250h)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q201</div>
+      <div class="q-text">Did elite abilities feel powerful and special?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q202</div>
+      <div class="q-text">Did the "no Jedi at launch" (then Jedi unlock) situation feel right?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q203</div>
+      <div class="q-text">Did Bio-engineering / DNA / pets feel like a deep system?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>U. AI / NPC behaviour</h2>
+    <div class="sub"></div>
+    <div class="q-block">
+      <div class="q-num">Q204</div>
+      <div class="q-text">Did NPCs (vendors, trainers, quest givers) feel alive or static?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q205</div>
+      <div class="q-text">Did creature AI feel believable (flee, aggro, pack behavior)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q206</div>
+      <div class="q-text">Did "con" (difficulty) and aggro ranges feel right?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>V. Time, environment &amp; world simulation</h2>
+    <div class="sub"></div>
+    <div class="q-block">
+      <div class="q-num">Q207</div>
+      <div class="q-text">Did day/night cycle matter for gameplay?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q208</div>
+      <div class="q-text">Did weather matter?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q209</div>
+      <div class="q-text">Did the world feel "alive" (dynamic spawns, events)?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q210</div>
+      <div class="q-text">Did "fast travel" options undermine exploration?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>W. UI / client experience (context only)</h2>
+    <div class="sub"></div>
+    <div class="q-block">
+      <div class="q-num">Q211</div>
+      <div class="q-text">Did the radial menu feel intuitive or clunky?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q212</div>
+      <div class="q-text">Did chat/UI feel adequate for an MMO?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q213</div>
+      <div class="q-text">Did the map/navigation feel helpful?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q214</div>
+      <div class="q-text">Did performance (client) feel acceptable?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q215</div>
+      <div class="q-text">Did the UI get in the way of immersion?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <h2>X. Cross-cutting "feel"</h2>
+    <div class="sub"></div>
+    <div class="q-block">
+      <div class="q-num">Q216</div>
+      <div class="q-text">Overall, did SWG Pre-CU feel like a "world" or a "game"?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q217</div>
+      <div class="q-text">What was the single best-feeling system, and why?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q218</div>
+      <div class="q-text">What was the single worst-feeling system, and why?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q219</div>
+      <div class="q-text">Did the game reward "mastery" (skill) or "time" (grind) more?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q220</div>
+      <div class="q-text">Did the community's emergent play (player cities, events, markets) feel like the real game?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q221</div>
+      <div class="q-text">Did the "sandbox" promise feel delivered?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q222</div>
+      <div class="q-text">What do you miss most that no other MMO replicated?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-num">Q223</div>
+      <div class="q-text">What would you *not* want to replicate?</div>
+      <div class="answer-area">
+        <textarea placeholder="TBD / unknown / your recollection..."></textarea>
+        <label class="conf"><select class="conf-select"><option>medium</option><option>high</option><option>low</option><option>inference</option></select> Confidence</label>
+        <div class="quick-btns"><button class="quick-btn">TBD</button><button class="quick-btn">unknown</button><button class="quick-btn">N/A — never used</button></div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <footer>
+    <button class="big-btn secondary" id="clearBtn">Clear all answers</button>
+    <button class="big-btn" id="exportBtn">Export answers for pasting</button>
+  </footer>
+  <div id="output"></div>
+  <button id="copy" style="display:none;">Copy to clipboard</button>
+</div>
+<script>
+  document.getElementById('exportBtn').onclick=function(){
+    const qs=document.querySelectorAll('#questions .q-block');
+    const lines=[];
+    qs.forEach(block=>{
+      const id=block.querySelector('.q-num').textContent.replace('Q','');
+      const ta=block.querySelector('textarea');
+      const sel=block.querySelector('.conf-select');
+      const ans=(ta&&ta.value)?ta.value.trim(): '(unanswered)';
+      const conf=(sel&&sel.value)?sel.value:'medium';
+      const qtext=block.querySelector('.q-text').textContent.replace(/\s+/g,' ');
+      lines.push('### Q'+id+' — '+qtext);
+      lines.push('- Responder: <handle>');
+      lines.push('- Date: 2026-10-19');
+      lines.push('- Answer: '+ans);
+      lines.push('- Confidence: '+conf);
+      lines.push('- Notes: <optional>');
+      lines.push('');
+    });
+    const out=lines.join('\n');
+    const el=document.getElementById('output');
+    el.textContent=out;
+    el.style.display='block';
+    document.getElementById('copy').style.display='inline-block';
+  };
+  document.getElementById('copy').onclick=function(){
+    const txt=document.getElementById('output').textContent;
+    const done=function(){ document.getElementById('copy').textContent='Copied!'; setTimeout(function(){document.getElementById('copy').textContent='Copy to clipboard';},1200); };
+    if(navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext){
+      navigator.clipboard.writeText(txt).then(done, function(){ fallbackCopy(txt, done); });
+    } else { fallbackCopy(txt, done); }
+  };
+  function fallbackCopy(txt, done){
+    const ta=document.createElement('textarea');
+    ta.value=txt;
+    ta.style.position='fixed'; ta.style.top='-1000px'; ta.style.opacity='0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); }
+    catch(e){ alert('Copy failed — please select the text manually and press Ctrl+C.'); }
+    document.body.removeChild(ta);
+  }
+  document.getElementById('clearBtn').onclick=function(){
+    if(!confirm('Clear all answers?')) return;
+    document.querySelectorAll('#questions textarea').forEach(t=>t.value='');
+    document.querySelectorAll('#questions .quick-btn').forEach(b=>b.classList.remove('used'));
+    document.getElementById('output').style.display='none';
+  };
+  document.querySelectorAll('#questions .quick-btn').forEach(b=>{
+    b.onclick=function(){
+      const block=b.closest('.q-block');
+      const ta=block.querySelector('textarea');
+      ta.value=b.textContent;
+      b.classList.add('used');
+    };
+  });
+</script>
+</body>
+</html>

@@ -7,6 +7,15 @@ exist only so the *structural invariants* can be exercised, and none is a
 proposal, recommendation, or precedent).
 
 **Author:** Buffy — Codebuff agent (Freebuff), T-04 deliverable, 2026-09-17.
+
+**Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
+name or version, and on that basis does not satisfy GR-007.3 on its face. The attribution
+stands as originally authored and has been assessed as correct by the human owner
+(ruling 2026-10-18). This note does not alter the attribution, does not re-attribute the
+document, and confers no authority. No reason for the absence of model disclosure is
+recorded here.
+**Assessor (llm):** HY4 Preview (`orcarouter/tencent/hy4-preview-free`) — 2026-10-18, per
+explicit owner authorization.
 **Task authorization:** owner approval of T-04 under
 `proposals/TCIndustries_Gap_Analysis_SWG_Reuse_and_Test_Program_Proposal_v0.1.md`
 §9 (recorded there 2026-09-17).

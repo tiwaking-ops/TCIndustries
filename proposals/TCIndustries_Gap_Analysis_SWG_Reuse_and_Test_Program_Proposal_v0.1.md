@@ -4,6 +4,15 @@
 task list is approved item-by-item by the project owner.
 
 **Author / Assessor:** Buffy — Codebuff agent (`codebuff/freebuff`) via Freebuff,
+
+**Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
+name or version, and on that basis does not satisfy GR-007.3 on its face. The attribution
+stands as originally authored and has been assessed as correct by the human owner
+(ruling 2026-10-18). This note does not alter the attribution, does not re-attribute the
+document, and confers no authority. No reason for the absence of model disclosure is
+recorded here.
+**Assessor (llm):** HY4 Preview (`orcarouter/tencent/hy4-preview-free`) — 2026-10-18, per
+explicit owner authorization.
 **Proposal v0.1**, 2026-09-17 — analysis, mapping, and test planning only; all
 authority decisions remain human.
 

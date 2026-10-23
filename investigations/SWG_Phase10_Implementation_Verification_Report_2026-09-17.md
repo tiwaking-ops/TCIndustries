@@ -1,6 +1,15 @@
 # SWG Phase 10 Implementation Verification Report — 2026-09-17
 
 **Author:** Buffy — Codebuff agent (Freebuff client). **Status:** IMPLEMENTED +
+
+**Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
+name or version, and on that basis does not satisfy GR-007.3 on its face. The attribution
+stands as originally authored and has been assessed as correct by the human owner
+(ruling 2026-10-18). This note does not alter the attribution, does not re-attribute the
+document, and confers no authority. No reason for the absence of model disclosure is
+recorded here.
+**Assessor (llm):** HY4 Preview (`orcarouter/tencent/hy4-preview-free`) — 2026-10-18, per
+explicit owner authorization.
 VERIFIED (this report is evidence, not a status promotion of any design document).
 **Authorization basis:** owner approval of `SWG_Phase10_Balance_Telemetry_Polish_Proposal_v0.2.md`
 §9/§6 decisions recorded in that file's §10 (B1–B3, B5(i), B6, B7 in full; B4 =
