@@ -22,6 +22,15 @@ INV-011b, INV-011c, and INV-BLD-004a remain candidates. HD-ITM-02 and HD-BLD-03
 approved no new invariant. Per-invariant granularity again applies — no batch
 approval inferred, and no candidate is promoted by this note.
 
+**Filing note (2026-10-23):** per the owner's ruling HD-SAL-01
+(`governance/TCIndustries_Human_Rulings_Register.md`, Section F when filed),
+**INV-010** is **CONFIRMED** in its conditional reading under the no-decay model,
+and the **candidate invariant from the 6d proposal's P→C→I→F→T block** is
+**APPROVED** as a design invariant (TEST-001 class): *"Salvage returns
+meaningful ownership-relevant substance; removal contents resolved by stated
+rule."* Registered below as **INV-SAL-01**. Per-invariant granularity applies —
+no batch approval inferred.
+
 **Author:** Buffy — Codebuff agent (Freebuff), T-01 deliverable, 2026-09-17.
 
 **Provenance note (GR-007.3, added 2026-10-18):** This author field names no separate model
@@ -336,10 +345,25 @@ whatever boundaries the human later supplies can be tested against them.
   repair demand, (b) binds the provenance requirements of any repair/restoration
   mechanism. **HD-ITM-02 (2026-09-20) elaborates inside this surface and is
   consistent with the conditional; no new invariant was approved by it.**
+  **HD-SAL-01 (2026-10-23) CONFIRMED** the conditional reading under the no-decay
+  model: (c)/(d) bind any destruction/loss system; (a) attaches to whatever
+  systems generate repair demand; (b) binds provenance requirements of any
+  repair/restoration mechanism; the conditional then binds any future decay
+  introduction.
+- **Invariant INV-SAL-01 — APPROVED as a design invariant (TEST-001 class),
+  HD-SAL-01, 2026-10-23:** *Salvage returns meaningful ownership-relevant
+  substance; removal contents resolved by stated rule.* (Composed from the 6d
+  proposal's P→C→I→F→T block; the owner approved it verbatim at ruling.
+  Structural only — the salvage fraction, retrieval window, and debris
+  persistence parameters are BAL-001-gated and remain TBD.)
 - **Failure condition:** decay that is pure attrition (no service demand),
   erases provenance, or functions as ownership confiscation.
 - **Test:** lifecycle walk-through of any proposed durability design against
   (a)–(d) (checklist-class); T-08 brief structures the durability decision.
+  Additional test for INV-SAL-01: the 6d proposal's 8-scenario walk-through
+  (combat-destroyed equipment, lost/stolen item, obsolescence, voluntary
+  upgrade, zero-credit removal with non-empty contents, settlement's last
+  structure removal, provenance-bearing high-value item, irreplaceable item).
 
 ### OQ-011 — Skill acquisition model & respecialisation rules (PROG-003, PROF-004)
 
