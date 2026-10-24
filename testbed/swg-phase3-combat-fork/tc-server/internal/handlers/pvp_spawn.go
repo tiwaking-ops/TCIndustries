@@ -5,10 +5,14 @@ package handlers
 import "tc-server/internal/protocol"
 
 // withFactionFields enriches an EntitySpawnMsg with faction_id and pvp_state
-// when the entity is a player carrying a faction. Creatures and neutrals stay
+// when the entity is a player carrying a faction. Creature spawns stay
 // unchanged, so older clients that ignore unknown fields keep working.
+//
+// Player spawns never set EntityType (it is omitempty and only the creature
+// seeding path sets "creature"), so a player is "not a creature" — testing for
+// EntityType == "" would skip every player and silently drop these fields.
 func (h *WorldHandler) withFactionFields(msg protocol.EntitySpawnMsg, charID string) protocol.EntitySpawnMsg {
-	if msg.EntityType == "creature" || msg.EntityType == "" {
+	if msg.EntityType == "creature" {
 		return msg
 	}
 	if cf, err := h.db.GetCharacterFaction(charID); err == nil && cf != nil {
