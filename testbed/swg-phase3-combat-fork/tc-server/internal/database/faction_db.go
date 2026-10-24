@@ -515,3 +515,37 @@ func (db *DB) RecordPvPEvent(id, kind, basis, attackerID, targetID string, zoneI
 	)
 	return err
 }
+
+// PvPEventRow maps one pvp_events row.
+type PvPEventRow struct {
+	ID         string
+	Kind       string
+	Basis      string
+	AttackerID string
+	TargetID   string
+	ZoneID     sql.NullString
+	CreatedAt  int64
+}
+
+// PvPEventsFor returns a character's defeat events (as attacker or target),
+// newest first. Without a reader this table is write-only and unverifiable.
+func (db *DB) PvPEventsFor(charID string) ([]PvPEventRow, error) {
+	rows, err := db.conn.Query(
+		`SELECT id, kind, basis, attacker_id, target_id, zone_id, created_at
+		FROM pvp_events
+		WHERE attacker_id = ? OR target_id = ?
+		ORDER BY id DESC`, charID, charID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var out []PvPEventRow
+	for rows.Next() {
+		var e PvPEventRow
+		if err := rows.Scan(&e.ID, &e.Kind, &e.Basis, &e.AttackerID, &e.TargetID, &e.ZoneID, &e.CreatedAt); err != nil {
+			return nil, err
+		}
+		out = append(out, e)
+	}
+	return out, rows.Err()
+}

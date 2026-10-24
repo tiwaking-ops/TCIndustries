@@ -46,6 +46,8 @@ func (ph *PvPHandler) HandlePvPRoute(w http.ResponseWriter, r *http.Request) {
 		ph.pvpZones(w)
 	case path == "wars" && r.Method == "GET":
 		ph.pvpWars(w, charID)
+	case path == "events" && r.Method == "GET":
+		ph.pvpEvents(w, charID)
 	case path == "war/declare" && r.Method == "POST":
 		ph.warDeclare(w, r, charID)
 	case path == "war/end" && r.Method == "POST":
@@ -124,6 +126,32 @@ func (ph *PvPHandler) pvpWars(w http.ResponseWriter, charID string) {
 		})
 	}
 	writeCraftJSON(w, http.StatusOK, map[string]interface{}{"wars": out})
+}
+
+// pvpEvents lists the caller's logged PvP defeats (D-06: logged, never awarded).
+func (ph *PvPHandler) pvpEvents(w http.ResponseWriter, charID string) {
+	if charID == "" {
+		writeCraftJSON(w, http.StatusBadRequest, map[string]string{"error": "character_id required"})
+		return
+	}
+	events, err := ph.world.db.PvPEventsFor(charID)
+	if err != nil {
+		writeCraftJSON(w, http.StatusInternalServerError, map[string]string{"error": "event lookup failed"})
+		return
+	}
+	out := make([]map[string]interface{}, 0, len(events))
+	for _, e := range events {
+		row := map[string]interface{}{
+			"id": e.ID, "kind": e.Kind, "basis": e.Basis,
+			"attacker_id": e.AttackerID, "target_id": e.TargetID,
+			"created_at": e.CreatedAt,
+		}
+		if e.ZoneID.Valid && e.ZoneID.String != "" {
+			row["zone_id"] = e.ZoneID.String
+		}
+		out = append(out, row)
+	}
+	writeCraftJSON(w, http.StatusOK, map[string]interface{}{"events": out})
 }
 
 // warDeclare records a guild-war declaration (D-10 role check).
