@@ -55,7 +55,11 @@ Three-layer split per GDD Section 29.2: real-time tick loop (`internal/handlers/
 
 ## Current Status
 
-Phases 0-3 complete and independently verified (see `README.md`'s patch notes for the exact bugs found and fixed in each). **Phase 4 (Resources & Crafting — GDD Sections 10-11) is next.** Known, intentionally-scoped Phase 3 simplifications are documented in the README under "Known Phase 3 Simplifications" — don't treat those as bugs to silently fix; they're sequenced for later phases (e.g., Combat Medic gating on Revive belongs whenever Phase 9 builds that profession, not now).
+Phases 0-7 complete and independently verified (see `README.md`'s patch notes for the exact bugs found and fixed in each). Phases 4 (Resources & Crafting), 5 (Economy), 6 (Social Support Professions), and 7 (Civic Systems) were built and verified end-to-end after the Phase 3 documentation below was written; the per-phase README sections for them are still to be written, but the integration suites (`cmd/phase6test`, `cmd/phase7test`) exist and pass (Phase 4 crafting and Phase 5 economy are exercised end-to-end by the Phase 7 harness).
+
+**Phase 8 (Faction & PvP) is next but has no design authority yet.** The Master GDD leaves combat scope, risk model, and progression integration explicitly **TBD** (open question OQ-008, and repeated in the combat-systems row of the status register). Do not invent faction/PvP mechanics to fill that gap — implement only against boundaries the project supplies. See `AGENTS.md` at the repo root for the authority rules.
+
+Known, intentionally-scoped Phase 3 simplifications are documented in the README under "Known Phase 3 Simplifications" — don't treat those as bugs to silently fix; they're sequenced for later phases (e.g., Combat Medic gating on Revive belongs whenever Phase 9 builds that profession, not now).
 
 ## Workflow
 
