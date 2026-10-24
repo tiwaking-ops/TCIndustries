@@ -132,6 +132,9 @@ func (ph *PvPHandler) warDeclare(w http.ResponseWriter, r *http.Request, charID 
 	if !ok {
 		return
 	}
+	if charID == "" {
+		charID = strOf(body, "character_id")
+	}
 	db := ph.world.db
 	targetGuildID := strOf(body, "target_guild_id")
 	if targetGuildID == "" {
@@ -185,6 +188,9 @@ func (ph *PvPHandler) warEnd(w http.ResponseWriter, r *http.Request, charID stri
 	body, ok := decodeBody(w, r)
 	if !ok {
 		return
+	}
+	if charID == "" {
+		charID = strOf(body, "character_id")
 	}
 	db := ph.world.db
 	warID := strOf(body, "war_id")
