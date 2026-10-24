@@ -12,6 +12,7 @@ import (
 	"tc-server/internal/combat"
 	"tc-server/internal/database"
 	"tc-server/internal/creatures"
+	"tc-server/internal/civic"
 	"tc-server/internal/models"
 	"tc-server/internal/protocol"
 	"tc-server/internal/species"
@@ -172,6 +173,31 @@ func (h *WorldHandler) readPump(client *Client) {
 			h.handleTip(client, message)
 		case protocol.MsgUseStim:
 			h.handleUseStim(client, message)
+		// Phase 4: Resources & Crafting (handlers live in resources.go; these
+		// cases were missing from the dispatch table, so survey/sample were
+		// unreachable before Phase 5 wired them up here).
+		case protocol.MsgSurvey:
+			h.handleSurvey(client, message)
+		case protocol.MsgSample:
+			h.handleSample(client, message)
+		case protocol.MsgPlaceHarvester:
+			h.handlePlaceHarvester(client, message)
+		case protocol.MsgEmptyHopper:
+			h.handleEmptyHopper(client, message)
+		case protocol.MsgHarvestCorpse:
+			h.handleHarvestCorpse(client, message)
+		// Phase 5: structures + vendor commerce.
+		case protocol.MsgPlaceHouse:
+			h.handlePlaceHouse(client, message)
+		case protocol.MsgPlaceVendor:
+			h.handlePlaceVendor(client, message)
+		case protocol.MsgPurchase:
+			h.handlePurchase(client, message)
+		case protocol.MsgCollectTill:
+			h.handleCollectTill(client, message)
+		// Phase 7: city founding (WS positional placement).
+		case protocol.MsgPlaceCityHall:
+			h.handlePlaceCityHall(client, message)
 		default:
 			h.sendError(client, "unknown message type: "+msg.Type)
 		}
@@ -403,6 +429,23 @@ func (h *WorldHandler) handleChat(client *Client, raw []byte) {
 	if client.CharacterID == "" {
 		h.sendError(client, "not in world")
 		return
+	}
+
+	// Phase 7: membership-routed channels (group/guild/tell) + validated emotes
+	// (GDD 18.2). Faction exists as a channel name only — Phase 8 owns
+	// alignment, so it is honestly unavailable here rather than silently open.
+	switch world.ChatChannel(chatMsg.Channel) {
+	case world.ChannelGroup, world.ChannelGuild, world.ChannelTell:
+		h.handleCivicChat(client, chatMsg)
+		return
+	case world.ChannelFaction:
+		h.sendError(client, "faction channel unavailable (alignment not yet implemented)")
+		return
+	case world.ChannelEmote:
+		if !civic.ValidEmote(chatMsg.Text) {
+			h.sendError(client, "unknown emote (standard library only)")
+			return
+		}
 	}
 
 	chatMessage := protocol.ChatMessageMsg{

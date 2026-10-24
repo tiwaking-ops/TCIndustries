@@ -141,10 +141,21 @@ const (
 	ChannelShout   ChatChannel = "shout"   // /shout, ~50m radius
 	ChannelPlanet  ChatChannel = "planet"  // planet-wide
 	ChannelSystem  ChatChannel = "system"  // server messages
+
+	// Phase 7: Civic chat channels (GDD 18.2). These are membership-routed by
+	// internal/handlers/civic.go's handleCivicChat, not by distance, so they
+	// carry no radius. Faction exists as a name only until Phase 8 owns
+	// alignment; emotes ride the spatial radius per 18.2.3 baseline.
+	ChannelGroup   ChatChannel = "group"
+	ChannelGuild   ChatChannel = "guild"
+	ChannelTell    ChatChannel = "tell"
+	ChannelFaction ChatChannel = "faction"
+	ChannelEmote   ChatChannel = "emote"
 )
 
 // ChatRadius returns the delivery radius for a chat channel.
-// Returns 0 for channels that are not range-limited (planet, system).
+// Returns 0 for channels that are not range-limited (planet, system, and the
+// Phase 7 membership-routed channels group/guild/tell/faction).
 func ChatRadius(channel ChatChannel) float64 {
 	switch channel {
 	case ChannelSpatial:
@@ -152,6 +163,6 @@ func ChatRadius(channel ChatChannel) float64 {
 	case ChannelShout:
 		return ShoutRadius
 	default:
-		return 0 // planet-wide or system-wide
+		return 0 // planet-wide, system-wide, or membership-routed
 	}
 }

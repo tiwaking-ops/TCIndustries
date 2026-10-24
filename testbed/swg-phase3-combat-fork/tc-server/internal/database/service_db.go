@@ -5,18 +5,6 @@ import (
 	"time"
 )
 
-// AddCredits adds credits to a character's wallet (faucet-side primitive).
-func (db *DB) AddCredits(characterID string, amount int) error {
-	if amount <= 0 {
-		return fmt.Errorf("amount must be positive")
-	}
-	_, err := db.conn.Exec(
-		`UPDATE characters SET credits = credits + ? WHERE id = ?`,
-		amount, characterID,
-	)
-	return err
-}
-
 // EnsureServiceSchema creates Phase 6 tables if absent (buffs).
 func (db *DB) EnsureServiceSchema() error {
 	_, err := db.conn.Exec(

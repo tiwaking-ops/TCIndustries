@@ -126,19 +126,13 @@ func (h *WorldHandler) StartResourceTickLoop() {
 			if time.Since(lastHarvest) >= resources.HarvestTickInterval {
 				lastHarvest = time.Now()
 				h.tickHarvesters()
-				// Later-phase harvest-interval hookups. These live in handler
-				// files this fork has not ported yet (economy.go = Phase 5,
-				// civic.go = Phase 7, lairs.go/ranger.go = Phase 9), and the
-				// supporting tables (structures, cities, lairs, camps) do not
-				// exist here. Uncomment each as its phase lands. Flagged rather
-				// than stubbed: silently no-op tickers would read as working.
-				// h.tickStructures() // Phase 5: structure maintenance + grace/destroy
-				// h.tickCities()     // Phase 7: activation, upkeep, ranks, elections, flat tax
+				h.tickStructures() // Phase 5: structure maintenance + grace/destroy
+				h.tickCities()     // Phase 7: activation, upkeep, ranks, elections, flat tax
 				// h.tickLairs()      // Phase 9: population regen + relocation
 				// h.tickCamps()      // Phase 9: camp expiry + occupant regen + camping XP
-				// if _, err := h.db.WriteSnapshot(); err != nil { // Phase 5 economy telemetry
-				// 	log.Printf("snapshot failed: %v", err)
-				// }
+				if _, err := h.db.WriteSnapshot(); err != nil { // Phase 5 economy telemetry
+					log.Printf("snapshot failed: %v", err)
+				}
 			}
 		}
 	}()

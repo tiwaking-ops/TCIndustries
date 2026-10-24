@@ -163,30 +163,10 @@ func (db *DB) migrate() error {
 			state TEXT NOT NULL DEFAULT 'idle',
 			target_character_id TEXT,
 			corpse_expires_at DATETIME
-		)`,			// 010: credit_ledger table (GDD 12.6, Phase 5)
-			`CREATE TABLE IF NOT EXISTS credit_ledger (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				character_id TEXT NOT NULL,
-				category TEXT NOT NULL,
-				subtype TEXT NOT NULL,
-				amount INTEGER NOT NULL,
-				counterparty TEXT NOT NULL,
-				planet TEXT NOT NULL,
-				pos_x REAL NOT NULL,
-				pos_z REAL NOT NULL,
-				timestamp DATETIME NOT NULL
-			)`,
-
-			// 011: economic_snapshots table (GDD 12.6, Phase 5)
-			`CREATE TABLE IF NOT EXISTS economic_snapshots (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				total_circulation INTEGER NOT NULL,
-				total_faucets INTEGER NOT NULL,
-				total_sinks INTEGER NOT NULL,
-				inflation_pct REAL NOT NULL,
-				timestamp DATETIME NOT NULL
-			)`,
-			
+		)`,
+		// 010/011 (credit_ledger, economic_snapshots) deliberately NOT here:
+		// Phase 5's EnsureEconomySchema owns the ledger_entries and
+		// economic_snapshots shapes, which supersede these earlier forks.
 	}
 
 	for i, m := range migrations {

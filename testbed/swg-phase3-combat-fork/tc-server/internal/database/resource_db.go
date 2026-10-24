@@ -60,6 +60,7 @@ func (db *DB) EnsureResourceSchema() error {
 			name TEXT NOT NULL,
 			stats_json TEXT NOT NULL,
 			equipped INTEGER NOT NULL DEFAULT 0,
+			condition_pct INTEGER NOT NULL DEFAULT 100,
 			created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 		)`,
 	}
@@ -76,6 +77,16 @@ func (db *DB) EnsureResourceSchema() error {
 		if _, err := db.conn.Exec(col); err != nil &&
 			!strings.Contains(err.Error(), "duplicate column") {
 			return fmt.Errorf("equip column failed: %w", err)
+		}
+	}
+	// Condition column on crafted_items (idempotent — covers databases created
+	// before the column was added to the CREATE TABLE above).
+	for _, col := range []string{
+		`ALTER TABLE crafted_items ADD COLUMN condition_pct INTEGER NOT NULL DEFAULT 100`,
+	} {
+		if _, err := db.conn.Exec(col); err != nil &&
+			!strings.Contains(err.Error(), "duplicate column") {
+			return fmt.Errorf("condition column failed: %w", err)
 		}
 	}
 	return nil
@@ -178,13 +189,13 @@ func (db *DB) SeedZoneSpawns(zone string, rng *rand.Rand, now time.Time) (int, e
 			id, rtype string
 			x, z      float64
 		}{
-			{"testspawn-metal-01", "ferric_metal", 30, 0},
-			{"testspawn-polymer-01", "structural_polymer", 40, 0},
-			{"testspawn-organic-01", "cultured_organic", 20, 25},
-			{"testspawn-chemical-01", "industrial_chemical", 45, 15},
-			{"testspawn-alloy-01", "conductive_alloy", -5, 10},
-			{"testspawn-water-01", "filtered_water", 35, -20},
-			{"testspawn-flora-01", "fibrous_flora", 10, -25},
+			{"testspawn-metal-01", "ferric_metal", 3558, -4804},
+			{"testspawn-polymer-01", "structural_polymer", 3568, -4804},
+			{"testspawn-organic-01", "cultured_organic", 3548, -4779},
+			{"testspawn-chemical-01", "industrial_chemical", 3573, -4789},
+			{"testspawn-alloy-01", "conductive_alloy", 3523, -4794},
+			{"testspawn-water-01", "filtered_water", 3563, -4824},
+			{"testspawn-flora-01", "fibrous_flora", 3538, -4829},
 		}
 		for _, g := range guarantees {
 			t := resources.TypeByID(g.rtype)
