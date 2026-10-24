@@ -3,10 +3,10 @@
 - **Author:** Claude (Anthropic)
 - **Version:** 1.0.0 (Draft for human confirmation)
 - **Date:** October 24, 2026
-- **Status:** Draft. Section 2 rulings are human-supplied and final. Section 3 defaults are Claude's proposals and become binding only once confirmed.
+- **Status:** **HUMAN-LOCKED (approved 2026-10-25 by project owner).** Section 2 rulings R-01..R-08 were human-supplied and final. Section 3 defaults D-01..D-16 were Claude's proposals and were confirmed by the owner's blanket approval ("I approve the proposal"), which confirms the defaults as written including their convention that silence on the Section 13 checklist means the proposed default stands. Both sections are now binding.
 - **Target Audience:** An LLM coding agent that will implement Phase 8 of the TCIndustries testbed server.
 - **Baseline Document:** `Phase_8_Formal_Specification_Report.md` v1.0.0 (current-state architecture, Phases 0–7 complete).
-- **Resolves (once approved):** GDD open question `OQ-008` (Phase 8 scope, risk model, progression integration).
+- **Resolves:** GDD open question `OQ-008` (Phase 8 scope, risk model, progression integration) — **resolved by this approval**.
 
 ---
 
@@ -369,20 +369,27 @@ Do not start a step until the previous one builds and its tests pass.
 
 ---
 
-## 13. Confirmation Checklist for the Project Owner
+## 13. Confirmation Checklist — CONFIRMED 2026-10-25
 
-Please confirm or correct each item before the implementer starts. Silence means the proposed default stands.
+The project owner approved the proposal as a whole on 2026-10-25 ("I approve the
+proposal"). Per this document's own convention — *silence on the checklist means
+the proposed default stands* — a blanket approval confirms every default below as
+written. No item was corrected or withdrawn.
 
-- [ ] **D-01 / D-02 / D-03:** Toggle delays (30 s / 300 s) and aggression timer (120 s).
-- [ ] **D-04 / D-05:** Faction change blocked while overt or in combat; standing resets on switch/leave.
-- [ ] **D-06:** No standing awards in Phase 8 (kills logged only).
-- [ ] **D-07 – D-09:** Duel challenge expiry, range and end conditions.
-- [ ] **D-10:** Guild leader **and** officers may declare/end war (or leader only).
-- [ ] **D-11 / D-12:** 24 h war activation delay; either leader may end a war; no automatic expiry.
-- [ ] **D-13:** War combat is legal anywhere in the world.
-- [ ] **D-14:** Battlefields: opposing factions only, neutrals excluded, forced overt on entry.
-- [ ] **D-15 / D-16:** Placeholder NPC and battlefield seed positions are acceptable.
-- [ ] **Extra:** May a player have a faction **and** be in a duel/war at once (this proposal says yes)?
+- [x] **D-01 / D-02 / D-03:** Toggle delays (30 s / 300 s) and aggression timer (120 s).
+- [x] **D-04 / D-05:** Faction change blocked while overt or in combat; standing resets on switch/leave.
+- [x] **D-06:** No standing awards in Phase 8 (kills logged only).
+- [x] **D-07 – D-09:** Duel challenge expiry, range and end conditions.
+- [x] **D-10:** Guild leader **and** officers may declare/end war (or leader only).
+- [x] **D-11 / D-12:** 24 h war activation delay; either leader may end a war; no automatic expiry.
+- [x] **D-13:** War combat is legal anywhere in the world.
+- [x] **D-14:** Battlefields: opposing factions only, neutrals excluded, forced overt on entry.
+- [x] **D-15 / D-16:** Placeholder NPC and battlefield seed positions are acceptable.
+- [x] **Extra:** May a player have a faction **and** be in a duel/war at once (this proposal says yes).
+
+Numeric values (durations, ranges) remain subject to a future balance pass
+(BAL-001) if the owner chooses to run one — this approval fixes the *rules*, and
+adopts the stated numbers as the current working set.
 
 ---
 

@@ -811,7 +811,7 @@ The following systems require dedicated future design passes (not exhaustive):
 | OQ-005 | Manufacturing/factory throughput, maintenance, and ownership rules? | Manufacturing, Automation | Anti-automation-drift enforcement | TBD |
 | OQ-006 | Transportation model and fast-travel constraints? | World, Economy, Logistics | Geographic meaning vs. friction | TBD |
 | OQ-007 | City formation, governance, taxation/maintenance models? | Cities, Society, Buildings | Player-created society pillar | **RULED (formation + basic depth)** — see Human Rulings Register HD-BLD-01; civic-depth instruments remain open |
-| OQ-008 | Combat scope (PvE/PvP), risk model, and progression integration? | Combat, Economy, Services | Demand generation without forced path | TBD |
+| OQ-008 | Combat scope (PvE/PvP), risk model, and progression integration? | Combat, Economy, Services | Demand generation without forced path | **RULED (Phase 8 Faction & PvP)** — see Human Rulings Register HD-PVP-01; numeric tuning remains BAL-001-gated |
 | OQ-009 | Currency system(s) and money sinks? | Economy | Economic stability | **RULED (Structure A: single unified currency; INV-009a approved, faucet-exceeds-sink mandate)** — see Human Rulings Register HD-ECO-01; sink instrument classes remain named-open, numerics TBD |
 | OQ-010 | Item durability, decay, and repair model? | Items, Services, Economy | Service demand and item identity | **RULED (no baseline decay; death-damage/repair/destruction behaviour)** — see Human Rulings Register HD-ITM-01 + HD-ITM-02 |
 | OQ-011 | Respecialisation exact costs and rules? | Progression, Identity | Balance of flexibility vs. commitment | **RULED** (cost: free-drop; acquisition: trainer-gated) — see Human Rulings Register HD-PROF-01 + HD-PROF-02 + HD-PROF-03; magnitudes TBD (BAL-001); INV-011c and scope confirmation still open; the OQ-001 budget model remains EIC-coupled and blocked behind the open HD-EIC-07 gate |
@@ -953,6 +953,7 @@ acts). All entries below are transcribed from
 | OQ-010 / ITM-002 | HD-ITM-01 + HD-ITM-02 | Durability/repair/destruction **RULED** (no baseline decay); numerics TBD |
 | OQ-011 | HD-PROF-01 + HD-PROF-02 + HD-PROF-03 | Respecialisation cost **RULED** (free-drop); skill acquisition **RULED** (trainer-gated with free player-teacher path); magnitudes TBD (BAL-001); INV-011c still open |
 | BLD-004 | HD-BLD-02 + HD-BLD-03 | Abandonment handling **RULED** (zero-credit removal, contents removed with structure); placement/lots/density **TBD** |
+| OQ-008 / Phase 8 | HD-PVP-01 | Combat scope (PvE/PvP), risk model, progression integration **RULED** — three PvP modes, two fixed factions, NPC-only membership, delay/timer rules, guild wars, battlefields, defeat = normal clone flow only; numerics TBD (BAL-001) |
 | Backlog 6d | HD-SAL-01 | Salvage/destruction/contents handling **RULED** (Option A: salvage-to-owner with provenance continuity; contents sub-rule selection deferred to BAL-001; INV-SAL-01 approved); backlog 6e(a) closed; backlog 6e(b) remains open |
 
 **No status was promoted beyond what these rulings state.** No numeric value was

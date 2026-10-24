@@ -760,7 +760,33 @@ bounded EIC search; any change to OQ-001, OQ-004, or OQ-005, which become
 | BLD-004 building abandonment | **HUMAN-LOCKED** (HD-BLD-02 + HD-BLD-03) — zero maintenance credit → removal; upkeep lapses after 24h at zero credit; **contents removed with structure** (no salvage/recovery/restitution); placement/lots/density remain TBD; backlog 6e(b) settlement dissolution OPEN |
 | Invariants approved to date | INV-016a, INV-016b, INV-007a, INV-015, INV-010 (conditional), INV-011a, INV-BLD-004b, INV-012 |
 | Invariants explicitly **not** approved | INV-007b, INV-011b, INV-011c, INV-BLD-004a (each remains a candidate; per-invariant granularity — no batch approval) |
-| Open questions still awaiting ruling | **None in the live queue.** Unclosed slots on already-ruled items: HD-ECO-01 scope confirmation + INV-009b, HD-PROF-03 scope confirmation + INV-011c; backlog 6c early-game on-ramp; backlog 6e(b) settlement dissolution. EIC-coupled questions (OQ-001, OQ-004, OQ-005, T-03, T-06) are now **unblocked and authorised for search execution** under HD-EIC-10/11 |
+| Open questions still awaiting ruling | **None in the live queue.** OQ-008 (combat scope, risk model, progression integration) was outstanding until **RULED 2026-10-25 by HD-PVP-01**. Unclosed slots on already-ruled items: HD-ECO-01 scope confirmation + INV-009b, HD-PROF-03 scope confirmation + INV-011c; backlog 6c early-game on-ramp; backlog 6e(b) settlement dissolution. EIC-coupled questions (OQ-001, OQ-004, OQ-005, T-03, T-06) are now **unblocked and authorised for search execution** under HD-EIC-10/11 |
+| OQ-008 Phase 8 Faction & PvP | **HUMAN-LOCKED** (HD-PVP-01, 2026-10-25) — three PvP modes (duel/war, faction flagging, battlefields); two fixed factions + neutral; NPC-only membership changes; 30s/300s toggle delays and 120s aggression timer; **defeat is normal incapacitation/clone flow only, no extra penalty** (composes with HD-ITM-01/02); guild wars leader/officer-gated with 24h activation; standing stored but never awarded in Phase 8 (kills logged via `pvp_events`) |
 | Post-Phase-10 testbed direction | **NOT DECIDED — no default exists**; all testbed work stays closed pending the owner's answer (`proposals/SWG_Post_Phase10_Program_Proposal_v0.1.md` §9 item 1) |
+
+# Section H — Faction, PvP, and Combat Scope Rulings (2026-10-25: HD-PVP-01)
+
+## HD-PVP-01 — OQ-008 Combat Scope (PvE/PvP), Risk Model, & Progression Integration
+**Source:** Owner approval, 2026-10-25, of `proposals/proposal-claude-tcindustries-phase8-faction-pvp-v1.md`. Filed at the owner's explicit authorisation.
+**Status:** HUMAN-LOCKED (Phase 8 Faction & PvP). Resolves Master GDD open question `OQ-008`. Supersedes no prior rulings; complements HD-ECO-01 and HD-ITM-01/02.
+
+### Decision
+1. **PvP Modes (R-01):** Phase 8 PvP combines three modes: (a) duels and guild war declarations, (b) faction overt/covert flagging via recruiter NPCs, and (c) designated battlefield zones.
+2. **Factions & Identity (R-02, R-03, R-04):** Factions are fixed as neutral plus two project-defined factions (`FACTION_A`, `FACTION_B`, with placeholder display names). Joining, switching, and leaving happen exclusively at seeded faction recruiter NPCs.
+3. **Flag & Timer Mechanics (R-05, D-01..D-06):** Faction members toggle between covert and overt (with 30s overt / 300s covert delays and a 120s aggression timer refreshed on combat). Standing is stored but not awarded in Phase 8 (kills logged only, via `pvp_events`).
+4. **Duels & Guild Wars (R-01a, R-06, R-07, D-07..D-13):** Duels (30s challenge expiry, 64m start, 128m end, surrender/incap end) and guild wars (leader/officer declaration, 24h activation, anywhere legal) are fully supported.
+5. **Battlefields (R-01c, R-08, D-14..D-16):** Seeded circles and rectangles where opposing factions fight and entry forces `overt`.
+6. **Defeat Penalty (R-06):** Defeat in any PvP mode (duel, war, faction, battlefield) results in the **normal incapacitation / clone flow only**. Zero extra penalties: no item loss, no credit loss, no skill loss.
+
+**Explicitly does not authorise:** any extra penalty on death; automated standing rewards (kills are recorded in `pvp_events` without point payouts); remote faction switching.
+
+### Traceability
+| Item | Source |
+|---|---|
+| Proposal given effect | `proposals/proposal-claude-tcindustries-phase8-faction-pvp-v1.md` (v1.0.0, approved 2026-10-25) |
+| OQ resolved | OQ-008 (Combat scope, risk model, progression integration) |
+| Prior rulings relied upon | HD-ITM-01 + HD-ITM-02 (no death loot loss, normal clone flow) |
+
+---
 
 *End of Human Rulings Register.*

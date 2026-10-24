@@ -1,6 +1,6 @@
 # Testbed Game Server
 
-Patterns-only mechanical testbed server (forked from a Star Wars Galaxies Pre-CU recreation; all SWG names stripped per HD-TST-01). Go server + Godot 4 client. Built phase-by-phase against `SWG_PreCU_GDD.md` (v2 — see below), currently through **Phase 8 (Faction & PvP) — implemented; design unapproved, see Current Status**.
+Patterns-only mechanical testbed server (forked from a Star Wars Galaxies Pre-CU recreation; all SWG names stripped per HD-TST-01). Go server + Godot 4 client. Built phase-by-phase against `SWG_PreCU_GDD.md` (v2 — see below), currently through **Phase 8 (Faction & PvP) — verified; design HUMAN-LOCKED under HD-PVP-01**.
 
 ## Source of Truth
 
@@ -63,14 +63,17 @@ Three-layer split per GDD Section 29.2: real-time tick loop (`internal/handlers/
 
 ## Current Status
 
-Phases 0-7 complete and independently verified. Phases 4 (Resources & Crafting), 5 (Economy), 6 (Social Support Professions), and 7 (Civic Systems) were built and verified end-to-end after the Phase 3 documentation below was written; the per-phase README sections for them are still to be written, but the integration suites exist and pass (Phase 4 crafting and Phase 5 economy are exercised end-to-end by the Phase 7 harness).
+Phases 0-8 complete, independently verified, and design-approved. Phases 4 through 8 were built and verified end-to-end after the Phase 3 documentation below was written; the per-phase README sections for them are still to be written, but the integration suites exist and pass (`cmd/phase6test`, `cmd/phase7test`, `cmd/phase8test`; Phase 4 crafting and Phase 5 economy are exercised end-to-end by the Phase 7 harness).
 
-**Phase 8 (Faction & PvP) is implemented and tested, but its design is not yet approved.** The code passes `cmd/phase8test` (28 assertions, 9 groups) and 20 unit tests in `internal/pvp`. It was built against `proposals/proposal-claude-tcindustries-phase8-faction-pvp-v1.md`, whose own status line marks it a **Draft** — Section 2 rulings are human-supplied, Section 3 defaults are proposals that bind only once confirmed.
+**Phase 8 (Faction & PvP) is implemented, tested, and design-approved.** The code passes `cmd/phase8test` (28 assertions, 9 groups) and 20 unit tests in `internal/pvp`. It was built against `proposals/proposal-claude-tcindustries-phase8-faction-pvp-v1.md`, which the project owner approved on 2026-10-25.
 
-Consequences to respect before building on Phase 8:
-- GDD open question `OQ-008` (combat scope, risk model, progression integration) is **still TBD**. The proposal says not to mark it resolved unless the project owner approves the proposal. Do not mark it resolved.
-- Per `AGENTS.md`, prototype evidence is never design authority. Phase 8 is **PROTOTYPE/EVIDENCE**: the mechanism works, the design is not canon. Anything depending on its exact numbers (toggle delays, duel ranges, war activation, battlefield rules) is standing on unratified ground.
-- The D-01..D-16 values live in one place — `PvPConfig` in `internal/pvp/config.go` — precisely so re-tuning after approval never needs a refactor.
+**Ruling HD-PVP-01** (`governance/TCIndustries_Human_Rulings_Register.md`, Section H) is the authority and resolves Master GDD open question `OQ-008`. Consequences now binding:
+- Three PvP modes: duels / guild wars, faction flagging via recruiter NPCs, and seeded battlefield zones.
+- Two fixed factions (`FACTION_A`, `FACTION_B`) plus neutral; membership changes only at the NPC.
+- 30 s overt / 300 s covert delays, 120 s aggression timer.
+- Guild wars: leader/officer declare, 24 h activation, either leader may end.
+- **Defeat is the normal incapacitation/clone flow only — no extra item, credit, or skill penalty.** Standing is stored but never awarded; defeats are logged in `pvp_events`.
+- The D-01..D-16 values live in `PvPConfig` (`internal/pvp/config.go`) as the approved working set. **Re-tuning them is a balance decision (BAL-001-gated), not a code change.**
 
 Known, intentionally-scoped Phase 3 simplifications are documented in the README under "Known Phase 3 Simplifications" — don't treat those as bugs to silently fix; they're sequenced for later phases (e.g., Combat Medic gating on Revive belongs whenever Phase 9 builds that profession, not now).
 

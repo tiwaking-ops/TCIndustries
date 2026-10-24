@@ -1,4 +1,4 @@
-# Testbed Game Server — Phase 8 (implemented, design unapproved)
+# Testbed Game Server — Phase 8 (verified; design HUMAN-LOCKED under HD-PVP-01)
 
 A patterns-only mechanical testbed server (forked from a Star Wars Galaxies Pre-CU recreation; all SWG names stripped per HD-TST-01), built from the GDD specification.
 
@@ -381,26 +381,31 @@ Both lairs are seeded near the Zone 0001 spawn, clustered within ~8m of each oth
 | Phase 5 | Economy infrastructure (credits, vendors, bazaar, housing) | ✅ verified |
 | Phase 6 | Entertainer & Medic (Battle Fatigue, Wounds, buffs) | ✅ verified |
 | Phase 7 | Civic systems (cities, guilds, mail) | ✅ verified |
-| Phase 8 | Faction & PvP | ⚠️ implemented + tested, **design not yet approved** |
+| Phase 8 | Faction & PvP | ✅ verified — **HUMAN-LOCKED** (HD-PVP-01) |
 | Phase 9 | Remaining elite professions & missions | ⬜ not started |
 | Phase 10 | Balance, telemetry & polish | ⬜ not started |
 
-### Phase 8 status (read this before building on it)
+### Phase 8 status
 
-Phase 8 (Faction & PvP) is implemented and passes its integration suite
-(`cmd/phase8test` — 28 assertions across 9 groups) plus 20 unit tests in
-`internal/pvp`. **But it rests on an unapproved proposal, not on approved
-design.**
+Phase 8 (Faction & PvP) is implemented, tested, and **design-approved**. It
+passes its integration suite (`cmd/phase8test` — 28 assertions across 9 groups)
+plus 20 unit tests in `internal/pvp`.
 
-The design authority is
-`proposals/proposal-claude-tcindustries-phase8-faction-pvp-v1.md`, whose own
-status line reads *"Draft. Section 2 rulings are human-supplied and final.
-Section 3 defaults are Claude's proposals and become binding only once
-confirmed."* GDD open question `OQ-008` is therefore **still TBD** — the
-proposal explicitly says not to mark it resolved unless the project owner
-approves the proposal.
+**Design authority:** ruling **HD-PVP-01** in
+`governance/TCIndustries_Human_Rulings_Register.md`, granted 2026-10-25 by the
+project owner against
+`proposals/proposal-claude-tcindustries-phase8-faction-pvp-v1.md`. This resolved
+Master GDD open question `OQ-008` (combat scope, risk model, progression
+integration) — the GDD's status register now reads **RULED (Phase 8)**.
 
-Per `AGENTS.md` (prototype evidence is never design authority), treat Phase 8
-as **PROTOTYPE/EVIDENCE**: the mechanism works, the design is not yet canon.
-Anything downstream that depends on faction/PvP behaviour is standing on
-unratified ground until the proposal is approved.
+Key rulings now binding: three PvP modes (duel/war, faction flagging,
+battlefields); neutral + two fixed factions with placeholder names; faction
+membership changes only at recruiter NPCs; 30 s / 300 s toggle delays and a
+120 s aggression timer; guild wars declared by leader/officer with 24 h
+activation; **defeat is the normal incapacitation/clone flow only — no extra
+item, credit, or skill penalty**. Standing is stored but never awarded in
+Phase 8 (defeats are logged in `pvp_events` only).
+
+**Numeric tuning is not authorised** (BAL-001): the D-01..D-16 values in
+`internal/pvp/config.go` are the approved working set, but changing them is a
+balance decision for a future pass, not a code change.
