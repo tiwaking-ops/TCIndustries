@@ -234,5 +234,81 @@ AMENDMENT RECORDED 2026-09-16 (respawn datum — APPROVED): the §4/E2 30-minute
    package E1→E8), with the human review gate before any Phase-10-equivalent
    work (HD-TST-01 pattern).
 
+> **Addendum appended 2026-10-25:** see SWG_Phase9_Addendum_Authority_Gap_Report_2026-10-25.md for the Phase 9 authority gap report
+> (what is ruled, what is deferred, and the eight owner decisions required
+> before implementation can be authorised). It changes no status.
+
+---
+
+## Addendum: Phase 9 Authority Gap Report (2026-10-25)
+
+This addendum records findings from a directed research pass (2026-10-24/25) against the TCIndustries Master GDD, the Human Rulings Register, the governance register, and the two active testbeds. It does **not** propose new mechanics; it records what authority exists, what is explicitly deferred, and where the Phase 9 proposal as written stands against the project's authority structure. Its purpose is to make the proposal's standing transparent so the next human decision can be made with full context.
+
+Per `AGENTS.md`: *"Never silently promote any non-LOCKED status into LOCKED. Status changes require explicit, recorded human/project approval."* Nothing in this addendum changes a status. Every status line below cites its source.
+
+### 1. Executive Summary
+
+| Question | Status | Source |
+|---|---|---|
+| **Do missions have affirmative design authority in TCIndustries?** | **NO.** Missions appear in the GDD only as anti-goals — VIS-006 (LOCKED) warns against drifting into *"a linear quest-driven MMORPG"*. There is no OQ entry, no rule ID, no assumption, and no ruling anywhere in the governance apparatus that governs missions, quests, task boards, or repeatable content. | GDD §5 VIS-002, VIS-006, VIS-005; §31 OQ register (OQ-001..017, no mission entry); governance register (no entry) |
+| **Is there an approved mission design?** | **NO.** The only substantive mission design in the repository is `SWG_Phase9_Elite_Missions_Proposal_v0.1.md` — this document — whose own header reads *"PROPOSED plan. No authority. No design decision."* | Proposal header |
+| **Is implementation authorised?** | **NO.** §10 Item 7 records *"PENDING — no authorization given … until then no code is written."* | Proposal §10, Item 7 |
+| **Does the live fork contain mission code?** | **NO.** `testbed/swg-phase3-combat-fork/tc-server` (the HD-TST-01 fork Phase 8 was approved on) has zero mission or elite code; its README records Phase 9 as "⬜ not started". | Live-fork README.md, CLAUDE.md |
+| **Does the old fork's Phase 9 code count as authority?** | **NO.** `testbed/swg-phase3-combat/` is a separate, earlier, superseded fork. Its code is at most EVIDENCE that a mission system is implementable — never design authority. | Live-fork CLAUDE.md; old-fork code headers |
+
+**The single most important fact:** missions are neither scoped in nor scoped out. They are *unacknowledged* — absent from all nineteen continuous-queue cycles, the OQ register, and the Assumption Register. There is no mandate to fill and no ruling to reconcile. Only the VIS-006 anti-drift guard applies.
+
+### 2. Authority Gaps That Gate Phase 9
+
+| Gap | Status | Trace |
+|---|---|---|
+| **OQ-001** — specialisation budget / skill-cap model | **TBD**, EIC-coupled. The OQ-011 row once described it as "blocked behind the open HD-EIC-07 gate"; HD-EIC-10 closed that gate 2026-10-23, but bounded new shaping remains separately unauthorised. | GDD §31 OQ-001; HD-EIC-07; HD-EIC-10 |
+| **Elite / high-tier profession design** | **PROPOSED only.** PROF-003 (specialisation) and PROF-005 (progression caps) are both PROPOSED. | GDD §10 PROF-003, PROF-005 |
+| **What "master" tier means** | **Unresolved.** No GDD rule establishes a named terminal rank. PROF-003's *"master weaponsmith"* and the Executive Summary's *"master craftsperson"* are illustrative/non-normative prose. | GDD §10 PROF-003; §2 |
+| **PROF-001 vs HD-PROF-03 tension** | **Live conflict, surfaced not resolved.** PROF-001 is LOCKED: *"flexible skill-based profession architecture rather than rigid immutable classes."* HD-PROF-03 (HUMAN-LOCKED) rules trainer-gated **class** acquisition. A starting class plus acquired classes sits closer to a class ladder than to emergent composition. | GDD §10 PROF-001; register §E HD-PROF-03 |
+| **Missions as a system** | **No authority of any kind.** Not present in the OQ register, the Assumption Register, or the rulings register. | All three registers, by absence |
+| **Mission-reward faucet** | **RULED but in tension.** HD-ECO-01 mandates faucet-exceeds-sink. Recorded evidence shows mission payouts dominated Pre-CU income while sink structures were inert. Any mission reward is a faucet. | Register §E HD-ECO-01; `SWG_Phase10_Balance_Telemetry_Polish_Proposal_v0.2.md` §5.5 |
+| **Missions as demand generation** | **Crosses the EIC boundary.** §34's demand-generation line item belongs to the Economic Interdependence Core, where C3 (demand differentiation) is explicitly DEFERRED under HD-EIC-10 and new shaping is unauthorised. | GDD §34; HD-EIC-10 |
+| **Elite leaning on reputation/provenance** | **Deferred.** HD-EIC-08 defers the Provenance & Reputation Engine, though HD-EIC-02 lists reputation/provenance among acceptable specialist-advantage channels and INV-011a already protects provenance across respec. | Register §A HD-EIC-02, HD-EIC-08; §D INV-011a |
+
+### 3. Implementation Readiness vs Authority
+
+| Artifact | Exists? | Authorised? | Note |
+|---|---|---|---|
+| `SWG_Phase9_Elite_Missions_Proposal_v0.1.md` | Yes | **PROPOSED** — no authority | §10 Items 1–6 recorded CONFIRMED/AMENDED; Item 7 PENDING |
+| Old-fork Phase 9 suite (`cmd/phase9test`) | Exists | **NO** | 8 tests, recorded `PHASE9_EXIT:0`; evidence of implementability only |
+| Old-fork mission code | Exists (575-line handler + DB layer) | **NO** | Header labels GDD-silent numbers `[PROVISIONAL]`; records group sharing and NPC-audience missions as OUT |
+| Live-fork mission/elite code | **None** | N/A | Live-fork README records Phase 9 as "⬜ not started" |
+
+**Authority anomaly, reported not resolved:** mission code and a passing 8-test suite exist in git under a proposal whose own §10 Item 7 records that implementation was never authorised and that *"until then no code is written."* The code's entry was traced to commit `f89e4d5`, an adoption sweep of roughly 65 pre-existing uncommitted working-tree paths. The presence of that code in history is therefore a provenance artefact of an uncommitted-work adoption, not an implementation decision. Per AGENTS.md it is EVIDENCE only. This addendum does not judge whether the anomaly requires a remediation ruling — that is an owner decision.
+
+### 4. Open Questions Requiring an Owner Ruling
+
+| ID | Question | Why it blocks Phase 9 |
+|---|---|---|
+| **Q1** | What does a "mission" mean at TCIndustries level — SWG's procedural repeatable job board ("generic, repeatable, disposable, never narratively significant"), a TCIndustries-native instrument, or nothing at all? | VIS-006 defines what missions must NOT be. It does not define what they are. |
+| **Q2** | Is a procedural repeatable task layer compatible with VIS-006 (LOCKED anti-goal) and §24 guard #1 ("theme-park / quest-driven drift")? | The LOCKED text prohibits quest-chain/theme-park drift specifically, not job boards per se — but that reading is an interpretation and only the owner can confirm it. |
+| **Q3** | Does OQ-001 need an explicit ruling before any elite profession tier ships? | OQ-001 is the cap/budget model that makes "elite" meaningful; without it, an elite tier is an unanchored ladder. |
+| **Q4** | Which instrument delivers PIL-003's high-tier non-self-sufficiency — a formal numeric budget, soft comparative-advantage pressure (HD-EIC-02), or something else? | HD-EIC-01 expressly leaves this undetermined; choosing one is a design decision. |
+| **Q5** | If missions carry rewards, are they permitted under HD-ECO-01's faucet-exceeds-sink mandate given the recorded evidence that they dominated Pre-CU income with no equivalent sink? | Recorded as observation; a mission proposal cannot avoid it. |
+| **Q6** | Does "Phase 9" mean the SWG fork's build-sequence phase (elite professions + mission terminals), or a TCIndustries design unit? TCIndustries has no phase numbering equivalent. | Conflating the two would silently import HISTORICAL scope into canon. |
+| **Q7** | Which testbed is the target for any authorised implementation — the live `swg-phase3-combat-fork/tc-server`, or the superseded `swg-phase3-combat/`? | §10 Item 1 confirmed the old fork, but the live fork is where Phases 4–8 were actually built and Phase 8 approved. |
+| **Q8** | Should this proposal be enacted via an explicit Item 7 authorisation as written, or superseded by a replacement proposal? | §10's own closing line: *"To enact: owner approves (or amends) §§3–6/9–10."* |
+
+### 5. What This Addendum Does Not Do
+
+- It does not propose mission mechanics, elite tier structures, or numeric values.
+- It does not resolve the authority anomaly in §3; it reports it.
+- It does not change any GDD status line, ruling, or queue entry.
+- It does not authorise implementation.
+
+### 6. Recommended Next Decision
+
+The cheapest correct next step is **Q6 then Q7** — because every remaining question (elite/mission scope, numeric authorisation, and the fork's code target) depends on knowing what "Phase 9" means and where it lands. Both questions are answerable in a sentence by the owner and unblock the rest of the list.
+
+---
+
+*Addendum recorded 2026-10-25. Next action: owner decision on the eight open questions above.*
+
 *End of proposal v0.1. To enact: owner approves (or amends) §§3–6/9–10; approval and date
 recorded before any code is written.*
