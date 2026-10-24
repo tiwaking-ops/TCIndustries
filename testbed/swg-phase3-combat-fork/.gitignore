@@ -1,0 +1,3 @@
+# temp_backup/ holds one-off scratch copies (e.g. the phase7test harness source
+# kept aside while it was wired into tc-server/cmd/), not project source.
+temp_backup/

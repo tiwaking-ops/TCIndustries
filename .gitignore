@@ -4,12 +4,16 @@ Thumbs.db
 *.tmp
 
 # Root litter (testbed runtime + harness artifacts)
+.choco/
+.tmp_gcc/
+extracted-swg/
 swg.db
 swg.db-shm
 swg.db-wal
 .freebuff/project-id
-fs.statSync(x).isFile()))
 
 # Editors
 .vscode/
 .idea/
+# Editor/OS backup files
+*~
