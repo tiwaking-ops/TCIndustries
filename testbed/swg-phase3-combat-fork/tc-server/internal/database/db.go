@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 
 	"tc-server/internal/models"
 	"tc-server/internal/species"
@@ -26,7 +26,13 @@ func New(dbPath string) (*DB, error) {
 		dbPath = "tc.db"
 	}
 
-	conn, err := sql.Open("sqlite3", dbPath+"?_foreign_keys=on")
+	// modernc.org/sqlite (pure Go, no cgo). DSN flags: enforce FK cascade
+	// deletes, and busy_timeout so a concurrent writer waits instead of
+	// failing with SQLITE_BUSY — the Phase 7 harness writes from the request
+	// goroutines and the tick loop at once, and the go-sqlite3 build relied
+	// on SetMaxOpenConns(1) to serialize those; a busy timeout does the same
+	// job here without capping the pool.
+	conn, err := sql.Open("sqlite", dbPath+"?_foreign_keys=on&_pragma=busy_timeout(5000)")
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database: %w", err)
 	}
@@ -35,6 +41,10 @@ func New(dbPath string) (*DB, error) {
 	if _, err := conn.Exec("PRAGMA journal_mode=WAL"); err != nil {
 		return nil, fmt.Errorf("failed to set WAL mode: %w", err)
 	}
+	// WAL + busy_timeout above handles reader/writer overlap; cap the write
+	// pool anyway so the single-writer guarantee the schema was designed
+	// around stays true under the tick loop.
+	conn.SetMaxOpenConns(1)
 
 	db := &DB{conn: conn}
 

@@ -32,17 +32,22 @@ go build ./...              # must be clean
 go vet ./...                # must be clean
 go build -o /tmp/tcserver ./cmd/server/
 rm -f tc.db                # fresh DB for a clean test run
-/tmp/tcserver &             # start in background, same shell session as the tests below
+HTTP_ADDR=0.0.0.0:8080 /tmp/tcserver &   # start in background, same shell session as the tests below
 # poll http://localhost:8080/health until it returns {"status":"ok"} before testing
 go run ./cmd/testclient/     # Phase 0
 go run ./cmd/phase1test/     # Phase 1
 go run ./cmd/phase2test/     # Phase 2
 go run ./cmd/phase3test/     # Phase 3 (~1-2 min, real combat)
+go run ./cmd/phase6test/     # Phase 6
+go run ./cmd/phase7test/     # Phase 7 (~5 min fast-cycle; TESTBED_FAST_CYCLE=1)
 ```
 
 Server and test client(s) must run in the *same* shell session/background job — starting the server in one command and testing in a separate one can lose the background process depending on environment.
 
 `go.mod` has a `replace golang.org/x/crypto => github.com/golang/crypto ...` directive — that was a workaround for a network-restricted sandbox during original development. On a normal connection it's harmless to keep, and safe to delete if it bothers you.
+
+**SQLite driver: pure Go, no CGO.** Uses `modernc.org/sqlite` (registered as driver name `"sqlite"`, not `"sqlite3"`). This replaced `github.com/mattn/go-sqlite3`, which requires cgo plus a MinGW-w64 toolchain; the resulting binary would not load on this machine
+("not a valid Win32 application"). If you see that error, the driver was swapped back — restore the pure-Go one. Builds are plain `go build` with **no** `CGO_ENABLED=1` and no toolchain PATH needed. Note the fast-cycle tests also want `HTTP_ADDR=0.0.0.0:8080`: without it the default `:8080` binds `::` (IPv6) only on Windows, so `localhost` (127.0.0.1) gets connection-refused.
 
 ## Architecture
 
