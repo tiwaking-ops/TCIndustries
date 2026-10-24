@@ -148,3 +148,36 @@ func (h *WorldHandler) endDuelOnDefeat(loserID string) {
 		})
 	}
 }
+
+// endDuelOnDisconnect closes an active or pending duel when a participant
+// disconnects (D-09). The disconnecting player is treated as forfeiting, so the
+// opponent is named winner — without this, the duel stays active forever and
+// blocks both players from any future duel (ActiveDuelFor matches both
+// pending and active).
+func (h *WorldHandler) endDuelOnDisconnect(leaverID string) {
+	if leaverID == "" {
+		return
+	}
+	duel, err := h.db.ActiveDuelFor(leaverID)
+	if err != nil || duel == nil {
+		return
+	}
+	winnerID := duel.ChallengerID
+	if leaverID == duel.ChallengerID {
+		winnerID = duel.TargetID
+	}
+	now := sql.NullInt64{Int64: time.Now().Unix(), Valid: true}
+	_ = h.db.UpdateDuelStatus(duel.ID, "ended", sql.NullInt64{}, now,
+		sql.NullString{String: winnerID, Valid: true},
+		sql.NullString{String: "disconnect", Valid: true})
+
+	h.mu.RLock()
+	winner, ok := h.clients[winnerID]
+	h.mu.RUnlock()
+	if ok {
+		h.send(winner, protocol.MsgDuelUpdate, protocol.DuelUpdateMsg{
+			DuelID: duel.ID, Status: "ended", Opponent: leaverID,
+			Reason: "opponent_disconnected", WasVictor: true,
+		})
+	}
+}

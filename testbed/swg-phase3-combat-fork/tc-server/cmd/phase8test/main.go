@@ -340,6 +340,14 @@ func waitForField(wc *wsClient, key string, timeout time.Duration) string {
 }
 
 // lastHAM returns the most recent ham_update payload.
+// disconnect closes a client's socket, triggering the server's disconnect
+// cleanup path (which is what D-09's duel-end rule hangs off).
+func disconnect(wc *wsClient) {
+	wc.conn.Close()
+	// Give the server a moment to notice the closed socket and run cleanup.
+	time.Sleep(1 * time.Second)
+}
+
 func (wc *wsClient) lastHAM() map[string]interface{} {
 	wc.mu.Lock()
 	defer wc.mu.Unlock()
@@ -764,6 +772,65 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Println("  [PASS] Login inside battlefield reports zone (fixed)")
+
+	// --- Test 9: duel ends when a participant disconnects (D-09) ---
+	// Without this, the duel stays active forever and ActiveDuelFor blocks both
+	// players from any future duel.
+	fmt.Println("\n--- Test 9: Duel ends on disconnect (D-09) ---")
+	// A and C are both back in range; C reconnects from the zone.
+	ax, az = 3548.0, -4804.0
+	cx, cz = 3800.0, -4804.0
+	moveTo(wcA, 3548, -4804, &ax, &az)
+	moveTo(wcC2, 3548, -4804, &cx, &cz)
+
+	// C is forced overt by the zone (which it just left) — wait for the flag to
+	// settle to covert so the duel can start from a clean state.
+	wcC2.clearMessages()
+	wcA.clearMessages()
+	wcC2.send(protocol.MsgDuelChallenge, protocol.DuelChallengeMsg{TargetID: charA})
+	dMsg, ok := wcC2.waitFor(protocol.MsgDuelUpdate, 10*time.Second)
+	if !ok {
+		fmt.Println("  [FAIL] no duel_update on challenge")
+		os.Exit(1)
+	}
+	dID := asMap(dMsg)["duel_id"].(string)
+	if _, ok := wcA.waitFor(protocol.MsgDuelUpdate, 10*time.Second); !ok {
+		fmt.Println("  [FAIL] A never received the invitation")
+		os.Exit(1)
+	}
+	wcA.send(protocol.MsgDuelResponse, protocol.DuelResponseMsg{DuelID: dID, Accept: true})
+	wcA.waitFor(protocol.MsgDuelUpdate, 10*time.Second)
+	fmt.Println("  [PASS] Duel accepted and active")
+
+	// C disconnects mid-duel.
+	disconnect(wcC2)
+	time.Sleep(3 * time.Second)
+
+	// A must be told the duel ended with C for it (victory).
+	endedByDC := false
+	var lastReason string
+	wcA.mu.Lock()
+	for _, m := range wcA.messages {
+		if m.Type == protocol.MsgDuelUpdate && asMap(m)["status"] == "ended" {
+			endedByDC = true
+			lastReason = fmt.Sprint(asMap(m)["reason"])
+		}
+	}
+	wcA.mu.Unlock()
+	if !endedByDC {
+		fmt.Println("  [FAIL] duel did not end when C disconnected")
+		os.Exit(1)
+	}
+	fmt.Printf("  [PASS] Duel ended on disconnect (reason=%s)\n", lastReason)
+
+	// And A can challenge again — proving the duel row is no longer blocking.
+	wcA.clearMessages()
+	wcA.send(protocol.MsgDuelChallenge, protocol.DuelChallengeMsg{TargetID: charB})
+	if _, ok := wcA.waitFor(protocol.MsgDuelUpdate, 10*time.Second); !ok {
+		fmt.Println("  [FAIL] A still blocked from challenging after duel ended")
+		os.Exit(1)
+	}
+	fmt.Println("  [PASS] Players are free to duel again after disconnect")
 
 	fmt.Println("\n=== ALL PHASE 8 TESTS PASSED ===")
 }

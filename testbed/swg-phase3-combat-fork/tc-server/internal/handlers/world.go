@@ -695,6 +695,9 @@ func (h *WorldHandler) disconnectClient(client *Client) {
 	}
 	h.mu.Unlock()
 
+	// Phase 8: active duels end on disconnect (D-09).
+	h.endDuelOnDisconnect(client.CharacterID)
+
 	close(client.Send)
 	log.Printf("Player %s disconnected", client.Name)
 }
