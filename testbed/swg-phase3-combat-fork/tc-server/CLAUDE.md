@@ -1,6 +1,6 @@
 # Testbed Game Server
 
-Patterns-only mechanical testbed server (forked from a Star Wars Galaxies Pre-CU recreation; all SWG names stripped per HD-TST-01). Go server + Godot 4 client. Built phase-by-phase against `SWG_PreCU_GDD.md` (v2 — see below), currently through **Phase 3 (Combat)**, fully verified.
+Patterns-only mechanical testbed server (forked from a Star Wars Galaxies Pre-CU recreation; all SWG names stripped per HD-TST-01). Go server + Godot 4 client. Built phase-by-phase against `SWG_PreCU_GDD.md` (v2 — see below), currently through **Phase 8 (Faction & PvP) — implemented; design unapproved, see Current Status**.
 
 ## Source of Truth
 
@@ -40,6 +40,14 @@ go run ./cmd/phase2test/     # Phase 2
 go run ./cmd/phase3test/     # Phase 3 (~1-2 min, real combat)
 go run ./cmd/phase6test/     # Phase 6
 go run ./cmd/phase7test/     # Phase 7 (~5 min fast-cycle; TESTBED_FAST_CYCLE=1)
+go run ./cmd/phase8test/     # Phase 8 (fast-cycle; TESTBED_FAST_CYCLE=1 required — see note below)
+```
+
+> **`phase8test` requires `TESTBED_FAST_CYCLE=1` on the *server*.** Without it the
+> production delays apply (30 s covert→overt, 120 s aggression) and the test
+> sees `state` stuck at `pending_state:overt, transition_in_ms:29381` — it looks
+> like a broken flag transition but is only the wrong config. This bites because
+> the *test* binary itself needs no such env var.
 ```
 
 Server and test client(s) must run in the *same* shell session/background job — starting the server in one command and testing in a separate one can lose the background process depending on environment.
@@ -55,9 +63,14 @@ Three-layer split per GDD Section 29.2: real-time tick loop (`internal/handlers/
 
 ## Current Status
 
-Phases 0-7 complete and independently verified (see `README.md`'s patch notes for the exact bugs found and fixed in each). Phases 4 (Resources & Crafting), 5 (Economy), 6 (Social Support Professions), and 7 (Civic Systems) were built and verified end-to-end after the Phase 3 documentation below was written; the per-phase README sections for them are still to be written, but the integration suites (`cmd/phase6test`, `cmd/phase7test`) exist and pass (Phase 4 crafting and Phase 5 economy are exercised end-to-end by the Phase 7 harness).
+Phases 0-7 complete and independently verified. Phases 4 (Resources & Crafting), 5 (Economy), 6 (Social Support Professions), and 7 (Civic Systems) were built and verified end-to-end after the Phase 3 documentation below was written; the per-phase README sections for them are still to be written, but the integration suites exist and pass (Phase 4 crafting and Phase 5 economy are exercised end-to-end by the Phase 7 harness).
 
-**Phase 8 (Faction & PvP) is next but has no design authority yet.** The Master GDD leaves combat scope, risk model, and progression integration explicitly **TBD** (open question OQ-008, and repeated in the combat-systems row of the status register). Do not invent faction/PvP mechanics to fill that gap — implement only against boundaries the project supplies. See `AGENTS.md` at the repo root for the authority rules.
+**Phase 8 (Faction & PvP) is implemented and tested, but its design is not yet approved.** The code passes `cmd/phase8test` (28 assertions, 9 groups) and 20 unit tests in `internal/pvp`. It was built against `proposals/proposal-claude-tcindustries-phase8-faction-pvp-v1.md`, whose own status line marks it a **Draft** — Section 2 rulings are human-supplied, Section 3 defaults are proposals that bind only once confirmed.
+
+Consequences to respect before building on Phase 8:
+- GDD open question `OQ-008` (combat scope, risk model, progression integration) is **still TBD**. The proposal says not to mark it resolved unless the project owner approves the proposal. Do not mark it resolved.
+- Per `AGENTS.md`, prototype evidence is never design authority. Phase 8 is **PROTOTYPE/EVIDENCE**: the mechanism works, the design is not canon. Anything depending on its exact numbers (toggle delays, duel ranges, war activation, battlefield rules) is standing on unratified ground.
+- The D-01..D-16 values live in one place — `PvPConfig` in `internal/pvp/config.go` — precisely so re-tuning after approval never needs a refactor.
 
 Known, intentionally-scoped Phase 3 simplifications are documented in the README under "Known Phase 3 Simplifications" — don't treat those as bugs to silently fix; they're sequenced for later phases (e.g., Combat Medic gating on Revive belongs whenever Phase 9 builds that profession, not now).
 
