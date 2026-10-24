@@ -21,6 +21,8 @@ type Server struct {
 	skills   *handlers.SkillsHandler
 	svc      *handlers.ServicesHandler
 	craft    *handlers.CraftHandler
+	econ     *handlers.EconomyHandler
+	civic    *handlers.CivicHandler
 	httpAddr string
 	wsAddr   string
 }
@@ -33,14 +35,21 @@ func New() (*Server, error) {
 		return nil, fmt.Errorf("failed to init database: %w", err)
 	}
 
+	// One WorldHandler instance shared by the world routes and the civic
+	// handler — civic presence (group/guild chat, friends online, tells)
+	// queries the live client map, so a second instance would silently see
+	// nobody online.
+	world := handlers.NewWorldHandler(db)
 	return &Server{
 		db:       db,
 		auth:     handlers.NewAuthHandler(db),
 		char:     handlers.NewCharacterHandler(db),
-		world:    handlers.NewWorldHandler(db),
+		world:    world,
 		skills:   handlers.NewSkillsHandler(db),
 		svc:      handlers.NewServicesHandler(db),
 		craft:    handlers.NewCraftHandler(db),
+		econ:     handlers.NewEconomyHandler(db),
+		civic:    handlers.NewCivicHandler(db, world),
 		httpAddr: getEnv("HTTP_ADDR", ":8080"),
 		wsAddr:   getEnv("WS_ADDR", ":8080"),
 	}, nil
@@ -67,6 +76,16 @@ func (s *Server) Run() error {
 	s.world.StartTickLoop()
 	s.world.StartResourceTickLoop()
 
+	// Phase 5: economy persistence (ledger, structures, listings, terminal).
+	if err := s.world.SeedEconomyWorld(); err != nil {
+		log.Printf("Warning: failed to seed economy world: %v", err)
+	}
+
+	// Phase 7: civic persistence (cities, guilds, groups, mail, social).
+	if err := s.world.SeedCivicWorld(); err != nil {
+		log.Printf("Warning: failed to seed civic world: %v", err)
+	}
+
 	mux := http.NewServeMux()
 
 	// --- Public API routes (no auth required) ---
@@ -88,6 +107,12 @@ func (s *Server) Run() error {
 	mux.HandleFunc("GET /api/craft/schematics", s.craft.HandleCraftRoute)
 	mux.HandleFunc("/api/craft/", handlers.AuthMiddleware(s.db, s.craft.HandleCraftRoute))
 	mux.HandleFunc("/api/services/", handlers.AuthMiddleware(s.db, s.svc.HandleServicesRoute))
+
+	// --- Phase 5: Economy Infrastructure routes (all authed) ---
+	mux.HandleFunc("/api/economy/", handlers.AuthMiddleware(s.db, s.econ.HandleEconomyRoute))
+
+	// --- Phase 7: Civic Systems routes (all authed) ---
+	mux.HandleFunc("/api/civic/", handlers.AuthMiddleware(s.db, s.civic.HandleCivicRoute))
 
 	// --- WebSocket route (auth via query param token) ---
 	mux.HandleFunc("GET /ws", s.world.HandleWebSocket)

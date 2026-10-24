@@ -1,0 +1,13 @@
+# tc-server build/test artifacts — keep out of git history.
+# The parent tcindustries repo had to expunge a accidentally-committed Rust
+# target/ directory from history; don't repeat that here.
+tc.db
+tc.db-shm
+tc.db-wal
+tcserver.exe
+tcserver
+tcserver.log
+tcserver.err
+phase7test.out
+*.exe
+*.out

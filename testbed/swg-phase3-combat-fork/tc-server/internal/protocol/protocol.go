@@ -141,6 +141,13 @@ const (
 	MsgHarvestCorpse    = "harvest_corpse"   // Client harvests a nearby corpse
 	MsgPurchase         = "purchase"         // Client purchases/prepares a structure deed
 	MsgCollectTill      = "collect_till"    // Client collects till into their tillbox wallet
+
+	// Phase 5: Economy Infrastructure messages
+	MsgPlaceHouse    = "place_house"    // Client places a house deed
+	MsgPlaceVendor   = "place_vendor"   // Client places a vendor deed
+
+	// Phase 7: Civic Systems messages (generic testbed set)
+	MsgPlaceCityHall = "place_city_hall" // Client places a City Hall deed (founding)
 )
 
 
@@ -165,6 +172,16 @@ const (
 	MsgHarvesterPlaced = "harvester_placed" // Harvester deed placed
 	MsgHopperEmptied   = "hopper_emptied"   // Hopper units moved into stack
 	MsgCorpseHarvested = "corpse_harvested" // Corpse yield moved into stack
+
+	// Phase 5: Economy Infrastructure messages
+	MsgStructurePlaced = "structure_placed" // House/vendor deed placed
+	MsgPurchaseReceipt = "purchase_receipt" // Atomic purchase completed
+	MsgTillCollected   = "till_collected"   // Till moved to owner wallet
+
+	// Phase 7: Civic Systems receipts
+	MsgCityFounded = "city_founded" // City Hall placed; city forming/active
+	MsgGroupInvited = "group_invited" // An inviter invited this client to a group
+	MsgGuildInvited = "guild_invited" // An inviter invited this client to a guild
 
 	// Phase 6 (GDD Sections 23-24) receipts.
 	MsgWoundHealed        = "wound_healed"
@@ -199,8 +216,11 @@ type MoveMsg struct {
 }
 
 type ChatMsg struct {
-	Channel string `json:"channel"` // "spatial", "system", etc.
+	Channel string `json:"channel"` // "spatial", "system", "group", "guild", "tell", etc.
 	Text    string `json:"text"`
+	// Target names the recipient for tell (and, later, other addressed
+	// channels). Empty for unaddressed channels. (Phase 7, GDD 18.2)
+	Target string `json:"target,omitempty"`
 }
 
 type ChatMessageMsg struct {
@@ -424,4 +444,74 @@ type StimUsedMsg struct {
 	TargetID    string `json:"target_id"`
 	ChargesLeft int    `json:"charges_left"`
 	Healing     int    `json:"healing"`
+}
+
+// --- Phase 5: Economy Infrastructure messages ---
+
+// PlaceStructureMsg places a house or vendor deed (WS, positional).
+type PlaceStructureMsg struct {
+	X          float64 `json:"x"`
+	Z          float64 `json:"z"`
+	Tier       string  `json:"tier,omitempty"` // houses: "small" | "medium" | "large"
+	DeedItemID string  `json:"deed_item_id"`
+}
+
+// PurchaseMsg buys a vendor listing in person (WS).
+type PurchaseMsg struct {
+	ListingID string `json:"listing_id"`
+}
+
+// PurchaseReceiptMsg confirms an atomic purchase (WS).
+type PurchaseReceiptMsg struct {
+	ListingID string `json:"listing_id"`
+	ItemID    string `json:"item_id"`
+}
+
+// TillMsg collects a vendor's till (WS).
+type TillMsg struct {
+	VendorID string `json:"vendor_id"`
+}
+
+// TillCollectedMsg confirms the till moved to the owner's wallet (WS).
+type TillCollectedMsg struct {
+	VendorID string `json:"vendor_id"`
+	Amount   int    `json:"amount"`
+}
+
+// StructurePlacedMsg confirms a house/vendor placement (WS).
+type StructurePlacedMsg struct {
+	StructureID string `json:"structure_id"`
+	Kind        string `json:"kind"` // "house" | "vendor"
+}
+
+// --- Phase 7: Civic Systems messages ---
+
+// PlaceCityHallMsg places a City Hall deed to found a city (WS, positional).
+type PlaceCityHallMsg struct {
+	X          float64 `json:"x"`
+	Z          float64 `json:"z"`
+	Name       string  `json:"name"`
+	DeedItemID string  `json:"deed_item_id"`
+}
+
+// CityFoundedMsg confirms a city placement; status is "forming" or "active".
+type CityFoundedMsg struct {
+	CityID     string `json:"city_id"`
+	Status     string `json:"status"`
+	Structures int    `json:"structures"`
+	Threshold  int    `json:"threshold"`
+}
+
+// GroupInvitedMsg notifies an online invitee of a group invite.
+type GroupInvitedMsg struct {
+	InviteID string `json:"invite_id"`
+	GroupID  string `json:"group_id"`
+	Inviter  string `json:"inviter"`
+}
+
+// GuildInvitedMsg notifies an online invitee of a guild invite.
+type GuildInvitedMsg struct {
+	InviteID string `json:"invite_id"`
+	GuildID  string `json:"guild_id"`
+	Inviter  string `json:"inviter"`
 }

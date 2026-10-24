@@ -4,13 +4,9 @@ import (
 	"time"
 )
 
-func (db *DB) RecordLedger(characterID string, amount int, category, subtype, counterparty, planet string) error {
-	query := `INSERT INTO credit_ledger (character_id, category, subtype, amount, counterparty, planet, pos_x, pos_z, timestamp)
-	          VALUES (?, ?, ?, ?, ?, ?, 0, 0, ?)`
-	_, err := db.conn.Exec(query, characterID, category, subtype, amount, counterparty, planet, time.Now())
-	return err
-}
-
+// ActiveBuffs returns a character's unexpired buffs (used by the /api/services
+// buffs route). The credit-ledger writer that used to live in this file moved to
+// economy_db.go, which owns the ledger_entries schema.
 func (db *DB) ActiveBuffs(target string) ([]BuffRow, error) {
 	rows, err := db.conn.Query(
 		`SELECT id, target_character_id, source_character_id, buff_type, amount,
