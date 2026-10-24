@@ -1,3 +1,10 @@
+//! Demo entry point for `tcgui`.
+//!
+//! Parses `--screenshot <path>` and `--size <WxH>` flags and prints a startup
+//! banner. In headless mode a placeholder screenshot is written; full WGPU
+//! rendering is wired up in `tcgui-platform` (see `docs/usage.md`).
+#![allow(missing_docs)]
+
 use std::env;
 
 fn main() {

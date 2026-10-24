@@ -1,4 +1,5 @@
 //! Core library for `tcgui-core`: widgets, layout, input, theming, data binding, screens.
+#![allow(missing_docs)]
 
 pub mod geometry;
 pub mod arena;
@@ -14,6 +15,8 @@ pub mod layout_loader;
 pub mod textinput;
 pub mod list;
 pub mod stats;
+pub mod model;
+pub mod snapshot;
 
 pub use geometry::{Vec2, Rect, Color, blend_colors};
 pub use arena::{WidgetId, WidgetNode, WidgetArena, ArenaStats};
@@ -38,6 +41,8 @@ pub use layout_loader::{
     load_layout_from_str, generate_layout_schema,
 };
 pub use stats::SoakTestHarness;
+pub use model::{UiModel, UiValue, FromUiValue, ModelStats};
+pub use snapshot::{Clock, TestClock, PrimitiveCommand, PrimitiveDrawList};
 
 #[cfg(test)]
 mod tests {

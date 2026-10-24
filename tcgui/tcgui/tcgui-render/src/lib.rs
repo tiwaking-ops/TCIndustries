@@ -1,3 +1,5 @@
+#![allow(missing_docs)]
+
 pub mod font;
 pub mod vertex;
 
