@@ -11,6 +11,13 @@ swg.db
 swg.db-shm
 swg.db-wal
 .freebuff/project-id
+tcserver.log
+tcserver.err
+p7run.txt
+*.exe
+tc.db
+tc.db-shm
+tc.db-wal
 
 # Editors
 .vscode/

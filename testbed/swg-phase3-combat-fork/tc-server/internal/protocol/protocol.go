@@ -233,14 +233,17 @@ type ChatMessageMsg struct {
 // Phase 3 to distinguish creatures from players sharing the same spatial
 // grid and spawn/despawn mechanism; both are empty/"player" for the
 // existing Phase 0-2 player-spawn case, so the wire format stays backward
-// compatible.
+// compatible. Phase 8 adds FactionID/PvPState, also omitempty, so older
+// clients that ignore unknown fields keep working (proposal Section 7.3).
 type EntitySpawnMsg struct {
 	EntityID   string   `json:"entity_id"`
 	Name       string   `json:"name"`
 	Species    string   `json:"species"`
 	Position   Position `json:"position"`
-	EntityType string   `json:"entity_type,omitempty"` // "player" or "creature"
-	TemplateID string   `json:"template_id,omitempty"` // creature template ID, empty for players
+	EntityType string   `json:"entity_type,omitempty"`   // "player" or "creature"
+	TemplateID string   `json:"template_id,omitempty"`   // creature template ID, empty for players
+	FactionID  string   `json:"faction_id,omitempty"`    // Phase 8: "" = neutral
+	PvPState   string   `json:"pvp_state,omitempty"`     // Phase 8: "covert" | "overt"
 }
 
 type EntityMoveMsg struct {
@@ -514,4 +517,86 @@ type GuildInvitedMsg struct {
 	InviteID string `json:"invite_id"`
 	GuildID  string `json:"guild_id"`
 	Inviter  string `json:"inviter"`
+}
+
+// --- Phase 8: Faction & PvP (proposal R-01..R-08, D-01..D-16) ---
+
+// Client → Server
+const (
+	MsgTogglePvP       = "toggle_pvp"        // Request a covert/overt flag transition (R-05)
+	MsgSetFaction      = "set_faction"       // Faction NPC interaction: join/switch/leave (R-04)
+	MsgDuelChallenge   = "duel_challenge"     // Challenge a player to a duel (R-01a)
+	MsgDuelResponse    = "duel_response"      // Accept or decline a duel challenge (R-01a)
+	MsgDuelForfeit     = "duel_forfeit"       // Forfeit an active duel (R-01a)
+)
+
+// Server → Client
+const (
+	MsgFactionUpdate   = "faction_update"     // Faction membership / standing (Section 7.2)
+	MsgPvPStateChange  = "pvp_state_change"   // Flag, timer, or zone change (Section 7.2)
+	MsgDuelUpdate      = "duel_update"        // Duel status change (Section 7.2)
+	MsgPvPError        = "pvp_error"          // Rejected PvP request with a reason code
+)
+
+// TogglePvPMsg requests a flag transition. Also cancels a pending opposite.
+type TogglePvPMsg struct {
+	State string `json:"state"` // "overt" | "covert"
+}
+
+// SetFactionMsg is a faction-NPC interaction request (R-04). faction_id is
+// required for join/switch (the NPC may imply it, but the client states it).
+type SetFactionMsg struct {
+	NPCID     string `json:"npc_id"`
+	Action    string `json:"action"` // "join" | "switch" | "leave"
+	FactionID string `json:"faction_id,omitempty"`
+}
+
+// DuelChallengeMsg challenges another player.
+type DuelChallengeMsg struct {
+	TargetID string `json:"target_id"`
+}
+
+// DuelResponseMsg accepts or declines a duel invitation.
+type DuelResponseMsg struct {
+	DuelID string `json:"duel_id"`
+	Accept bool   `json:"accept"`
+}
+
+// DuelForfeitMsg forfeits an active duel.
+type DuelForfeitMsg struct {
+	DuelID string `json:"duel_id"`
+}
+
+// FactionUpdateMsg reports faction membership and standing.
+type FactionUpdateMsg struct {
+	CharacterID string `json:"character_id"`
+	FactionID   string `json:"faction_id,omitempty"`   // "" = neutral
+	FactionCode string `json:"faction_code,omitempty"`
+	FactionName string `json:"faction_name,omitempty"`
+	Standing    int    `json:"standing"`
+}
+
+// PvPStateChangeMsg reports a character's current PvP flag state, timers, and
+// battlefield presence.
+type PvPStateChangeMsg struct {
+	CharacterID        string `json:"character_id"`
+	State              string `json:"state"`                          // covert | overt
+	PendingState       string `json:"pending_state,omitempty"`        // covert | overt
+	TransitionInMS     int64  `json:"transition_in_ms"`               // ms until pending applies; 0 = none
+	AggressionRemainMS int64  `json:"aggression_remaining_ms"`        // ms of timer left; 0 = clear
+	InBattlefield      string `json:"in_battlefield,omitempty"`       // zone ID
+}
+
+// DuelUpdateMsg reports duel status to one or both participants.
+type DuelUpdateMsg struct {
+	DuelID    string `json:"duel_id"`
+	Status    string `json:"status"` // pending | active | ended | declined | expired
+	Opponent  string `json:"opponent,omitempty"`
+	Reason    string `json:"reason,omitempty"`
+	WasVictor bool   `json:"was_victor,omitempty"`
+}
+
+// PvPErrorMsg carries a machine-readable rejection reason for a PvP request.
+type PvPErrorMsg struct {
+	Reason string `json:"reason"`
 }

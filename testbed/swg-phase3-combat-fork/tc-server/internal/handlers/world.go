@@ -51,6 +51,10 @@ type Client struct {
 	// unlike position there's no need for a periodic-only persistence
 	// window here -- every change is written through).
 	Combat combat.HAMPoolState
+
+	// Phase 8: battlefield zone this client currently occupies (session state,
+	// derived from authoritative position by updateBattlefieldPresence).
+	pvpZoneID string
 }
 
 // WorldHandler manages all connected clients, the spatial grid, and real-time
@@ -198,6 +202,17 @@ func (h *WorldHandler) readPump(client *Client) {
 		// Phase 7: city founding (WS positional placement).
 		case protocol.MsgPlaceCityHall:
 			h.handlePlaceCityHall(client, message)
+		// Phase 8: Faction & PvP.
+		case protocol.MsgTogglePvP:
+			h.handleTogglePvP(client, message)
+		case protocol.MsgSetFaction:
+			h.handleSetFaction(client, message)
+		case protocol.MsgDuelChallenge:
+			h.handleDuelChallenge(client, message)
+		case protocol.MsgDuelResponse:
+			h.handleDuelResponse(client, message)
+		case protocol.MsgDuelForfeit:
+			h.handleDuelForfeit(client, message)
 		default:
 			h.sendError(client, "unknown message type: "+msg.Type)
 		}
@@ -321,6 +336,11 @@ func (h *WorldHandler) handleEnterWorld(client *Client, raw []byte) {
 	// Phase 1: Compute initial visibility and send spawns
 	h.updateVisibility(client)
 
+	// Phase 8: push current faction + PvP flag/timer state so a freshly
+	// connected client never has to guess (proposal Section 8.6).
+	h.sendFactionUpdate(client)
+	h.sendPvPStateChange(client, h.zoneAt(client.Pos.Planet, client.Pos.X, client.Pos.Z))
+
 	log.Printf("Player %s (%s) entered world on %s at (%.1f, %.1f, %.1f)",
 		client.Name, client.Species, client.Pos.Planet,
 		client.Pos.X, client.Pos.Y, client.Pos.Z)
@@ -400,6 +420,9 @@ func (h *WorldHandler) handleMove(client *Client, raw []byte) {
 
 	// Update visibility (entity may have entered/left someone's range)
 	h.updateVisibility(client)
+
+	// Phase 8: battlefield entry/exit from the authoritative position (D-14).
+	h.updateBattlefieldPresence(client)
 
 	// Also update other clients' visibility of the mover
 	h.updateVisibilityForOthers(client)
@@ -510,7 +533,7 @@ func (h *WorldHandler) updateVisibility(client *Client) {
 		if !client.Visible[id] {
 			// Find the entity to get its info
 			if e := h.findEntity(id); e != nil {
-				h.send(client, protocol.MsgEntitySpawn, protocol.EntitySpawnMsg{
+				h.send(client, protocol.MsgEntitySpawn, h.withFactionFields(protocol.EntitySpawnMsg{
 					EntityID: e.CharacterID,
 					Name:     e.Name,
 					Species:  e.Species,
@@ -519,7 +542,7 @@ func (h *WorldHandler) updateVisibility(client *Client) {
 						Y: e.Pos.Y,
 						Z: e.Pos.Z,
 					},
-				})
+				}, e.CharacterID))
 			}
 		}
 	}
@@ -533,7 +556,7 @@ func (h *WorldHandler) updateVisibility(client *Client) {
 		if other, ok := h.clients[e.CharacterID]; ok {
 			if !other.Visible[client.CharacterID] {
 				other.Visible[client.CharacterID] = true
-				h.send(other, protocol.MsgEntitySpawn, protocol.EntitySpawnMsg{
+				h.send(other, protocol.MsgEntitySpawn, h.withFactionFields(protocol.EntitySpawnMsg{
 					EntityID: client.CharacterID,
 					Name:     client.Name,
 					Species:  client.Species,
@@ -542,7 +565,7 @@ func (h *WorldHandler) updateVisibility(client *Client) {
 						Y: client.Pos.Y,
 						Z: client.Pos.Z,
 					},
-				})
+				}, client.CharacterID))
 			}
 		}
 	}
@@ -585,7 +608,7 @@ func (h *WorldHandler) updateVisibilityForOthers(mover *Client) {
 		} else if !wasVisible && nowVisible {
 			// Mover entered other's range
 			other.Visible[mover.CharacterID] = true
-			h.send(other, protocol.MsgEntitySpawn, protocol.EntitySpawnMsg{
+			h.send(other, protocol.MsgEntitySpawn, h.withFactionFields(protocol.EntitySpawnMsg{
 				EntityID: mover.CharacterID,
 				Name:     mover.Name,
 				Species:  mover.Species,
@@ -594,7 +617,7 @@ func (h *WorldHandler) updateVisibilityForOthers(mover *Client) {
 					Y: mover.Pos.Y,
 					Z: mover.Pos.Z,
 				},
-			})
+			}, mover.CharacterID))
 		}
 	}
 }

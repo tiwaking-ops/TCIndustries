@@ -76,6 +76,20 @@ func (h *WorldHandler) handleCombatAction(client *Client, raw []byte) {
 		return
 	}
 
+	// Phase 8: if the target is another player, PvP rules apply (R-01). PvE
+	// resolution below is unchanged and only ever sees creatures.
+	h.mu.RLock()
+	pvpTarget, isPlayer := h.clients[action.TargetID]
+	h.mu.RUnlock()
+	if isPlayer {
+		decision := h.resolvePvPAttack(client, pvpTarget)
+		if !decision.Allowed {
+			h.sendPvPError(client, decision.Reason)
+			return
+		}
+		return
+	}
+
 	h.mu.Lock()
 	target, ok := h.creatures[action.TargetID]
 	h.mu.Unlock()
@@ -325,6 +339,7 @@ func (h *WorldHandler) StartTickLoop() {
 			h.tickCreatureAI()
 			h.tickIncapacitationTimeouts()
 			h.tickServices(int64(tickCount))
+			h.tickPvP()
 			if tickCount%5 == 0 {
 				h.tickHAMRegen()
 			}

@@ -1,4 +1,4 @@
-# Testbed Game Server — Phase 3
+# Testbed Game Server — Phase 7
 
 A patterns-only mechanical testbed server (forked from a Star Wars Galaxies Pre-CU recreation; all SWG names stripped per HD-TST-01), built from the GDD specification.
 
@@ -370,17 +370,17 @@ Both lairs are seeded near the Zone 0001 spawn, clustered within ~8m of each oth
 - **ACID Transactions:** Character creation and HAM state are written in a single database transaction to prevent partial writes. (GDD 29.5)
 - **SQLite Dev / PostgreSQL Production:** The schema is designed to be portable to PostgreSQL. Migration requires changing the driver (`lib/pq` or `jackc/pgx`), the connection string, and replacing SQLite `?` placeholders with PostgreSQL `$1, $2, ...` in queries. PRAGMA directives must be removed. (GDD 29.4)
 
-## Next Phases (GDD Section 30)
+## Phase Roadmap (GDD Section 30)
 
-| Phase | Goal |
-|---|---|
-| Phase 1 | World movement + spatial chat + multi-player sync ✅ |
-| Phase 2 | Skills & professions (XP, skill points, trainers) ✅ |
-| Phase 3 | Combat core (HAM-driven resolution, creatures, lairs) ✅ |
-| Phase 4 | Resources & crafting (surveying, harvesters, schematics) |
-| Phase 5 | Economy infrastructure (credits, vendors, bazaar, housing) |
-| Phase 6 | Entertainer & Medic (Battle Fatigue, Wounds, buffs) |
-| Phase 7 | Civic systems (cities, guilds, mail) |
-| Phase 8 | Faction & PvP |
-| Phase 9 | Remaining elite professions & missions |
-| Phase 10 | Balance, telemetry & polish |
+| Phase | Goal | Status |
+|---|---|---|
+| Phase 1 | World movement + spatial chat + multi-player sync | ✅ verified |
+| Phase 2 | Skills & professions (XP, skill points, trainers) | ✅ verified |
+| Phase 3 | Combat core (HAM-driven resolution, creatures, lairs) | ✅ verified |
+| Phase 4 | Resources & crafting (surveying, harvesters, schematics) | ✅ verified |
+| Phase 5 | Economy infrastructure (credits, vendors, bazaar, housing) | ✅ verified |
+| Phase 6 | Entertainer & Medic (Battle Fatigue, Wounds, buffs) | ✅ verified |
+| Phase 7 | Civic systems (cities, guilds, mail) | ✅ verified |
+| Phase 8 | Faction & PvP | ⬜ not started — **no design authority** (GDD TBD, OQ-008) |
+| Phase 9 | Remaining elite professions & missions | ⬜ not started |
+| Phase 10 | Balance, telemetry & polish | ⬜ not started |
