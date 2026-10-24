@@ -318,6 +318,27 @@ func waitState(wc *wsClient, want string, timeout time.Duration) bool {
 	return false
 }
 
+// waitForField blocks until some pvp_state_change carries a non-empty value for
+// key, returning that value ("" on timeout).
+func waitForField(wc *wsClient, key string, timeout time.Duration) string {
+	deadline := time.Now().Add(timeout)
+	for time.Now().Before(deadline) {
+		wc.mu.Lock()
+		for i := len(wc.messages) - 1; i >= 0; i-- {
+			if wc.messages[i].Type != protocol.MsgPvPStateChange {
+				continue
+			}
+			if v := asMap(wc.messages[i])[key]; v != nil && fmt.Sprint(v) != "" {
+				wc.mu.Unlock()
+				return fmt.Sprint(v)
+			}
+		}
+		wc.mu.Unlock()
+		time.Sleep(300 * time.Millisecond)
+	}
+	return ""
+}
+
 // lastHAM returns the most recent ham_update payload.
 func (wc *wsClient) lastHAM() map[string]interface{} {
 	wc.mu.Lock()
@@ -719,6 +740,30 @@ func main() {
 
 	moveTo(wcA, 3548, -4804, &ax, &az)
 	moveTo(wcB, 3548, -4804, &bx, &bz)
+
+	// --- Test 7: battlefield zones (D-14, D-16) ---
+	fmt.Println("\n--- Test 7: Battlefield zones ---")
+	// Seeded "zone-circle-01" is a circle at (3800, -4804) r=150.
+	wcC.clearMessages()
+	moveTo(wcC, 3800, -4804, &cx, &cz)
+	z := waitForField(wcC, "in_battlefield", 10*time.Second)
+	if z == "" {
+		fmt.Println("  [FAIL] walking into the circle did not report in_battlefield")
+		os.Exit(1)
+	}
+	fmt.Printf("  [PASS] Zone entry reported (in_battlefield=%s)\n", z)
+
+	// --- Test 8: login inside a battlefield (the regression this fixes) ---
+	// C now stands inside the zone. Reconnect without moving: the fresh session
+	// must report the zone immediately, not only after the first move.
+	fmt.Println("\n--- Test 8: Login inside battlefield ---")
+	time.Sleep(2 * time.Second)
+	wcC2 := connectWS(tokenC, charC)
+	if s := wcC2.latestState(); s == nil || s["in_battlefield"] == nil || s["in_battlefield"] == "" {
+		fmt.Printf("  [FAIL] login inside battlefield reported no zone: %v\n", s)
+		os.Exit(1)
+	}
+	fmt.Println("  [PASS] Login inside battlefield reports zone (fixed)")
 
 	fmt.Println("\n=== ALL PHASE 8 TESTS PASSED ===")
 }

@@ -337,9 +337,12 @@ func (h *WorldHandler) handleEnterWorld(client *Client, raw []byte) {
 	h.updateVisibility(client)
 
 	// Phase 8: push current faction + PvP flag/timer state so a freshly
-	// connected client never has to guess (proposal Section 8.6).
+	// connected client never has to guess (proposal Section 8.6). This must
+	// run through updateBattlefieldPresence rather than a bare state push so a
+	// player who logs in *inside* a battlefield gets pvpZoneID initialised and
+	// forced overt (D-14) instead of only after their first move.
 	h.sendFactionUpdate(client)
-	h.sendPvPStateChange(client, h.zoneAt(client.Pos.Planet, client.Pos.X, client.Pos.Z))
+	h.updateBattlefieldPresence(client)
 
 	log.Printf("Player %s (%s) entered world on %s at (%.1f, %.1f, %.1f)",
 		client.Name, client.Species, client.Pos.Planet,
