@@ -1,0 +1,12 @@
+[package]
+name = "tcgui-scene"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+tcgui-core = { path = "../tcgui-core" }
+tcgui-render = { path = "../tcgui-render" }
+nalgebra.workspace = true
+wgpu.workspace = true
+bytemuck.workspace = true

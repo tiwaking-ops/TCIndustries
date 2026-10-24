@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ThemeFile",
+  "type": "object",
+  "required": [
+    "schema_version"
+  ],
+  "properties": {
+    "fonts": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "$ref": "#/definitions/FontConfig"
+      }
+    },
+    "nine_slices": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "$ref": "#/definitions/NineSliceConfig"
+      }
+    },
+    "schema_version": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "styles": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/StyleConfig"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "FontConfig": {
+      "type": "object",
+      "required": [
+        "file",
+        "size_px"
+      ],
+      "properties": {
+        "file": {
+          "type": "string"
+        },
+        "size_px": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "NineSliceConfig": {
+      "type": "object",
+      "required": [
+        "margins",
+        "texture"
+      ],
+      "properties": {
+        "margins": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          },
+          "maxItems": 4,
+          "minItems": 4
+        },
+        "texture": {
+          "type": "string"
+        }
+      }
+    },
+    "StyleConfig": {
+      "type": "object",
+      "properties": {
+        "background": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "background_opacity": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float"
+        },
+        "nine_slice": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "opacity": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float"
+        },
+        "text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text_color": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tint": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+[package]
+name = "tcgui-platform"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+tcgui-core = { path = "../tcgui-core" }
+tcgui-render = { path = "../tcgui-render" }
+winit.workspace = true
+pollster.workspace = true

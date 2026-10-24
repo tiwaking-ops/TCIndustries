@@ -9,6 +9,7 @@ import (
 	"tc-server/internal/combat"
 	"tc-server/internal/creatures"
 	"tc-server/internal/protocol"
+	"tc-server/internal/services"
 	"tc-server/internal/world"
 )
 
@@ -64,6 +65,7 @@ func (h *WorldHandler) handleCombatAction(client *Client, raw []byte) {
 		h.sendError(client, "requires Novice Marksman or Novice Brawler")
 		return
 	}
+	h.endPerformerOnCombat(client.CharacterID)
 
 	var msg protocol.WSMessage
 	json.Unmarshal(raw, &msg)
@@ -250,13 +252,14 @@ func (h *WorldHandler) handleRevive(client *Client, raw []byte) {
 		return
 	}
 
-	// [ASSUMPTION, Phase 3 scope note] GDD 9.6.1 gates revive behind Combat
-	// Medic (an elite profession not yet built -- Phase 9). Any nearby
-	// player can revive for now; add a Combat Medic skill-box check here
-	// once that profession exists, the same way handleCombatAction gates
-	// on Marksman/Brawler today.
+	if ok, err := h.db.HasSkillBox(client.CharacterID, services.MedicNoviceBox); err != nil || !ok {
+		h.sendError(client, "requires Novice Medic")
+		return
+	}
+
 	target.Combat = combat.Revive(target.Combat, time.Now())
 	h.db.UpdateCombatState(target.CharacterID, target.Combat)
+	_ = h.db.AddCharacterXP(client.CharacterID, "medical", services.ReviveXP)
 	h.sendHAMUpdate(target.CharacterID, target.Combat)
 	log.Printf("%s revived %s", client.Name, target.Name)
 }
@@ -285,14 +288,18 @@ func (h *WorldHandler) sendHAMUpdate(characterID string, s combat.HAMPoolState) 
 	if !ok {
 		return
 	}
+	bh := h.db.BuffBonus(characterID, services.BuffHealth)
+	ba := h.db.BuffBonus(characterID, services.BuffAction)
+	bm := h.db.BuffBonus(characterID, services.BuffMind)
+
 	h.send(client, protocol.MsgHAMUpdate, protocol.HAMUpdateMsg{
 		CharacterID:      characterID,
 		HealthCurrent:    s.HealthCurrent,
-		HealthMax:        s.HealthMax,
+		HealthMax:        combat.EffectiveMax(s.HealthMax, s.WoundsHealth, s.BattleFatiguePct, bh),
 		ActionCurrent:    s.ActionCurrent,
-		ActionMax:        s.ActionMax,
+		ActionMax:        combat.EffectiveMax(s.ActionMax, s.WoundsAction, s.BattleFatiguePct, ba),
 		MindCurrent:      s.MindCurrent,
-		MindMax:          s.MindMax,
+		MindMax:          combat.EffectiveMax(s.MindMax, s.WoundsMind, s.BattleFatiguePct, bm),
 		WoundsHealth:     s.WoundsHealth,
 		BattleFatiguePct: s.BattleFatiguePct,
 		Posture:          string(s.Posture),
@@ -317,6 +324,7 @@ func (h *WorldHandler) StartTickLoop() {
 			tickCount++
 			h.tickCreatureAI()
 			h.tickIncapacitationTimeouts()
+			h.tickServices(int64(tickCount))
 			if tickCount%5 == 0 {
 				h.tickHAMRegen()
 			}
@@ -447,7 +455,7 @@ func (h *WorldHandler) tickHAMRegen() {
 		if client.Combat.LastCombatActionAt != nil && now.Sub(*client.Combat.LastCombatActionAt) < 10*time.Second {
 			continue
 		}
-		effMax := combat.EffectiveMax(client.Combat.HealthMax, client.Combat.WoundsHealth, client.Combat.BattleFatiguePct)
+		effMax := combat.EffectiveMax(client.Combat.HealthMax, client.Combat.WoundsHealth, client.Combat.BattleFatiguePct, client.Combat.BuffHealth)
 		if client.Combat.HealthCurrent >= effMax {
 			continue
 		}

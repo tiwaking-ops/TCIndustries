@@ -156,6 +156,22 @@ func (h *WorldHandler) readPump(client *Client) {
 			h.handleClone(client)
 		case protocol.MsgRevive:
 			h.handleRevive(client, message)
+		case protocol.MsgHealWounds:
+			h.handleHealWounds(client, message)
+		case protocol.MsgApplyBuff:
+			h.handleApplyBuff(client, message)
+		case protocol.MsgPerformStart:
+			h.handlePerformStart(client, message)
+		case protocol.MsgPerformStop:
+			h.handlePerformStop(client, message)
+		case protocol.MsgWatchStart:
+			h.handleWatchStart(client, message)
+		case protocol.MsgWatchStop:
+			h.handleWatchStop(client, message)
+		case protocol.MsgTip:
+			h.handleTip(client, message)
+		case protocol.MsgUseStim:
+			h.handleUseStim(client, message)
 		default:
 			h.sendError(client, "unknown message type: "+msg.Type)
 		}

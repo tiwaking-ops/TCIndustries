@@ -1,0 +1,191 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UiWidgetJson",
+  "type": "object",
+  "required": [
+    "layout",
+    "type"
+  ],
+  "properties": {
+    "bind": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "children": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/UiWidgetJson"
+      }
+    },
+    "id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "layout": {
+      "$ref": "#/definitions/UiLayoutSpec"
+    },
+    "movable": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "resizable": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "schema_version": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "style": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "title": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "type": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "UiAxisSpec": {
+      "type": "object",
+      "properties": {
+        "end": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float"
+        },
+        "size": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float"
+        },
+        "start": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float"
+        }
+      },
+      "additionalProperties": false
+    },
+    "UiLayoutSpec": {
+      "type": "object",
+      "required": [
+        "x",
+        "y"
+      ],
+      "properties": {
+        "x": {
+          "$ref": "#/definitions/UiAxisSpec"
+        },
+        "y": {
+          "$ref": "#/definitions/UiAxisSpec"
+        }
+      },
+      "additionalProperties": false
+    },
+    "UiWidgetJson": {
+      "type": "object",
+      "required": [
+        "layout",
+        "type"
+      ],
+      "properties": {
+        "bind": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "children": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/UiWidgetJson"
+          }
+        },
+        "id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "layout": {
+          "$ref": "#/definitions/UiLayoutSpec"
+        },
+        "movable": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "resizable": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "schema_version": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "style": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

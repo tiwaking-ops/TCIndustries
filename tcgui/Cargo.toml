@@ -1,0 +1,9 @@
+[workspace]
+members = [
+    "tcgui-core",
+    "tcgui-render",
+    "tcgui-platform",
+    "tcgui-scene",
+    "tcgui-demo"
+]
+resolver = "2"

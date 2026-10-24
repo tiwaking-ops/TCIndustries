@@ -1,0 +1,2 @@
+manifest_version = 1
+outputs = "window_frame.ppm", "button_up.ppm", "button_down.ppm", "placeholder_icon.ppm"

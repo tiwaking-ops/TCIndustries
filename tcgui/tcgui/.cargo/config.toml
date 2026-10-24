@@ -1,0 +1,7 @@
+# Cargo config for tcgui workspace
+#
+# Use rust-lld instead of mingw's GNU ld. GNU ld cannot parse the MSVC-style
+# `.drectve` directives rustc emits (-exclude-symbols:...), which makes linking
+# fail with "corrupt .drectve at end of def file". rust-lld handles them.
+[target.x86_64-pc-windows-gnu]
+linker = "rust-lld"

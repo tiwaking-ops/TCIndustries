@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+	"sync"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 
@@ -239,6 +241,35 @@ func (db *DB) addColumnIfNotExists(table, column, definition string) error {
 	_, err = db.conn.Exec(fmt.Sprintf("ALTER TABLE %s ADD COLUMN %s %s", table, column, definition))
 	return err
 }
+
+// Row-ID minting: Windows wall clocks tick at ~15.6 ms granularity, so
+// time.Now().UnixNano() alone is NOT unique within a process there — IDs
+// minted in a tight loop (batch spawns, item creation) collide and fail their
+// INSERTs. The counter disambiguates same-tick calls; callers keep the
+// "<prefix>-<unixnano>" shape via the returned string.
+// (Ported from the upstream tree's row-ID mint, required by resource_db.go.)
+var (
+	rowIDMu   sync.Mutex
+	rowIDLast int64
+	rowIDSeq  uint64
+)
+
+// newRowID returns a unique "<prefix>-<unixnano>-<seq>" row ID.
+func newRowID(prefix string) string {
+	rowIDMu.Lock()
+	defer rowIDMu.Unlock()
+	ns := time.Now().UnixNano()
+	if ns != rowIDLast {
+		rowIDLast = ns
+		rowIDSeq = 0
+	}
+	rowIDSeq++
+	return fmt.Sprintf("%s-%d-%d", prefix, ns, rowIDSeq)
+}
+
+// NewRowID is the exported row-ID mint used by handler packages (which cannot
+// reach the package-private one). Same collision guarantee; see newRowID.
+func (db *DB) NewRowID(prefix string) string { return newRowID(prefix) }
 
 // Close closes the database connection.
 func (db *DB) Close() error {

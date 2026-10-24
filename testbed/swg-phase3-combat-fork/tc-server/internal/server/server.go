@@ -19,6 +19,8 @@ type Server struct {
 	char     *handlers.CharacterHandler
 	world    *handlers.WorldHandler
 	skills   *handlers.SkillsHandler
+	svc      *handlers.ServicesHandler
+	craft    *handlers.CraftHandler
 	httpAddr string
 	wsAddr   string
 }
@@ -37,6 +39,8 @@ func New() (*Server, error) {
 		char:     handlers.NewCharacterHandler(db),
 		world:    handlers.NewWorldHandler(db),
 		skills:   handlers.NewSkillsHandler(db),
+		svc:      handlers.NewServicesHandler(db),
+		craft:    handlers.NewCraftHandler(db),
 		httpAddr: getEnv("HTTP_ADDR", ":8080"),
 		wsAddr:   getEnv("WS_ADDR", ":8080"),
 	}, nil
@@ -51,13 +55,17 @@ func (s *Server) Run() error {
 		log.Printf("Warning: failed to seed trainers: %v", err)
 	}
 
-	// Phase 3: Seed creature lairs/instances (GDD 9.5.3, 17.2.3) and start
-	// the world simulation tick (creature AI, incapacitation timeouts, HAM
-	// regen -- GDD 29.2.3).
 	if err := s.world.SeedCombatWorld(); err != nil {
 		log.Printf("Warning: failed to seed combat world: %v", err)
 	}
+	if err := s.world.SeedServiceWorld(); err != nil {
+		log.Printf("Warning: failed to seed service world: %v", err)
+	}
+	if err := s.world.SeedResourceWorld(); err != nil {
+		log.Printf("Warning: failed to seed resource world: %v", err)
+	}
 	s.world.StartTickLoop()
+	s.world.StartResourceTickLoop()
 
 	mux := http.NewServeMux()
 
@@ -75,6 +83,11 @@ func (s *Server) Run() error {
 	mux.HandleFunc("GET /api/professions", s.skills.HandleProfessions)
 	mux.HandleFunc("GET /api/trainers", s.skills.HandleTrainers)
 	mux.HandleFunc("/api/characters/", handlers.AuthMiddleware(s.db, s.skills.HandleCharacterSkillsRoute))
+
+	// --- Phase 4 & 6: Crafting & Services routes ---
+	mux.HandleFunc("GET /api/craft/schematics", s.craft.HandleCraftRoute)
+	mux.HandleFunc("/api/craft/", handlers.AuthMiddleware(s.db, s.craft.HandleCraftRoute))
+	mux.HandleFunc("/api/services/", handlers.AuthMiddleware(s.db, s.svc.HandleServicesRoute))
 
 	// --- WebSocket route (auth via query param token) ---
 	mux.HandleFunc("GET /ws", s.world.HandleWebSocket)
