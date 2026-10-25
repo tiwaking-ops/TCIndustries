@@ -1,9 +1,9 @@
 # TCIndustries Phase 9 — Elite Tier & Task Layer: Scoped Replacement Proposal
 
 - **Author:** Claude (Anthropic)
-- **Version:** 0.1 (PROPOSED — not approved; supersedes the build-authorisation posture of `SWG_Phase9_Elite_Missions_Proposal_v0.1.md`, whose addendum §9 Q10 directs this replacement)
+- **Version:** 0.1 (AUTHORISED — owner approval 2026-10-25; supersedes the build-authorisation posture of `SWG_Phase9_Elite_Missions_Proposal_v0.1.md`, whose addendum §9 Q10 directs this replacement)
 - **Date:** 2026-10-25
-- **Status:** **PROPOSED.** This document changes no GDD status, ruling, or authority line. It inherits the ten owner decisions recorded in the addendum to `SWG_Phase9_Elite_Missions_Proposal_v0.1.md` (2026-10-25) and re-scopes the work to what those decisions actually authorise. **No code may be written from this document until the owner separately authorises it and the gating open questions below are resolved.**
+- **Status:** **AUTHORISED (owner-approved 2026-10-25).** This document changes no GDD status, ruling, or authority line. It inherits the ten owner decisions recorded in the addendum to `SWG_Phase9_Elite_Missions_Proposal_v0.1.md` (2026-10-25) and re-scopes the work to what those decisions actually authorise. The owner has now authorised this document; OQ-001 (gating item #1) is RULED by HD-PROF-04. **Implementation is still gated by the outstanding BAL-001 numeric pass (gating item #2) — no code may be written until that pass supplies the cap size, reward/sink magnitudes, and progression rates, per BAL-001 (LOCKED).**
 - **Baseline:** `TCIndustries_Master_GDD_v1.1.1_Status_Patch.md` (current canonical design reference). Testbed target: `testbed/swg-phase3-combat-fork/tc-server` (live fork, per addendum Q7). The other fork (`swg-phase3-combat/`) is EVIDENCE/PROTOTYPE only per HD-TST-01.
 
 ---
@@ -67,11 +67,11 @@ PROF-003 (specialisation investment) and PROF-005 (progression caps / specialisa
 
 This proposal deliberately **does not** resolve these. They gate implementation:
 
-1. **OQ-001 ruling pass** (cap shape + budget) — per Q3, the hard prerequisite for any elite tier. Recommended as a standalone owner ruling (cap shape + numeric budget), independent of the closed HD-EIC-07 gate.
-2. **PROG-003 + BAL-001 numeric pass** (XP / second-tier progression rates and any reward/sink magnitudes) — per Q9 and Q8.
-3. **Owner authorisation of this document itself** — it is PROPOSED; writing code from it requires explicit owner approval, recorded with date.
+1. **OQ-001 ruling pass** (cap shape + budget) — **RESOLVED by HD-PROF-04 (2026-10-25).** The two-layer model is RULED; the specialisation *shape* gate is cleared.
+2. **PROG-003 + BAL-001 numeric pass** (XP / second-tier progression rates and any reward/sink magnitudes) — **OUTSTANDING.** Per Q9 and Q8, and BAL-001 (LOCKED, no premature numeric tuning), no magnitudes exist yet. This pass remains the live implementation gate.
+3. **Owner authorisation of this document itself** — **GRANTED 2026-10-25.** The document is now AUTHORISED; this clause is satisfied.
 
-Until all three exist, the implementation status below is deliberately empty.
+Until item #2 is performed, the implementation status below is deliberately empty — no code may be written, because BAL-001 forbids inventing the magnitudes the build would need.
 
 ---
 
@@ -84,7 +84,7 @@ Until all three exist, the implementation status below is deliberately empty.
 | Elite / specialisation tier | **Not authorised** — gated behind OQ-001 ruling (Q3) |
 | High-tier non-self-sufficiency instrument | Soft comparative advantage specified (Q4); degrees deferred |
 | Progression rates | Deferred to PROG-003 + BAL-001 (Q9) |
-| Code written | **None.** No `cmd/phase9test`, no mission/elite/pet handlers exist in the live fork, and none are added under this PROPOSED document |
+| Code written | **None.** No `cmd/phase9test`, no mission/elite/pet handlers exist in the live fork, and none are added under this AUTHORISED document — the BAL-001 numeric pass (gating item #2) still forbids it |
 
 ---
 
@@ -100,9 +100,9 @@ Until all three exist, the implementation status below is deliberately empty.
 
 ## 7. Recommended next decision
 
-1. Owner authorises this replacement proposal (or amends it).
-2. A dedicated **OQ-001 ruling pass** defines the specialisation budget/cap model.
-3. A **BAL-001 numeric pass** supplies PROG-003 progression rates and any task-layer reward/sink magnitudes.
+1. Owner authorises this replacement proposal (or amends it). **— GRANTED 2026-10-25.**
+2. A dedicated **OQ-001 ruling pass** defines the specialisation budget/cap model. **— COMPLETE (HD-PROF-04, 2026-10-25).**
+3. A **BAL-001 numeric pass** supplies PROG-003 progression rates and any task-layer reward/sink magnitudes. **— OUTSTANDING; the live implementation gate.**
 4. Only then is an implementation proposal (with code, handlers, `cmd/phase9test`) warranted — built against the live fork and verified end-to-end per the testbed's "verify, don't claim" discipline.
 
 *End of proposal v0.1 (PROPOSED). Supersedes the build-authorisation posture of `SWG_Phase9_Elite_Missions_Proposal_v0.1.md` per its addendum §9 Q10; inherits all ten owner decisions recorded there on 2026-10-25.*
