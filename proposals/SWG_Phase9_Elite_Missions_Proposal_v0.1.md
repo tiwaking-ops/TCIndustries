@@ -431,6 +431,8 @@ These questions were answered directly by the project owner on 2026-10-25 (no fu
 
 *Addendum recorded 2026-10-25. All ten open questions (Q1–Q10) decided — see §9; no owner decisions remain open in this addendum.*
 
+*Per §9 Q10, the path forward is a **replacement proposal**, not §10 Item 7 as written. The replacement is: `proposals/TCIndustries_Phase9_Elite_and_TaskLayer_Proposal_v0.1.md` (2026-10-25, status **PROPOSED**). It adopts the TCIndustries-native task-layer definition (Q1), carries only the surviving elite/specialisation questions under their LOCKED constraints, and authorises no code.*
+
 *End of proposal v0.1. To enact: owner approves (or amends) §§3–6/9–10; approval and date
 recorded before any code is written. Per addendum §9 (Q10): enactment proceeds by replacement
 proposal, not by Item 7 as written.*
