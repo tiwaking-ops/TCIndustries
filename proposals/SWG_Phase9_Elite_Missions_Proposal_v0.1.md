@@ -316,7 +316,7 @@ Per `AGENTS.md`, that code is **EVIDENCE only** — it proves a mission system i
 
 | ID | Question | Why it blocks Phase 9 |
 |---|---|---|
-| **Q1** | What does a "mission" mean at TCIndustries level — SWG's procedural repeatable job board (*"generic, repeatable, disposable, never narratively significant"*), a TCIndustries-native instrument, or nothing at all? | VIS-006 defines what missions must NOT be. It does not define what they are. |
+| **Q1** | What does a "mission" mean at TCIndustries level — SWG's procedural repeatable job board (*"generic, repeatable, disposable, never narratively significant"*), a TCIndustries-native instrument, or nothing at all? | VIS-006 defines what missions must NOT be. It does not define what they are. **DECIDED 2026-10-25 — see addendum §9.** |
 | **Q2** | Is a procedural repeatable task layer compatible with VIS-006 (LOCKED anti-goal) and §24 guard #1 (*"theme-park / quest-driven drift"*)? | The LOCKED text prohibits quest-chain/theme-park drift specifically, not job boards per se — but that reading is an interpretation only the owner can confirm. |
 | **Q3** | Does OQ-001 need an explicit ruling before any elite tier ships — and which gate state governs? | The OQ-011 row calls OQ-001 *"blocked behind the open HD-EIC-07 gate"*, while the register's cumulative state records that gate CLOSED by HD-EIC-10 (2026-10-23). |
 | **Q4** | Which instrument delivers PIL-003's LOCKED high-tier non-self-sufficiency — a formal numeric budget, soft comparative-advantage pressure (HD-EIC-02), or another? | HD-EIC-01 expressly leaves this undetermined; choosing one is a design decision. |
@@ -325,7 +325,7 @@ Per `AGENTS.md`, that code is **EVIDENCE only** — it proves a mission system i
 | **Q7** | Which testbed is the target — the live `swg-phase3-combat-fork/tc-server`, or the superseded `swg-phase3-combat/`? | §10 Item 1 confirmed the old fork, but the live fork is where Phases 4–8 were built and Phase 8 approved. **DECIDED 2026-10-25 — see §9.** |
 | **Q8** | If missions carry rewards, are they permitted under HD-ECO-01's faucet-exceeds-sink mandate given the recorded evidence that they dominated Pre-CU income with no equivalent sink? | Recorded as observation; a mission proposal cannot avoid it. |
 | **Q9** | Where do XP/second-tier progression rates come from? | PROG-003 is TBD; HD-PROF-03 defers magnitudes to BAL-001; "Use-based Skill Point acquisition" is separately NOT CANONICAL. |
-| **Q10** | Enact via an explicit Item 7 authorisation as written, or supersede with a replacement proposal? | §10's own closing line: *"To enact: owner approves (or amends) §§3–6/9–10."* |
+| **Q10** | Enact via an explicit Item 7 authorisation as written, or supersede with a replacement proposal? | §10's own closing line: *"To enact: owner approves (or amends) §§3–6/9–10."* **DECIDED 2026-10-25 — see addendum §9.** |
 
 ---
 
@@ -340,13 +340,13 @@ Per `AGENTS.md`, that code is **EVIDENCE only** — it proves a mission system i
 
 ### 8. Recommended Next Decision
 
-**Q6 and Q7 are now decided — see §9.** The remaining blocking questions (Q1–Q5, Q8–Q10) still require an owner ruling. Of those, **Q1 (what "mission" means at TCIndustries level)** and **Q10 (enact by Item 7 authorisation vs. supersede)** are the next highest-leverage decisions, because every elite/mission mechanic in this proposal is downstream of them.
+**Q6, Q7, Q1 and Q10 are now decided — see addendum §9.** The remaining blocking questions (Q2–Q5, Q8–Q9) still require an owner ruling. Of those, **Q2 (whether a procedural task layer is compatible with the VIS-006 anti-goal)** and **Q8 (whether mission rewards are permitted under HD-ECO-01)** are next, because they determine whether the repeatable-task layer decided in Q1 can carry a reward at all — and both are gated by a single yes/no reading of LOCKED text.
 
 ---
 
-### 9. Owner Decisions — Q6 & Q7 (2026-10-25)
+### 9. Owner Decisions — Q6, Q7, Q1 & Q10 (2026-10-25)
 
-These two questions were answered directly (no further research needed) and are recorded here with their reasoning. They are *definitional and procedural clarifications only* — neither changes any GDD status, ruling, or authority line. Per `AGENTS.md`, no LOCKED/HUMAN-LOCKED status was promoted or created.
+These four questions were answered directly by the project owner on 2026-10-25 (no further research needed) and are recorded here with their reasoning. They are *definitional and procedural clarifications only* — none changes any GDD status, ruling, or authority line. Per `AGENTS.md`, no LOCKED/HUMAN-LOCKED status was promoted or created.
 
 **Q6 — What does "Phase 9" mean?**
 > **Decision:** "Phase 9" here refers to the **SWG Pre-CU fork's build-sequence phase** (the next sequential phase in `SWG_PreCU_GDD.md` §30's roadmap, i.e. the elites-plus-missions phase the proposal is named for). It is **not** a TCIndustries design unit and confers no canon status on that content.
@@ -364,7 +364,24 @@ These two questions were answered directly (no further research needed) and are 
 
 ---
 
-*Addendum recorded 2026-10-25. Q6 and Q7 decided (§9); remaining owner decisions: Q1–Q5, Q8–Q10.*
+**Q1 — What does "mission" mean at TCIndustries level?**
+> **Decision:** A "mission" is **a TCIndustries-native procedurally-repeatable task layer**, *not* a reimport of SWG's mission/bounty system. Concretely: generic, repeatable, disposable, never narratively significant — matching SWG's *shape* but with all SWG-specific names, framing, and mechanical hooks stripped to HISTORICAL reference per HD-TST-01.
+>
+> **Why:** VIS-006 (LOCKED) forbids drifting into *"a linear quest-driven MMORPG"* and §24 guard #1 forbids *"theme-park / quest-driven drift"* — but neither forbids a *generic, disposable, repeatable task board*. The project's own Phase 8 approval (HD-PVP-01) already accepts procedurally-repeated player activity as the PvP cadence driver, and the live fork's combat/CoH model is built on repeatable cycles. A mission layer that is purely *instrumental* (task generation, not narrative) stays on that side of VIS-006.
+>
+> **Boundary:** this is a *structural* decision, not a mechanic. It commits the project to a repeatable-task pattern but specifies **no** SWG mission mechanics — no quest log, no mission terminals, no bounty sheet, no narrative arc. Those remain PROPOSED/PROTOTYPE until a mechanic-specific authorisation. "Mission" is scoped to *what it is*: a repeatable task. Q2 (compatibility with VIS-006) and Q4 (instrument delivery) remain open on *how*.
+
+**Q10 — Enact by Item 7 authorisation as written, or supersede?**
+> **Decision:** **Do not enact §10 Item 7 as written** (which would green-light the full SWG Phase-3-elite + mission plan, including 7-or-14 named elites, Ranger, surveying). Instead, treat this proposal as a **PROPOSAL FOR AUTHORITY GAP EXPOSURE**, and issue a **replacement proposal** scoped to the decisions actually taken here.
+>
+> **Why:** Q6 establishes that "Phase 9" is the SWG fork's build phase, and Q7 establishes the live fork as target. The proposal's §10 Items 1–6 (CONFIRMED/AMENDED) authorise SWG content that §1's own header disclaims as *"PROPOSED plan. No authority."* The decisions in this addendum are definitional/procedural — they do **not** authorise SWG elites, mission mechanics, or numeric values. Enacting the proposal body would silently promote HISTORICAL material into canon (AGENTS.md prohibition) and would ship content whose authority gaps (§3) are explicitly unresolved (OQ-001, PROF-003/005, etc.).
+>
+> **Outcome:** The path forward is a **replacement proposal** that (a) adopts the TCIndustries-native mission definition decided in Q1, (b) carries only the elite/specialisation questions that survive the open question set with their LOCKED constraints (PROF-001, PROF-004, PIL-003, BAL-001, PROG-001, §36 non-canonical boundary), and (c) is itself PROPOSED until a fresh owner authorisation. The present document's value is §5 (the anomaly report) and §§6–9 (the authority exposure) — not its SWG mechanics.
+
+---
+
+*Addendum recorded 2026-10-25. Q6, Q7, Q1 and Q10 decided (§9); remaining owner decisions: Q2–Q5, Q8–Q9.*
 
 *End of proposal v0.1. To enact: owner approves (or amends) §§3–6/9–10; approval and date
-recorded before any code is written.*
+recorded before any code is written. Per addendum §9 (Q10): enactment proceeds by replacement
+proposal, not by Item 7 as written.*
