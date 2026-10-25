@@ -14,9 +14,10 @@ predecessor GDD `sources/swg-pre-cu/SWG_PreCU_GDD.md` (§§6.3, 7.2–7.3, 8.1�
 TCIndustries canon).
 TCIndustries fence: PROF-001 (flexible skill architecture, LOCKED) and PROF-004
 (respecialisation allowed, LOCKED) are the direction — the existing
-drop-cascade is reused unchanged. PROF-003/005 stay PROPOSED/TBD and OQ-001
-stays TBD: the fork's 250-cap/66/80/120 cost economy is testbed mechanics,
-never the TCIndustries specialisation answer. OQ-011 (respec costs) untouched —
+drop-cascade is reused unchanged. PROF-003/005 stay PROPOSED/TBD. OQ-001 has
+since been RULED in shape by HD-PROF-04 (magnitudes deferred): the fork's
+250-cap/66/80/120 cost economy is testbed mechanics, never the TCIndustries
+specialisation answer. OQ-011 (respec costs) untouched —
 no new costs invented. CRFT-006 stays PROPOSED. PIL-003/VIS-004
 (interdependence): §8.4's dependency chains are directional support only, not
 canon. LOOP-002: non-combat elites (Merchant, Architect, Image Designer,
@@ -272,7 +273,7 @@ Per `AGENTS.md`: *"Never silently promote any non-LOCKED status into LOCKED. Sta
 | **Does "elite" or "master" tier have GDD authority?** | **NO.** No GDD rule establishes a named terminal rank. PROF-003's *"master weaponsmith"* and the Executive Summary's *"master craftsperson"* are illustrative/non-normative prose. PROF-003 itself is PROPOSED, not canon. | GDD §10 PROF-003; §2 |
 | **What is LOCKED that constrains any elite tier?** | PROF-001 (flexible skills, not rigid classes), PROF-004 (no permanent character traps), PIL-003 (high-tier non-self-sufficiency), BAL-001 (no numeric values), LOOP-003/PROG-001 (expansion not linear power). | GDD §10 PROF-001/004; §6 PIL-003; §25 BAL-001; §21 PROG-001 |
 | **What is the hardest confirmed constraint?** | **GDD §36 lines 996–998**: *"Skill Discipline / Skill Box architecture"*, *"Use-based Skill Point acquisition"*, and *"Two-to-three concurrent profession target"* are **NOT CANONICAL**. These are precisely the SWG mechanisms that historically produced literal "Master Weaponsmith"-style titles. **A Phase 9 master/elite tier cannot be justified by importing either mechanism.** | GDD §36 lines 996–998 |
-| **Is the cap model available to anchor a tier?** | **NO.** OQ-001 (specialisation budget / skill cap) is **TBD**, EIC-coupled. | GDD §31 OQ-001 |
+| **Is the cap model available to anchor a tier?** | **SHAPE YES, MAGNITUDES NO.** OQ-001 (specialisation budget / skill cap) is now **RULED in shape by HD-PROF-04** (two-layer model, soft comparative advantage on HD-EIC-10 C2/C4), but **all magnitudes remain deferred to a BAL-001 pass** — so no numeric cap can anchor a tier yet. | GDD §31 OQ-001; register HD-PROF-04 |
 | **Is there a live authority conflict?** | **YES — surfaced, not resolved.** PROF-001 (LOCKED) demands flexible skill-based emergent identity *"rather than rigid immutable classes."* HD-PROF-03 (HUMAN-LOCKED) rules trainer-gated **class** acquisition. A starting class plus acquired classes sits closer to a class ladder than to emergent composition. | GDD §10 PROF-001; register §E HD-PROF-03 |
 
 ---
@@ -281,7 +282,7 @@ Per `AGENTS.md`: *"Never silently promote any non-LOCKED status into LOCKED. Sta
 
 | Gap | Status | Trace |
 |---|---|---|
-| **OQ-001** — specialisation budget / skill-cap model | **TBD**, EIC-coupled. The OQ-011 register row's *"blocked behind the open HD-EIC-07 gate"* is **stale**: HD-EIC-10 closed that gate 2026-10-23, so the gate is not an active block. OQ-001 remains **TBD in its own right** and must be ruled before any elite tier ships — see §9 Q3. | GDD §31 OQ-001; HD-EIC-07; HD-EIC-10 |
+| **OQ-001** — specialisation budget / skill-cap model | **RULED in shape by HD-PROF-04** (two-layer model; magnitudes deferred to BAL-001). The OQ-011 register row's *"blocked behind the open HD-EIC-07 gate"* is **stale**: HD-EIC-10 closed that gate 2026-10-23. OQ-001 is no longer TBD — the specialisation *shape* is decided; only the BAL-001 numeric pass remains before any elite tier ships — see §9 Q3 reconciliation. | GDD §31 OQ-001; HD-EIC-07; HD-EIC-10; register HD-PROF-04 |
 | **Elite / high-tier profession design** | **PROPOSED only.** PROF-003 and PROF-005 are both PROPOSED. | GDD §10 PROF-003, PROF-005 |
 | **What "master" means** | **Unresolved.** No named terminal rank exists in any rule. | GDD §10 PROF-003; §2 |
 | **PROF-001 vs HD-PROF-03 tension** | **Live conflict, surfaced not resolved.** See §2 above. | GDD §10 PROF-001; register §E HD-PROF-03 |
@@ -345,9 +346,9 @@ Per `AGENTS.md`, that code is **EVIDENCE only** — it proves a mission system i
 1. **Scope/identity clarifications** (Q1, Q6, Q7) — "Phase 9" is the fork's build phase, not a TCIndustries design unit; the live fork is the target; the mission layer is TCIndustries-native and structural only.
 2. **Compatibility readings against LOCKED constraints** (Q2, Q5) — the task layer is compatible with VIS-006/§24 provided it never becomes the primary progression driver; HD-PROF-03's trainer-gated acquisition and PROF-001's flexible identity are a held tension (gated ≠ immutable) rather than a contradiction.
 3. **Instrument choice / magnitude deferral** (Q4, Q8, Q9) — soft comparative advantage (HD-EIC-02), paired-sink-only rewards, and no invented progression rates: structures chosen here, **numbers explicitly deferred to a BAL-001 pass** per BAL-001 (LOCKED).
-4. **Authority hygiene** (Q3, Q10) — the OQ-011 "blocked behind HD-EIC-07" row is stale (gate closed by HD-EIC-10), but OQ-001 remains **TBD** and still requires its own ruling; and enactment proceeds by **replacement proposal**, not by §10 Item 7 as written.
+4. **Authority hygiene** (Q3, Q10) — the OQ-011 "blocked behind HD-EIC-07" row is stale (gate closed by HD-EIC-10); OQ-001 has since been RULED in shape by HD-PROF-04 (magnitudes deferred to BAL-001); and enactment proceeds by **replacement proposal**, not by §10 Item 7 as written.
 
-**The addendum's own recommended next decision:** author the **replacement proposal** scoped per Q10 (TCIndustries-native mission definition from Q1, plus only the elite/specialisation questions that survive with their LOCKED constraints intact), which stays **PROPOSED** until fresh owner authorisation. A separate **OQ-001 ruling pass** (cap shape + budget) remains a live prerequisite for any elite tier per Q3.
+**The addendum's own recommended next decision:** author the **replacement proposal** scoped per Q10 (TCIndustries-native mission definition from Q1, plus only the elite/specialisation questions that survive with their LOCKED constraints intact), which stays **PROPOSED** until fresh owner authorisation. The OQ-001 ruling pass (cap shape + budget) has been completed by HD-PROF-04; the elite tier now awaits only the BAL-001 numeric pass and fresh owner authorisation of `proposals/TCIndustries_Phase9_Elite_and_TaskLayer_Proposal_v0.1.md`.
 
 ---
 
@@ -360,7 +361,7 @@ These questions were answered directly by the project owner on 2026-10-25 (no fu
 >
 > **Why:** TCIndustries canon (the Master GDD) has no phase numbering — its sequence is "Phase 0 Evidence Reconciliation … Phase 1 EIC …" etc. (GDD §34), and the old v1.0 linear phase list was explicitly *replaced* (GDD §34 lines 882–908). The label "Phase 9" in this proposal's title is inherited from the SWG source document it was written against. Treating it as a TCIndustries design phase would silently import HISTORICAL SWG scope into canon, which `AGENTS.md` and HD-TST-01 forbid. The proposal's own §10 acknowledges this — it is written against the fork, not the GDD.
 >
-> **Consequence:** All "Phase 9" work remains **PROPOSED / PROTOTYPE** material. The SWG scope (7-or-14 named elites, missions, Ranger, surveying) is HISTORICAL design input, not an approved TCIndustries deliverable. This does not pre-empt the GDD-aligned elite/specialisation questions — PROF-003/PROF-005 remain PROPOSED, OQ-001 remains TBD pending its own ruling (see §9 Q3), and all magnitudes remain deferred to a BAL-001 pass (see §9 Q4, Q8, Q9).
+> **Consequence:** All "Phase 9" work remains **PROPOSED / PROTOTYPE** material. The SWG scope (7-or-14 named elites, missions, Ranger, surveying) is HISTORICAL design input, not an approved TCIndustries deliverable. This does not pre-empt the GDD-aligned elite/specialisation questions — PROF-003/PROF-005 remain PROPOSED; OQ-001 has since been RULED in shape by HD-PROF-04 (see §9 Q3 reconciliation), and all magnitudes remain deferred to a BAL-001 pass (see §9 Q4, Q8, Q9).
 
 **Q7 — Which testbed is the target?**
 > **Decision:** The target testbed is the **live fork, `testbed/swg-phase3-combat-fork/tc-server`** (the HD-TST-01 name-stripped fork). The superseded `testbed/swg-phase3-combat/` (and its nested `swg-server/`) is **not** a build target; its Phase 9 code is EVIDENCE/PROTOTYPE only and should not be extended.
@@ -398,6 +399,8 @@ These questions were answered directly by the project owner on 2026-10-25 (no fu
 > **Why:** GDD §31 leaves OQ-001 as **TBD, EIC-coupled**. HD-EIC-10 closed the HD-EIC-07 gate on 2026-10-23, which means the *structural* block on new shaping is lifted; the OQ-011 row predates that closure and is simply out of date. However, HD-EIC-10 closing the gate does **not** itself answer OQ-001 — it only clears the path to answer it. Until OQ-001 is affirmatively ruled (cap shape, budget, elite ceiling), PROF-003/PROF-005 remain PROPOSED and no elite tier can carry a LOCKED-anchored cap. The §3 authority-gap table's flagged conflict between the OQ-011 row and HD-EIC-10 is therefore **resolved in favour of HD-EIC-10**: the gate is closed; the open question stands.
 >
 > **Consequence:** Any elite/specialisation design must be accompanied by (or preceded by) a separate OQ-001 ruling. This addendum does **not** supply that ruling — it records that the gate conflict is resolved and that OQ-001 is still the live prerequisite. Recommended owner action: a dedicated OQ-001 ruling pass (cap shape + budget), independent of the EIC gate.
+>
+> **Reconciliation (2026-10-25):** The OQ-001 ruling pass has since been completed. OQ-001 is now **RULED** by **HD-PROF-04** as a two-layer model (subordinate character-layer skill-point hygiene cap + participant-layer interdependence budget anchored on HD-EIC-10 C2/C4, soft comparative advantage), with **all numeric magnitudes deferred to a BAL-001-authorised pass**. The specialisation *shape* is therefore no longer a live prerequisite gate; the elite-tier build now awaits only the BAL-001 numeric pass and fresh owner authorisation of `proposals/TCIndustries_Phase9_Elite_and_TaskLayer_Proposal_v0.1.md`.
 
 **Q4 — Which instrument delivers PIL-003's LOCKED high-tier non-self-sufficiency?**
 > **Decision:** **Soft comparative-advantage pressure (HD-EIC-02 channel), not a hard numeric budget.** PIL-003 (LOCKED) requires that high-tier actors be *non-self-sufficient*; it does not prescribe the mechanism. The instrument is chosen as **soft comparative advantage** — high-tier status confers specialist advantage but not autarky — rather than a formal numeric cap/budget table. This aligns with HD-EIC-02 (which lists reputation/provenance and comparative advantage among acceptable specialist-advantage channels) and with HD-EIC-01's explicit refusal to *"determine the implementation of specialisation."* A hard numeric budget is rejected as the *primary* instrument because it risks importing precisely the "Skill Discipline / Skill Box" cap model the GDD §36 line marks **NOT CANONICAL**.

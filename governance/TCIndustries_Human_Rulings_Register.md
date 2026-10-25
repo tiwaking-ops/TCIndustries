@@ -18,7 +18,7 @@ merges:
 superseded_by: null
 controlling_documents: []
 reading_priority: mandatory
-change_note: "v1.5 — Filed Section E (HD-EIC-10, EIC Structural Boundary Statement), completing the HD-EIC-07 gate: G2 \"literal effortlessness\" gloss of HD-EIC-09's \"trivially eliminates\" (γ′ re-test eligibility reopened, execution still a separate act); durable structural commitments adopted for C1 non-internalisable scarcity, C2 persistent information/discovery asymmetry, C4 non-economic institutional/social constraint; C3 demand differentiation DEFERRED; soft-residual exclusions adopted by category. Boundaries only — no mechanism, architecture, residual channel, or numeric value authorised; the bounded EIC search remains separately unauthorised to begin. Full Cumulative State updated (bounded-shaping and next-action rows). v1.4 — Filed Section E (HD-ECO-01 OQ-009 currency structure + INV-009a faucet-exceeds-sink mandate; HD-PROF-03 OQ-011 acquisition trainer-gated). Both PARTIAL: scope confirmations, INV-009b, and INV-011c remain open. Master GDD non-canonical list entry "Single unified currency as the default" PROMOTED to canonical by HD-ECO-01. v1.3 — Filed Section D (HD-ITM-01, HD-PROF-01, HD-BLD-02, HD-PROF-02, HD-ITM-02, HD-BLD-03): six owner rulings of 2026-09-19/20 transcribed verbatim from their decision records at the owner's instruction on 2026-09-28; Full Cumulative State table brought current from 2026-08-25. v1.2 — Added Section C (HD-RET-01, HD-BLD-01, HD-SCOPE-01), the first three autonomous-loop production rulings (2026-09-19), pasted verbatim from their decision records at the owner's explicit filing instruction. v1.1 — Added Section B (HD-GDD-01), the re-review and re-confirmation of the 5 GDD authority-review-queue items, recovered from prior chat history and formally recorded here for the first time."
+change_note: "v1.6 — Filed HD-PROF-04: OQ-001 specialisation budget/skill-cap model RULED as a two-layer shape (subordinate character-layer hygiene cap + participant-layer interdependence budget anchored on HD-EIC-10 C2/C4, soft comparative advantage); all magnitudes deferred to BAL-001. Retires the 2026-08-25 "resolving OQ-001 forbidden" cumulative line for OQ-001. v1.5 — Filed Section E (HD-EIC-10, EIC Structural Boundary Statement), completing the HD-EIC-07 gate: G2 \"literal effortlessness\" gloss of HD-EIC-09's \"trivially eliminates\" (γ′ re-test eligibility reopened, execution still a separate act); durable structural commitments adopted for C1 non-internalisable scarcity, C2 persistent information/discovery asymmetry, C4 non-economic institutional/social constraint; C3 demand differentiation DEFERRED; soft-residual exclusions adopted by category. Boundaries only — no mechanism, architecture, residual channel, or numeric value authorised; the bounded EIC search remains separately unauthorised to begin. Full Cumulative State updated (bounded-shaping and next-action rows). v1.4 — Filed Section E (HD-ECO-01 OQ-009 currency structure + INV-009a faucet-exceeds-sink mandate; HD-PROF-03 OQ-011 acquisition trainer-gated). Both PARTIAL: scope confirmations, INV-009b, and INV-011c remain open. Master GDD non-canonical list entry "Single unified currency as the default" PROMOTED to canonical by HD-ECO-01. v1.3 — Filed Section D (HD-ITM-01, HD-PROF-01, HD-BLD-02, HD-PROF-02, HD-ITM-02, HD-BLD-03): six owner rulings of 2026-09-19/20 transcribed verbatim from their decision records at the owner's instruction on 2026-09-28; Full Cumulative State table brought current from 2026-08-25. v1.2 — Added Section C (HD-RET-01, HD-BLD-01, HD-SCOPE-01), the first three autonomous-loop production rulings (2026-09-19), pasted verbatim from their decision records at the owner's explicit filing instruction. v1.1 — Added Section B (HD-GDD-01), the re-review and re-confirmation of the 5 GDD authority-review-queue items, recovered from prior chat history and formally recorded here for the first time."
 ---
 
 # TCIndustries — Human Rulings Register
@@ -65,7 +65,7 @@ The EIC team may define provisional non-numeric functional shapes necessary for 
 **Explicitly does not authorise:** any numeric balance values.
 **Status:** HUMAN-LOCKED (methodological permission only).
 
-**Cumulative effect of Part I (as of 2026-08-25):** Validation unit = layered (participant-level, not merely character-level). Specialists must retain meaningful comparative advantage without a hard quality ceiling. Multi-accounting is in-scope and adversarial. Provisional non-numeric functional shapes may be defined for simulation. **Still forbidden:** promoting Architecture C (or any M1–M8 mechanism) to LOCKED; hard factory-quality ceiling; account-level restrictions; numeric balance values; resolving OQ-001, OQ-002, OQ-003, OQ-004, OQ-005, OQ-012 (implementation), or OQ-017 as canon.
+**Cumulative effect of Part I (as of 2026-08-25):** Validation unit = layered (participant-level, not merely character-level). Specialists must retain meaningful comparative advantage without a hard quality ceiling. Multi-accounting is in-scope and adversarial. Provisional non-numeric functional shapes may be defined for simulation. **Still forbidden:** promoting Architecture C (or any M1–M8 mechanism) to LOCKED; hard factory-quality ceiling; account-level restrictions; numeric balance values; resolving OQ-002, OQ-003, OQ-004, OQ-005, OQ-012 (implementation), or OQ-017 as canon. *(Retired for OQ-001 by HD-PROF-04, per HD-EIC-10 gate closure — OQ-001 model shape is now RULED; magnitudes remain BAL-001-gated.)*
 
 ---
 
@@ -581,12 +581,13 @@ Supersedes nothing; amends nothing.
 4. **SCOPE — NOT CONFIRMED, REMAINS OPEN.** The three sub-confirmations (no OQ-001
    budget model selected or implied; all magnitudes to BAL-001; respecialisation
    cost instrument remains with HD-PROF-02) were not ruled this session. Default
-   boundaries remain in force: numerics are BAL-001-gated, and OQ-001 remains
-   open and EIC-coupled.
+   boundaries remain in force: numerics are BAL-001-gated; OQ-001 budget shape has since been RULED by
+   HD-PROF-04 (model shape only; magnitudes deferred).
 
 **Explicitly does not authorise:** any numeric value (BAL-001, including the
-1000-credit SWG precedent figure); any budget or specialisation-cap model (OQ-001,
-EIC-coupled and blocked behind the open HD-EIC-07 gate); any change to the
+1000-credit SWG precedent figure); any budget or specialisation-cap model beyond
+the HD-PROF-04 two-layer shape (any magnitude, or any model variant, is
+BAL-001-gated; the OQ-001 shape is now ruled by HD-PROF-04); any change to the
 respecialisation cost instrument (HD-PROF-02 free-drop stands) or to PROF-004;
 any NPC, dialogue, or trainer-roster design; provenance or reputation work
 (DEFERRED, HD-EIC-08); **any EIC shaping — this ruling does not supply or satisfy
@@ -601,6 +602,63 @@ work.
 | Invariant | INV-011c — NOT RULED, remains a candidate (Invariant Register v0.1, OQ-011 entry) |
 | Composing rulings relied upon | HD-PROF-02 (free-drop respec — the exit cost is zero, so a wrong class choice is recoverable); HD-ECO-01 (faucet-exceeds-sink policy — the condition under which the credit-gated training path stays affordable) |
 | Prior rulings affected | None |
+
+---
+
+## HD-PROF-04 — OQ-001 Specialisation Budget / Skill-Cap Model (model shape only; magnitudes deferred)
+
+**Source:** Owner ruling session, 2026-10-25, on
+`proposals/TCIndustries_OQ-001_Specialisation_Budget_Proposed_Ruling_2026-10-25.md`
+(resolving GDD open question OQ-001 / PROF-005; grounded in
+`investigations/TCIndustries_Specialisation_Shape_Study_v0.1.md` and the HD-EIC-10
+structural boundaries, C2/C4).
+
+**Status:** HUMAN-LOCKED (model shape only). All magnitudes deferred to a
+BAL-001-authorised numeric pass. Complements HD-EIC-01–11, HD-GDD-01, HD-TST-01,
+HD-PROF-01, HD-PROF-02, HD-PROF-03, HD-ECO-01, HD-PVP-01, which remain in force.
+Supersedes nothing; amends nothing (the 2026-08-25 "resolving OQ-001 forbidden"
+cumulative line is retired for OQ-001 by this ruling, per HD-EIC-10 gate closure).
+
+### Decision
+
+1. **TWO-LAYER BUDGET ADOPTED.**
+   - **(i) Character-layer skill-point hygiene cap (subordinate, retained).** A
+     per-character skill-point ceiling remains as a hygiene rule; exceeding it
+     requires dropping an owned box (free-drop per HD-PROF-02, preserving
+     PROF-004). Subordinate to layer (ii); explicitly NOT canonical as a complete
+     model (GDD §36 "Skill Discipline / Skill Box architecture" excluded).
+   - **(ii) Participant-layer interdependence budget (primary, HD-EIC-10
+     anchored).** The binding constraint on single-actor mastery is at the
+     participant level (per HD-EIC-01, not merely the character), expressed as
+     **soft comparative advantage** (addendum Q4) anchored on HD-EIC-10 durable
+     commitments **C2** (persistent information/discovery asymmetry) and **C4**
+     (non-economic institutional/social constraint). Delivers PIL-003's
+     LOCKED high-tier non-self-sufficiency via advantage-without-autarky.
+2. **PURE "SKILL DISCIPLINE / SKILL BOX" CAP REJECTED as sole or primary
+   instrument.** Retained only as the Layer (i) subordinate hygiene floor; it is
+   bypassable by multi-account alt-pooling (Shape 1 / Package β failure mode) and
+   cannot solve the participant-layer closure problem alone.
+3. **ALL NUMERIC MAGNITUDES DEFERRED** to a BAL-001-authorised pass: character
+   cap size; any Shape-3 decay/maintenance rates; C4 associational binding
+   strength; XP / second-tier progression rates (PROG-003 + BAL-001). The live
+   fork's `MaxSkillPoints = 250` is PROTOTYPE/EVIDENCE only.
+
+**Explicitly does not authorise:** any numeric value (BAL-001); any change to the
+HD-PROF-02 free-drop respec instrument or to PROF-004; any change to HD-PROF-03's
+trainer-gated acquisition; any hard factory-quality ceiling or account-level
+restriction (forbidden, HD-EIC-02); the §36 NOT-CANONICAL "Skill Discipline /
+Skill Box architecture", "Use-based Skill Point acquisition", or "2–3 concurrent
+profession target" as model sources; provenance or reputation work (DEFERRED,
+HD-EIC-08); any implementation, simulation, or testbed work.
+
+### Traceability
+| Item | Source |
+|---|---|
+| Proposal given effect | `proposals/TCIndustries_OQ-001_Specialisation_Budget_Proposed_Ruling_2026-10-25.md` |
+| Grounding analysis | `investigations/TCIndustries_Specialisation_Shape_Study_v0.1.md` (Shape 3+4 viable on C2/C4) |
+| Structural boundaries | HD-EIC-10 (C2/C4 commitments; gate closure) |
+| Composing rulings relied upon | HD-PROF-02 (free-drop respec), HD-PROF-03 (trainer-gated acquisition), PIL-003 (HUMAN-LOCKED), PROF-001/004, PROG-001, HD-ECO-01 |
+| Prior rulings affected | Retires the 2026-08-25 "resolving OQ-001 forbidden" cumulative line for OQ-001 |
 
 ---
 
@@ -756,11 +814,11 @@ bounded EIC search; any change to OQ-001, OQ-004, or OQ-005, which become
 | OQ-007 city formation | **HUMAN-LOCKED, structural** (HD-BLD-01) — free-claim formation; basic governance depth (ownership + zoning presence + shared maintenance); civic-depth instruments open |
 | OQ-015 first-playable scope | **HUMAN-LOCKED, structural** (HD-SCOPE-01) — S1 economic spine; combat/cities/orgs/transport/factories deferred-TBD; early-game on-ramp **named-open** (backlog 6c) |
 | OQ-010 durability/decay/repair | **HUMAN-LOCKED** (HD-ITM-01 + HD-ITM-02) — no baseline decay; 1% death-damage while holding; repairable (mechanics open); destruction only by player action; no salvage system at present |
-| OQ-011 respecialisation | **HUMAN-LOCKED** (HD-PROF-01 + HD-PROF-02 + HD-PROF-03) — identity/provenance survives respec (INV-011a); cost instrument **free-drop** (points returned, no fee/time/penalty); acquisition **trainer-gated** (NPC trainer for credits, or free from a player who holds the class; no training, no skill gain). Magnitudes deferred (BAL-001); INV-011c NOT ruled; OQ-001 budget still EIC-coupled |
+| OQ-011 respecialisation | **HUMAN-LOCKED** (HD-PROF-01 + HD-PROF-02 + HD-PROF-03) — identity/provenance survives respec (INV-011a); cost instrument **free-drop** (points returned, no fee/time/penalty); acquisition **trainer-gated** (NPC trainer for credits, or free from a player who holds the class; no training, no skill gain). Magnitudes deferred (BAL-001); INV-011c NOT ruled; OQ-001 budget shape resolved by HD-PROF-04 (magnitudes deferred) |
 | BLD-004 building abandonment | **HUMAN-LOCKED** (HD-BLD-02 + HD-BLD-03) — zero maintenance credit → removal; upkeep lapses after 24h at zero credit; **contents removed with structure** (no salvage/recovery/restitution); placement/lots/density remain TBD; backlog 6e(b) settlement dissolution OPEN |
 | Invariants approved to date | INV-016a, INV-016b, INV-007a, INV-015, INV-010 (conditional), INV-011a, INV-BLD-004b, INV-012 |
 | Invariants explicitly **not** approved | INV-007b, INV-011b, INV-011c, INV-BLD-004a (each remains a candidate; per-invariant granularity — no batch approval) |
-| Open questions still awaiting ruling | **None in the live queue.** OQ-008 (combat scope, risk model, progression integration) was outstanding until **RULED 2026-10-25 by HD-PVP-01**. Unclosed slots on already-ruled items: HD-ECO-01 scope confirmation + INV-009b, HD-PROF-03 scope confirmation + INV-011c; backlog 6c early-game on-ramp; backlog 6e(b) settlement dissolution. EIC-coupled questions (OQ-001, OQ-004, OQ-005, T-03, T-06) are now **unblocked and authorised for search execution** under HD-EIC-10/11 |
+| Open questions still awaiting ruling | **None in the live queue.** OQ-008 (combat scope, risk model, progression integration) was outstanding until **RULED 2026-10-25 by HD-PVP-01**. Unclosed slots on already-ruled items: HD-ECO-01 scope confirmation + INV-009b, HD-PROF-03 scope confirmation + INV-011c; backlog 6c early-game on-ramp; backlog 6e(b) settlement dissolution. EIC-coupled questions (OQ-004, OQ-005, T-03, T-06) are now **unblocked and authorised for search execution** under HD-EIC-10/11 (OQ-001 since RULED by HD-PROF-04) |
 | OQ-008 Phase 8 Faction & PvP | **HUMAN-LOCKED** (HD-PVP-01, 2026-10-25) — three PvP modes (duel/war, faction flagging, battlefields); two fixed factions + neutral; NPC-only membership changes; 30s/300s toggle delays and 120s aggression timer; **defeat is normal incapacitation/clone flow only, no extra penalty** (composes with HD-ITM-01/02); guild wars leader/officer-gated with 24h activation; standing stored but never awarded in Phase 8 (kills logged via `pvp_events`) |
 | Post-Phase-10 testbed direction | **NOT DECIDED — no default exists**; all testbed work stays closed pending the owner's answer (`proposals/SWG_Post_Phase10_Program_Proposal_v0.1.md` §9 item 1) |
 

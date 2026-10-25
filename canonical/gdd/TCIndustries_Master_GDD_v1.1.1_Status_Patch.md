@@ -804,7 +804,7 @@ The following systems require dedicated future design passes (not exhaustive):
 
 | ID | Question | Affected Systems | Why It Matters | Current Status |
 |---|---|---|---|---|
-| OQ-001 | Exact specialisation budget / skill-cap model? | Skills, Professions, Interdependence | Prevents single-character mastery of all roles | TBD |
+| OQ-001 | Exact specialisation budget / skill-cap model? | Skills, Professions, Interdependence | Prevents single-character mastery of all roles | **RULED (two-layer model)** — see Human Rulings Register HD-PROF-04; all numeric magnitudes deferred to a BAL-001-authorised pass |
 | OQ-002 | Resource spawn rates, durations, and depletion mathematics? | Resources, Economy, Discovery | Core scarcity and event generation | TBD |
 | OQ-003 | Exact attribute sets for resources and mapping to product outcomes? | Resources, Crafting | Product differentiation and experimentation | TBD |
 | OQ-004 | Crafting experimentation model details? | Crafting, Identity | Crafter skill expression and reputation | TBD |
