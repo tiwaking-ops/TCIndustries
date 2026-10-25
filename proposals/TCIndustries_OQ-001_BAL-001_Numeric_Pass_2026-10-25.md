@@ -88,9 +88,9 @@ Credit_cost(SP) = round( XP_cost(SP) / 20 ) to nearest 10   (integer arithmetic)
 | Provenance-credential requirement for high tier | **AUTHORISED as a required binding** (§2.2) |
 | Acquisition cost curve (XP/Credit = f(SP)) | **AUTHORISED formulas + per-tier table** (§3) |
 | Typed XP pools | **AUTHORISED** (§3) |
-| XP earn / progression rate (PROG-003 pace) | **DEFERRED — §5** |
-| Task-layer reward magnitudes (Q8) | **DEFERRED — §5** |
-| Task-layer sink magnitudes (Q8 / HD-ECO-01) | **DEFERRED — §5** |
+| XP earn / progression rate (PROG-003 pace) | **DEFERRED — §5; re-examined 2026-10-25, still deferred (see OQ-001 Deferred BAL-001 Pass Disposition)** |
+| Task-layer reward magnitudes (Q8) | **DEFERRED — §5; re-examined 2026-10-25, still deferred (no task layer exists)** |
+| Task-layer sink magnitudes (Q8 / HD-ECO-01) | **DEFERRED — §5; re-examined 2026-10-25, still deferred (no matched sink)** |
 
 ---
 
@@ -98,9 +98,9 @@ Credit_cost(SP) = round( XP_cost(SP) / 20 ) to nearest 10   (integer arithmetic)
 
 These are **not** set here, despite being "numeric magnitudes," because their structural partners are absent — inventing them would violate BAL-001's false-precision caution and/or HD-ECO-01:
 
-- **XP earn rate / PROG-003 progression pace.** The *cost* of a box is set (§3); the *rate at which XP is earned* is not, because it is coupled to combat balance (Phase 8, HD-PVP-01) and the not-yet-built task layer. A separate PROG-003 + BAL-001 pass must set earn rates once those systems exist.
-- **Task-layer reward magnitudes (Q8).** The Phase 9 proposal's reward *hook* exists; its magnitude does not, because HD-ECO-01 requires a **matched sink** before any faucet magnitude is authorised. No task-layer sink is designed yet, so no reward value is set. This deferral is unchanged by the present pass.
-- **Task-layer sink magnitudes.** Companion to the above; deferred with it.
+- **XP earn rate / PROG-003 progression pace.** The *cost* of a box is set (§3); the *rate at which XP is earned* is not, because PROG-003 (GDD §655) is still `TBD` and the fork's XP earn→spend pool loop is internally inconsistent (earn channels write pools that are not spendable). Re-examined 2026-10-25: still deferred — see `TCIndustries_OQ-001_Deferred_BAL-001_Pass_Disposition_2026-10-25.md` §1. A PROG-003 ruling + pool-taxonomy reconciliation must precede any rate authorisation.
+- **Task-layer reward magnitudes (Q8).** No task layer exists in the fork (HISTORICAL only per HD-TST-01), so there is no hook and no magnitude to set. Re-examined 2026-10-25: still deferred — Disposition §2.
+- **Task-layer sink magnitudes.** Companion to the above; deferred with it (and HD-ECO-01 requires a matched sink before any reward faucet is authorised).
 
 ---
 
