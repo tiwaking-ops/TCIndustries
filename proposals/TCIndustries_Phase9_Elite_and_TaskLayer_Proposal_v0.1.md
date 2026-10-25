@@ -3,7 +3,7 @@
 - **Author:** Claude (Anthropic)
 - **Version:** 0.1 (AUTHORISED — owner approval 2026-10-25; supersedes the build-authorisation posture of `SWG_Phase9_Elite_Missions_Proposal_v0.1.md`, whose addendum §9 Q10 directs this replacement)
 - **Date:** 2026-10-25
-- **Status:** **AUTHORISED (owner-approved 2026-10-25).** This document changes no GDD status, ruling, or authority line. It inherits the ten owner decisions recorded in the addendum to `SWG_Phase9_Elite_Missions_Proposal_v0.1.md` (2026-10-25) and re-scopes the work to what those decisions actually authorise. The owner has now authorised this document; OQ-001 (gating item #1) is RULED by HD-PROF-04. **Implementation is still gated by the outstanding BAL-001 numeric pass (gating item #2) — no code may be written until that pass supplies the cap size, reward/sink magnitudes, and progression rates, per BAL-001 (LOCKED).**
+- **Status:** **AUTHORISED (owner-approved 2026-10-25).** This document changes no GDD status, ruling, or authority line. It inherits the ten owner decisions recorded in the addendum to `SWG_Phase9_Elite_Missions_Proposal_v0.1.md` (2026-10-25) and re-scopes the work to what those decisions actually authorise. The owner has now authorised this document; OQ-001 (gating item #1) is RULED by HD-PROF-04. **The BAL-001 numeric pass is now substantially complete (2026-10-25, `proposals/TCIndustries_OQ-001_BAL-001_Numeric_Pass_2026-10-25.md`): the OQ-001 / HD-PROF-04 magnitudes are AUTHORISED (character-layer cap 250; Master-tier 30-day decay; C4 association floor K=5; acquisition cost curve XP=1000·SP² / Credit=round(XP/20)). Remaining gaps — XP earn/progression rate (PROG-003) and task-layer reward/sink magnitudes — are still deferred and still gate any fork code, per BAL-001 (LOCKED).**
 - **Baseline:** `TCIndustries_Master_GDD_v1.1.1_Status_Patch.md` (current canonical design reference). Testbed target: `testbed/swg-phase3-combat-fork/tc-server` (live fork, per addendum Q7). The other fork (`swg-phase3-combat/`) is EVIDENCE/PROTOTYPE only per HD-TST-01.
 
 ---
@@ -68,7 +68,7 @@ PROF-003 (specialisation investment) and PROF-005 (progression caps / specialisa
 This proposal deliberately **does not** resolve these. They gate implementation:
 
 1. **OQ-001 ruling pass** (cap shape + budget) — **RESOLVED by HD-PROF-04 (2026-10-25).** The two-layer model is RULED; the specialisation *shape* gate is cleared.
-2. **PROG-003 + BAL-001 numeric pass** (XP / second-tier progression rates and any reward/sink magnitudes) — **OUTSTANDING.** Per Q9 and Q8, and BAL-001 (LOCKED, no premature numeric tuning), no magnitudes exist yet. This pass remains the live implementation gate.
+2. **PROG-003 + BAL-001 numeric pass** (XP / second-tier progression rates and any reward/sink magnitudes) — **SUBSTANTIALLY RESOLVED (2026-10-25)** by `proposals/TCIndustries_OQ-001_BAL-001_Numeric_Pass_2026-10-25.md`: the OQ-001 / HD-PROF-04 magnitudes (character-layer cap 250; Master-tier 30-day decay; C4 association floor K=5; acquisition cost curve XP=1000·SP² / Credit=round(XP/20) with the full per-tier table) are now AUTHORISED. **Still deferred:** XP earn/progression rate (PROG-003 pace — coupled to Phase-8 HD-PVP-01 balance and the unbuilt task layer) and task-layer reward/sink magnitudes (Q8 / HD-ECO-01 — require a matched sink). These deferred magnitudes remain the only remaining implementation-gate items; no fork code is authorised until they are set.
 3. **Owner authorisation of this document itself** — **GRANTED 2026-10-25.** The document is now AUTHORISED; this clause is satisfied.
 
 Until item #2 is performed, the implementation status below is deliberately empty — no code may be written, because BAL-001 forbids inventing the magnitudes the build would need.
@@ -102,7 +102,7 @@ Until item #2 is performed, the implementation status below is deliberately empt
 
 1. Owner authorises this replacement proposal (or amends it). **— GRANTED 2026-10-25.**
 2. A dedicated **OQ-001 ruling pass** defines the specialisation budget/cap model. **— COMPLETE (HD-PROF-04, 2026-10-25).**
-3. A **BAL-001 numeric pass** supplies PROG-003 progression rates and any task-layer reward/sink magnitudes. **— OUTSTANDING; the live implementation gate.**
-4. Only then is an implementation proposal (with code, handlers, `cmd/phase9test`) warranted — built against the live fork and verified end-to-end per the testbed's "verify, don't claim" discipline.
+3. A **BAL-001 numeric pass** supplies PROG-003 progression rates and any task-layer reward/sink magnitudes. **— SUBSTANTIALLY COMPLETE (2026-10-25): OQ-001 / HD-PROF-04 magnitudes authorised; PROG-003 earn rate and task-layer reward/sink still deferred.**
+4. Only then is an implementation proposal (with code, handlers, `cmd/phase9test`) warranted — built against the live fork and verified end-to-end per the testbed's "verify, don't claim" discipline. The deferred PROG-003 and task-layer magnitudes remain the only remaining authorisation gate before that code may be written.
 
 *End of proposal v0.1 (PROPOSED). Supersedes the build-authorisation posture of `SWG_Phase9_Elite_Missions_Proposal_v0.1.md` per its addendum §9 Q10; inherits all ten owner decisions recorded there on 2026-10-25.*

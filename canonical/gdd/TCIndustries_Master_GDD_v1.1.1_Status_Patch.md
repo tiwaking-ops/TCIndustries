@@ -804,7 +804,7 @@ The following systems require dedicated future design passes (not exhaustive):
 
 | ID | Question | Affected Systems | Why It Matters | Current Status |
 |---|---|---|---|---|
-| OQ-001 | Exact specialisation budget / skill-cap model? | Skills, Professions, Interdependence | Prevents single-character mastery of all roles | **RULED (two-layer model)** — see Human Rulings Register HD-PROF-04; all numeric magnitudes deferred to a BAL-001-authorised pass |
+| OQ-001 | Exact specialisation budget / skill-cap model? | Skills, Professions, Interdependence | Prevents single-character mastery of all roles | **RULED (two-layer model, HD-PROF-04)** — numeric magnitudes authorised by `proposals/TCIndustries_OQ-001_BAL-001_Numeric_Pass_2026-10-25.md` (MaxSkillPoints=250; 30-day Master-tier decay; C4 association floor K=5; acquisition cost curve XP=1000·SP², Credit=round(XP/20)); task-layer reward/sink magnitudes remain deferred |
 | OQ-002 | Resource spawn rates, durations, and depletion mathematics? | Resources, Economy, Discovery | Core scarcity and event generation | TBD |
 | OQ-003 | Exact attribute sets for resources and mapping to product outcomes? | Resources, Crafting | Product differentiation and experimentation | TBD |
 | OQ-004 | Crafting experimentation model details? | Crafting, Identity | Crafter skill expression and reputation | TBD |
@@ -814,7 +814,7 @@ The following systems require dedicated future design passes (not exhaustive):
 | OQ-008 | Combat scope (PvE/PvP), risk model, and progression integration? | Combat, Economy, Services | Demand generation without forced path | **RULED (Phase 8 Faction & PvP)** — see Human Rulings Register HD-PVP-01; numeric tuning remains BAL-001-gated |
 | OQ-009 | Currency system(s) and money sinks? | Economy | Economic stability | **RULED (Structure A: single unified currency; INV-009a approved, faucet-exceeds-sink mandate)** — see Human Rulings Register HD-ECO-01; sink instrument classes remain named-open, numerics TBD |
 | OQ-010 | Item durability, decay, and repair model? | Items, Services, Economy | Service demand and item identity | **RULED (no baseline decay; death-damage/repair/destruction behaviour)** — see Human Rulings Register HD-ITM-01 + HD-ITM-02 |
-| OQ-011 | Respecialisation exact costs and rules? | Progression, Identity | Balance of flexibility vs. commitment | **RULED** (cost: free-drop; acquisition: trainer-gated) — see Human Rulings Register HD-PROF-01 + HD-PROF-02 + HD-PROF-03; magnitudes TBD (BAL-001); INV-011c and scope confirmation still open; the OQ-001 budget model remains EIC-coupled and blocked behind the open HD-EIC-07 gate |
+| OQ-011 | Respecialisation exact costs and rules? | Progression, Identity | Balance of flexibility vs. commitment | **RULED** (cost: free-drop; acquisition: trainer-gated) — see Human Rulings Register HD-PROF-01 + HD-PROF-02 + HD-PROF-03; magnitudes TBD (BAL-001); INV-011c and scope confirmation still open; OQ-001 budget model now RULED (HD-PROF-04 + BAL-001 numeric pass) |
 | OQ-012 | Multi-accounting and economic exploit policies? | Economy, Safety | Fairness and stability | TBD |
 | OQ-013 | Organisation rights, hierarchy, and property model? | Social Systems | Collective ownership | TBD |
 | OQ-014 | Species/ancestry/starting location design? | Character | Setting and identity expression | DEFERRED |

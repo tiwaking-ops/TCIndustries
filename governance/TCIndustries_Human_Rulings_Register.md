@@ -660,6 +660,27 @@ HD-EIC-08); any implementation, simulation, or testbed work.
 | Composing rulings relied upon | HD-PROF-02 (free-drop respec), HD-PROF-03 (trainer-gated acquisition), PIL-003 (HUMAN-LOCKED), PROF-001/004, PROG-001, HD-ECO-01 |
 | Prior rulings affected | Retires the 2026-08-25 "resolving OQ-001 forbidden" cumulative line for OQ-001 |
 
+### BAL-001 numeric authorisation (supplied 2026-10-25)
+
+Authorised by `proposals/TCIndustries_OQ-001_BAL-001_Numeric_Pass_2026-10-25.md`
+(owner authorisation 2026-10-25). This pass sets the magnitudes HD-PROF-04
+Decision 3 deferred; it authorises no model variant and no fork code.
+
+| Magnitude | Authorised value | Layer |
+|---|---|---|
+| Per-character skill-point cap `MaxSkillPoints` | **250** (subordinate hygiene floor; ≈5–6 professions at 42 SP each; revisable) | (i) |
+| High-tier (Master) decay scope | **Master-tier (Tier 5) boxes only**; Basic tiers I–IV never decay | (ii) |
+| High-tier (Master) decay window | **30 in-game days** of no re-affirming activity → revert to Tier IV (Master re-trained, cost re-paid); identity survives (PROF-004) | (ii) |
+| Complementarity binding — association floor `K` | **≥5 distinct participant-owners** (not alts of one participant) + role-provenance credential (enforces C2) | (ii) |
+| Acquisition cost curve | **XP = 1000·SP²**; **Credit = round(XP/20) → nearest 10** (typed XP pools; trainer-gated acquisition retained per HD-PROF-03) | (i)/(ii) |
+| Per-profession cost (42 SP) | **118,000 XP / 5,900 credits**; Master = 10 SP / 100,000 XP / 5,000 credits | (i)/(ii) |
+
+**Still deferred (structural partners absent — not invented):** XP earn /
+progression rate (PROG-003 pace, coupled to Phase-8 HD-PVP-01 balance and the
+unbuilt task layer); task-layer reward magnitudes (Q8); task-layer sink
+magnitudes (Q8 / HD-ECO-01 — requires a matched sink before any reward faucet
+is authorised).
+
 ---
 
 # Section E — EIC Structural Boundary Statement (HD-EIC-10, completes HD-EIC-07)
