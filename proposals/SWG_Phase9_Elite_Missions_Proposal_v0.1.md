@@ -321,8 +321,8 @@ Per `AGENTS.md`, that code is **EVIDENCE only** — it proves a mission system i
 | **Q3** | Does OQ-001 need an explicit ruling before any elite tier ships — and which gate state governs? | The OQ-011 row calls OQ-001 *"blocked behind the open HD-EIC-07 gate"*, while the register's cumulative state records that gate CLOSED by HD-EIC-10 (2026-10-23). |
 | **Q4** | Which instrument delivers PIL-003's LOCKED high-tier non-self-sufficiency — a formal numeric budget, soft comparative-advantage pressure (HD-EIC-02), or another? | HD-EIC-01 expressly leaves this undetermined; choosing one is a design decision. |
 | **Q5** | Does HD-PROF-03's trainer-gated **class** acquisition supersede or conflict with PROF-001's LOCKED *"flexible skill-based … rather than rigid immutable classes"*? | A starting class + acquired classes is closer to a class ladder than to emergent composition. |
-| **Q6** | Does "Phase 9" mean the SWG fork's build-sequence phase, or a TCIndustries design unit? | TCIndustries has no phase numbering; conflating the two would silently import HISTORICAL scope into canon. |
-| **Q7** | Which testbed is the target — the live `swg-phase3-combat-fork/tc-server`, or the superseded `swg-phase3-combat/`? | §10 Item 1 confirmed the old fork, but the live fork is where Phases 4–8 were built and Phase 8 approved. |
+| **Q6** | Does "Phase 9" mean the SWG fork's build-sequence phase, or a TCIndustries design unit? | TCIndustries has no phase numbering; conflating the two would silently import HISTORICAL scope into canon. **DECIDED 2026-10-25 — see §9.** |
+| **Q7** | Which testbed is the target — the live `swg-phase3-combat-fork/tc-server`, or the superseded `swg-phase3-combat/`? | §10 Item 1 confirmed the old fork, but the live fork is where Phases 4–8 were built and Phase 8 approved. **DECIDED 2026-10-25 — see §9.** |
 | **Q8** | If missions carry rewards, are they permitted under HD-ECO-01's faucet-exceeds-sink mandate given the recorded evidence that they dominated Pre-CU income with no equivalent sink? | Recorded as observation; a mission proposal cannot avoid it. |
 | **Q9** | Where do XP/second-tier progression rates come from? | PROG-003 is TBD; HD-PROF-03 defers magnitudes to BAL-001; "Use-based Skill Point acquisition" is separately NOT CANONICAL. |
 | **Q10** | Enact via an explicit Item 7 authorisation as written, or supersede with a replacement proposal? | §10's own closing line: *"To enact: owner approves (or amends) §§3–6/9–10."* |
@@ -340,11 +340,31 @@ Per `AGENTS.md`, that code is **EVIDENCE only** — it proves a mission system i
 
 ### 8. Recommended Next Decision
 
-The cheapest correct next step is **Q6 then Q7** — what "Phase 9" means and which testbed it targets. Both are answerable in a sentence by the owner, and every remaining question depends on them.
+**Q6 and Q7 are now decided — see §9.** The remaining blocking questions (Q1–Q5, Q8–Q10) still require an owner ruling. Of those, **Q1 (what "mission" means at TCIndustries level)** and **Q10 (enact by Item 7 authorisation vs. supersede)** are the next highest-leverage decisions, because every elite/mission mechanic in this proposal is downstream of them.
 
 ---
 
-*Addendum recorded 2026-10-25. Next action: owner decision on the ten open questions above.*
+### 9. Owner Decisions — Q6 & Q7 (2026-10-25)
+
+These two questions were answered directly (no further research needed) and are recorded here with their reasoning. They are *definitional and procedural clarifications only* — neither changes any GDD status, ruling, or authority line. Per `AGENTS.md`, no LOCKED/HUMAN-LOCKED status was promoted or created.
+
+**Q6 — What does "Phase 9" mean?**
+> **Decision:** "Phase 9" here refers to the **SWG Pre-CU fork's build-sequence phase** (the next sequential phase in `SWG_PreCU_GDD.md` §30's roadmap, i.e. the elites-plus-missions phase the proposal is named for). It is **not** a TCIndustries design unit and confers no canon status on that content.
+>
+> **Why:** TCIndustries canon (the Master GDD) has no phase numbering — its sequence is "Phase 0 Evidence Reconciliation … Phase 1 EIC …" etc. (GDD §34), and the old v1.0 linear phase list was explicitly *replaced* (GDD §34 lines 882–908). The label "Phase 9" in this proposal's title is inherited from the SWG source document it was written against. Treating it as a TCIndustries design phase would silently import HISTORICAL SWG scope into canon, which `AGENTS.md` and HD-TST-01 forbid. The proposal's own §10 acknowledges this — it is written against the fork, not the GDD.
+>
+> **Consequence:** All "Phase 9" work remains **PROPOSED / PROTOTYPE** material. The SWG scope (7-or-14 named elites, missions, Ranger, surveying) is HISTORICAL design input, not an approved TCIndustries deliverable. This does not pre-empt the GDD-aligned elite/specialisation questions (PROF-003, PROF-005, OQ-001, Q3–Q5) — those are still open and separate.
+
+**Q7 — Which testbed is the target?**
+> **Decision:** The target testbed is the **live fork, `testbed/swg-phase3-combat-fork/tc-server`** (the HD-TST-01 name-stripped fork). The superseded `testbed/swg-phase3-combat/` (and its nested `swg-server/`) is **not** a build target; its Phase 9 code is EVIDENCE/PROTOTYPE only and should not be extended.
+>
+> **Why:** Phases 4–8 — including the human-approved Phase 8 (HD-PVP-01) — were built, verified, and approved on the live fork. It is the maintained, canonical testbed. The old fork is a separate, earlier Phase 3 fork taken 2026-09-14 (`sources/swg-pre-cu/code-phase-2/`), its `HYGIENE_NOTE.md` labels it PROTOTYPE/EVIDENCE, and its Phase 9 code (21 elite defs, `missions.go`, `elite_http.go`) sits in an **uncommitted** working tree — never merged, never authorised. Building new work there would orphan it from the approved pipeline.
+>
+> **Consequence (reconciliation with §10):** This **overrides §10 Item 1**, which had confirmed the old fork as the base. The old fork was the natural base when the proposal was drafted (2026-09-16, before Phase 8), but the project has since consolidated onto the live fork. Any future implementation therefore targets `swg-phase3-combat-fork/tc-server`. Note the live fork currently contains **zero** Phase 9 code (elite category constants are declared but unused; no `cmd/phase9test`, no mission/elite/pet handlers), so this is a greenfield target, not a continuation of the old fork's uncommitted work.
+
+---
+
+*Addendum recorded 2026-10-25. Q6 and Q7 decided (§9); remaining owner decisions: Q1–Q5, Q8–Q10.*
 
 *End of proposal v0.1. To enact: owner approves (or amends) §§3–6/9–10; approval and date
 recorded before any code is written.*
