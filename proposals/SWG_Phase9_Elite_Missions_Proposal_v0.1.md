@@ -320,11 +320,11 @@ Per `AGENTS.md`, that code is **EVIDENCE only** — it proves a mission system i
 | **Q2** | Is a procedural repeatable task layer compatible with VIS-006 (LOCKED anti-goal) and §24 guard #1 (*"theme-park / quest-driven drift"*)? | The LOCKED text prohibits quest-chain/theme-park drift specifically, not job boards per se — but that reading is an interpretation only the owner can confirm. **DECIDED 2026-10-25 — see addendum §9.** |
 | **Q3** | Does OQ-001 need an explicit ruling before any elite tier ships — and which gate state governs? | The OQ-011 row calls OQ-001 *"blocked behind the open HD-EIC-07 gate"*, while the register's cumulative state records that gate CLOSED by HD-EIC-10 (2026-10-23). **DECIDED 2026-10-25 — see addendum §9.** |
 | **Q4** | Which instrument delivers PIL-003's LOCKED high-tier non-self-sufficiency — a formal numeric budget, soft comparative-advantage pressure (HD-EIC-02), or another? | HD-EIC-01 expressly leaves this undetermined; choosing one is a design decision. **DECIDED 2026-10-25 — see addendum §9.** |
-| **Q5** | Does HD-PROF-03's trainer-gated **class** acquisition supersede or conflict with PROF-001's LOCKED *"flexible skill-based … rather than rigid immutable classes"*? | A starting class + acquired classes is closer to a class ladder than to emergent composition. |
+| **Q5** | Does HD-PROF-03's trainer-gated **class** acquisition supersede or conflict with PROF-001's LOCKED *"flexible skill-based … rather than rigid immutable classes"*? | A starting class + acquired classes is closer to a class ladder than to emergent composition. **DECIDED 2026-10-25 — see addendum §9.** |
 | **Q6** | Does "Phase 9" mean the SWG fork's build-sequence phase, or a TCIndustries design unit? | TCIndustries has no phase numbering; conflating the two would silently import HISTORICAL scope into canon. **DECIDED 2026-10-25 — see §9.** |
 | **Q7** | Which testbed is the target — the live `swg-phase3-combat-fork/tc-server`, or the superseded `swg-phase3-combat/`? | §10 Item 1 confirmed the old fork, but the live fork is where Phases 4–8 were built and Phase 8 approved. **DECIDED 2026-10-25 — see §9.** |
 | **Q8** | If missions carry rewards, are they permitted under HD-ECO-01's faucet-exceeds-sink mandate given the recorded evidence that they dominated Pre-CU income with no equivalent sink? | Recorded as observation; a mission proposal cannot avoid it. **DECIDED 2026-10-25 — see addendum §9.** |
-| **Q9** | Where do XP/second-tier progression rates come from? | PROG-003 is TBD; HD-PROF-03 defers magnitudes to BAL-001; "Use-based Skill Point acquisition" is separately NOT CANONICAL. |
+| **Q9** | Where do XP/second-tier progression rates come from? | PROG-003 is TBD; HD-PROF-03 defers magnitudes to BAL-001; "Use-based Skill Point acquisition" is separately NOT CANONICAL. **DECIDED 2026-10-25 — see addendum §9.** |
 | **Q10** | Enact via an explicit Item 7 authorisation as written, or supersede with a replacement proposal? | §10's own closing line: *"To enact: owner approves (or amends) §§3–6/9–10."* **DECIDED 2026-10-25 — see addendum §9.** |
 
 ---
@@ -340,11 +340,18 @@ Per `AGENTS.md`, that code is **EVIDENCE only** — it proves a mission system i
 
 ### 8. Recommended Next Decision
 
-**Q1, Q2, Q3, Q4, Q6, Q7, Q8 and Q10 are now decided — see addendum §9.** The remaining blocking questions (Q5, Q9) still require an owner ruling. Of those: **Q5 (does HD-PROF-03's trainer-gated class acquisition conflict with PROF-001's LOCKED flexible-skill identity?)** is a live authority conflict that should be surfaced to a human ruling (register §E), not resolved in this addendum; **Q9 (source of XP / second-tier progression rates)** is deferred to PROG-003 / a BAL-001 pass, consistent with the magnitude-deferral pattern already set in Q4 and Q8.
+**All ten open questions (Q1–Q10) are now decided — see addendum §9.** None required a status change: they are definitional and procedural clarifications. The decisions cluster into four patterns:
+
+1. **Scope/identity clarifications** (Q1, Q6, Q7) — "Phase 9" is the fork's build phase, not a TCIndustries design unit; the live fork is the target; the mission layer is TCIndustries-native and structural only.
+2. **Compatibility readings against LOCKED constraints** (Q2, Q5) — the task layer is compatible with VIS-006/§24 provided it never becomes the primary progression driver; HD-PROF-03's trainer-gated acquisition and PROF-001's flexible identity are a held tension (gated ≠ immutable) rather than a contradiction.
+3. **Instrument choice / magnitude deferral** (Q4, Q8, Q9) — soft comparative advantage (HD-EIC-02), paired-sink-only rewards, and no invented progression rates: structures chosen here, **numbers explicitly deferred to a BAL-001 pass** per BAL-001 (LOCKED).
+4. **Authority hygiene** (Q3, Q10) — the OQ-011 "blocked behind HD-EIC-07" row is stale (gate closed by HD-EIC-10), but OQ-001 remains **TBD** and still requires its own ruling; and enactment proceeds by **replacement proposal**, not by §10 Item 7 as written.
+
+**The addendum's own recommended next decision:** author the **replacement proposal** scoped per Q10 (TCIndustries-native mission definition from Q1, plus only the elite/specialisation questions that survive with their LOCKED constraints intact), which stays **PROPOSED** until fresh owner authorisation. A separate **OQ-001 ruling pass** (cap shape + budget) remains a live prerequisite for any elite tier per Q3.
 
 ---
 
-### 9. Owner Decisions — Q1, Q2, Q3, Q4, Q6, Q7, Q8 & Q10 (2026-10-25)
+### 9. Owner Decisions — All 10 questions (Q1–Q10) decided 2026-10-25
 
 These questions were answered directly by the project owner on 2026-10-25 (no further research needed) and are recorded here with their reasoning. They are *definitional and procedural clarifications only* — none changes any GDD status, ruling, or authority line. Per `AGENTS.md`, no LOCKED/HUMAN-LOCKED status was promoted or created.
 
@@ -353,7 +360,7 @@ These questions were answered directly by the project owner on 2026-10-25 (no fu
 >
 > **Why:** TCIndustries canon (the Master GDD) has no phase numbering — its sequence is "Phase 0 Evidence Reconciliation … Phase 1 EIC …" etc. (GDD §34), and the old v1.0 linear phase list was explicitly *replaced* (GDD §34 lines 882–908). The label "Phase 9" in this proposal's title is inherited from the SWG source document it was written against. Treating it as a TCIndustries design phase would silently import HISTORICAL SWG scope into canon, which `AGENTS.md` and HD-TST-01 forbid. The proposal's own §10 acknowledges this — it is written against the fork, not the GDD.
 >
-> **Consequence:** All "Phase 9" work remains **PROPOSED / PROTOTYPE** material. The SWG scope (7-or-14 named elites, missions, Ranger, surveying) is HISTORICAL design input, not an approved TCIndustries deliverable. This does not pre-empt the GDD-aligned elite/specialisation questions — PROF-003/PROF-005 remain PROPOSED, OQ-001 remains TBD pending its own ruling (see §9 Q3), and Q5/Q9 remain open (see §9 §8).
+> **Consequence:** All "Phase 9" work remains **PROPOSED / PROTOTYPE** material. The SWG scope (7-or-14 named elites, missions, Ranger, surveying) is HISTORICAL design input, not an approved TCIndustries deliverable. This does not pre-empt the GDD-aligned elite/specialisation questions — PROF-003/PROF-005 remain PROPOSED, OQ-001 remains TBD pending its own ruling (see §9 Q3), and all magnitudes remain deferred to a BAL-001 pass (see §9 Q4, Q8, Q9).
 
 **Q7 — Which testbed is the target?**
 > **Decision:** The target testbed is the **live fork, `testbed/swg-phase3-combat-fork/tc-server`** (the HD-TST-01 name-stripped fork). The superseded `testbed/swg-phase3-combat/` (and its nested `swg-server/`) is **not** a build target; its Phase 9 code is EVIDENCE/PROTOTYPE only and should not be extended.
@@ -399,6 +406,20 @@ These questions were answered directly by the project owner on 2026-10-25 (no fu
 >
 > **Consequence:** Elite/specialisation design should express non-self-sufficiency through comparative advantage (e.g. a high-tier actor does one thing better but must source others), not through a numeric ceiling. This is compatible with Q3's pending OQ-001 ruling (which may later add a numeric budget as a *secondary* instrument) but does not require it. No numeric value is set here.
 
+**Q5 — Does HD-PROF-03's trainer-gated class acquisition conflict with PROF-001's LOCKED flexible-skill identity?**
+> **Decision:** **No supersession — they are in live tension and both must be honoured.** HD-PROF-03's trainer-gated *class* acquisition governs **acquisition cost/access** (a class is obtained via a trainer, not freely everywhere); PROF-001's LOCKED *"flexible skill-based … rather than rigid immutable classes"* governs **identity flexibility** (the character is not permanently locked into a fixed class path). The two are distinct axes (how a class is *gated* vs how *fixed* a class is), not a contradiction — provided HD-PROF-02's **free-drop respec** remains, so acquiring a class via a trainer never becomes a one-way, immutable class-ladder commitment.
+>
+> **Why:** PROF-001 is **LOCKED** and explicitly rejects *rigid immutable classes*; HD-PROF-03 is a HUMAN-LOCKED ruling that classes are *trainer-gated* to acquire. Read together, the binding reading is: a class may be *gated* (trainer-gated) without being *immutable* (respec-able). The §6 framing ("a starting class + acquired classes is closer to a class ladder than to emergent composition") is a *risk to manage*, not a resolution — it flags why HD-PROF-02 matters. The tension is real and must be held, not dissolved by promoting either side to an unrecorded status.
+>
+> **Consequence:** This addendum records the tension as a **live authority reading**, not a status change. Any elite/specialisation design must (a) keep class acquisition trainer-gated per HD-PROF-03 and (b) keep identities freely respec-able per HD-PROF-02 + PROF-001, so the LOCKED flexible-skill identity is preserved. PROF-003/PROF-005 remain **PROPOSED**; OQ-001 remains **TBD** (per Q3). No LOCKED/HUMAN-LOCKED status was promoted or created.
+
+**Q9 — Where do XP / second-tier progression rates come from?**
+> **Decision:** **XP and second-tier progression rates are deferred to PROG-003 via an explicit BAL-001 numeric-authorisation pass — they are not invented in this addendum.** The source of those rates is the **PROG-003** progression framework (currently **TBD**) resolved through a **BAL-001** authorised numeric-tuning pass (LOCKED: no numeric tuning without explicit human authorisation). Separately, the GDD §36 reference to *"Use-based Skill Point acquisition"* is explicitly marked **NOT CANONICAL** and is **not** adopted as the rate source.
+>
+> **Why:** This follows the magnitude-deferral pattern already set in Q4 (soft comparative advantage, magnitudes deferred) and Q8 (reward category permitted, magnitude deferred). PROG-003 is **TBD** and HD-PROF-03 itself defers magnitudes to BAL-001, so there is no authorised numeric source available here. Inventing rates would violate BAL-001 (LOCKED) and HD-TST-01 (no promotion of SWG structures). The §36 *"Use-based Skill Point acquisition"* line is, per the Master GDD, **NOT CANONICAL**, so it cannot serve as an authority either.
+>
+> **Consequence:** XP / second-tier progression rates are **out of scope** for this addendum and await PROG-003 + a BAL-001 pass. This is consistent with Q3 (OQ-001 TBD), Q4, and Q8 — the structural choices are made here; the numbers are explicitly not. No numeric value is set.
+
 **Q10 — Enact by Item 7 authorisation as written, or supersede?**
 > **Decision:** **Do not enact §10 Item 7 as written** (which would green-light the full SWG Phase-3-elite + mission plan, including 7-or-14 named elites, Ranger, surveying). Instead, treat this proposal as a **PROPOSAL FOR AUTHORITY GAP EXPOSURE**, and issue a **replacement proposal** scoped to the decisions actually taken here.
 >
@@ -408,7 +429,7 @@ These questions were answered directly by the project owner on 2026-10-25 (no fu
 
 ---
 
-*Addendum recorded 2026-10-25. Q1, Q2, Q3, Q4, Q6, Q7, Q8 and Q10 decided (§9); remaining owner decisions: Q5, Q9.*
+*Addendum recorded 2026-10-25. All ten open questions (Q1–Q10) decided — see §9; no owner decisions remain open in this addendum.*
 
 *End of proposal v0.1. To enact: owner approves (or amends) §§3–6/9–10; approval and date
 recorded before any code is written. Per addendum §9 (Q10): enactment proceeds by replacement
